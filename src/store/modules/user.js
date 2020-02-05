@@ -5,8 +5,8 @@ import { resetRouter } from '@/router'
 const getDefaultState = () => {
   return {
     token: getToken(),
-    name: '',
-    avatar: ''
+    name: 'adminFan',
+    avatar: 'static/images/logo.png'
   }
 }
 

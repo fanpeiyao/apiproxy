@@ -28,10 +28,7 @@ export default {
 .fixed-header+.app-main {
   padding-top: 50px;
 }
-</style>
-
-<style  >
 .el-popup-parent--hidden  .fixed-header {
     padding-right: 15px;
-  } 
+}
 </style>
