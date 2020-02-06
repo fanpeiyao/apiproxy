@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 
 import '@/icons' // icon
-// import '@/permission' // permission control
+import '@/permission' // permission control
 import 'normalize.css/normalize.css' // a modern alternative to CSS resets
 
 import ElementUI from 'element-ui'
@@ -15,7 +15,7 @@ import '@/styles/index.css' // global css
 
 Vue.config.productionTip = false
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'development') {
   const { mockXHR } = require('../mock')
   mockXHR()
 }

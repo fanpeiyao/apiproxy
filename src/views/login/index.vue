@@ -108,14 +108,13 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-        //   this.loading = true;
-          console.log(this.loginForm)
-        //   this.$store.dispatch('user/login', this.loginForm).then(() => {
+          this.loading = true;
+          this.$store.dispatch('user/login', this.loginForm).then(() => {
             this.$router.push({ path: this.redirect || '/' })
-            // this.loading = false
-         /*  }).catch(() => {
             this.loading = false
-          }) */
+          }).catch(() => {
+            this.loading = false
+          })
         } else {
           console.log('登陆失败!')
           return false
@@ -128,94 +127,80 @@ export default {
 
 <style>
   .login-container .el-input input {
-    color: #fff;
-  }
+	color:#fff;
+}
 .login-container  .el-input {
-    display: inline-block;
-    height: 47px;
-    width: 85%;
+	display:inline-block;
+	height:47px;
+	width:85%;
 }
-
-  .login-container    input {
-      background: transparent;
-      border: 0;
-      -webkit-appearance: none;
-      border-radius: 0;
-      padding: 12px 5px 12px 15px;
-      color: #eee;
-      height: 47px;
-      caret-color: #fff;
-
-
-    }
-  .login-container input:-webkit-autofill {
-        box-shadow: 0 0 0 1000px #283443 inset !important;
-        -webkit-text-fill-color: #fff !important;
-      }
-
- .login-container  .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    color: #454545;
-  }
-
-</style>
-
-<style scoped>
-
+.login-container    input {
+	background:transparent;
+	border:0;
+	-webkit-appearance:none;
+	border-radius:0;
+	padding:12px 5px 12px 15px;
+	color:#eee;
+	height:47px;
+	caret-color:#fff;
+}
+.login-container input:-webkit-autofill {
+	box-shadow:0 0 0 1000px #283443 inset !important;
+	-webkit-text-fill-color:#fff !important;
+}
+.login-container  .el-form-item {
+	border:1px solid rgba(255,255,255,0.1);
+	background:rgba(0,0,0,0.1);
+	border-radius:5px;
+	color:#454545;
+}
 .login-container {
-  min-height: 100%;
-  width: 100%;
-  background-color: #283443;
-  overflow: hidden;
+	min-height:100%;
+	width:100%;
+	background-color:#283443;
+	overflow:hidden;
 }
- .login-container .login-form {
-    position: relative;
-    width: 520px;
-    max-width: 100%;
-    padding: 160px 35px 0;
-    margin: 0 auto;
-    overflow: hidden;
-  }
-
- .login-container .tips {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 10px;
-
-
-  }
+.login-container .login-form {
+	position:relative;
+	width:520px;
+	max-width:100%;
+	padding:160px 35px 0;
+	margin:0 auto;
+	overflow:hidden;
+}
+.login-container .tips {
+	font-size:14px;
+	color:#fff;
+	margin-bottom:10px;
+}
 .login-container .tips  span:first-of-type {
-        margin-right: 16px;
-      }
-  .login-container .svg-container {
-    padding: 6px 5px 6px 15px;
-    color: #889aa4;
-    vertical-align: middle;
-    width: 30px;
-    display: inline-block;
-  }
+	margin-right:16px;
+}
+.login-container .svg-container {
+	padding:6px 5px 6px 15px;
+	color:#889aa4;
+	vertical-align:middle;
+	width:30px;
+	display:inline-block;
+}
+.title-container {
+	position:relative;
+}
+.title-container .title {
+	font-size:26px;
+	color:#eee;
+	margin:0 auto 40px auto;
+	text-align:center;
+	font-weight:bold;
+}
+.title-container .show-pwd {
+	position:absolute;
+	right:10px;
+	top:7px;
+	font-size:16px;
+	color:#889aa4;
+	cursor:pointer;
+	user-select:none;
+}
 
-  .title-container {
-    position: relative;
-
-
-  }
-  .title-container .title {
-      font-size: 26px;
-      color: #eee;
-      margin: 0 auto 40px auto;
-      text-align: center;
-      font-weight: bold;
-    }
-  .title-container .show-pwd {
-    position: absolute;
-    right: 10px;
-    top: 7px;
-    font-size: 16px;
-    color: #889aa4;
-    cursor: pointer;
-    user-select: none;
-  }
 </style>
