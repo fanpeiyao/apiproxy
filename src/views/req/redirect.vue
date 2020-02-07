@@ -6,7 +6,7 @@
       </el-form-item>
 
       <el-form-item label="环境编号">
-        <el-input v-model="form.redirectenv" placeholder="请输入redirectenv"/>
+        <el-input v-model="form.redirectenv" placeholder="请输入环境编号"/>
       </el-form-item>
 
       <el-form-item label="重定向名称">
@@ -17,12 +17,12 @@
         <el-input v-model="form.redirecthost" placeholder="请输入重定向地址"/>
       </el-form-item>
 
-      <el-form-item label="配置请求地址">
+      <!-- <el-form-item label="配置请求地址">
         <el-input v-model="form.requrl" placeholder="请输入配置请求地址"/>
-      </el-form-item>
+      </el-form-item> -->
 
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">提交</el-button>
+        <el-button type="primary" @click="onSubmit">确认</el-button>
       </el-form-item>
 
     </el-form>
