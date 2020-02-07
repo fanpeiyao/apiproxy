@@ -2,24 +2,15 @@
 const tokens = {
   admin: {
     token: 'admin-token'
-  },
-  editor: {
-    token: 'editor-token'
   }
 }
 
 const users = {
   'admin-token': {
     roles: ['admin'],
-    introduction: 'I am a super administrator',
+    introduction: '管理员',
     avatar: '',
     name: 'Admin'
-  },
-  'editor-token': {
-    roles: ['editor'],
-    introduction: 'I am an editor',
-    avatar: '',
-    name: 'Editor'
   }
 }
 

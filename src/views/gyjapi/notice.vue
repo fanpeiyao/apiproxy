@@ -79,7 +79,7 @@ export default {
           label: '工银聚'
         },{
           value: 'gyjapi',
-          label: '工银聚'
+          label: '工银聚API'
         },{
           value: 'icbc',
           label: '总行发送'

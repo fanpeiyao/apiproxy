@@ -50,7 +50,7 @@ const actions = {
         const { data } = response
 
         if (!data) {
-          reject('Verification failed, please Login again.')
+          reject('用户信息过期，请重新登录！')
         }
 
         const { name, avatar } = data
