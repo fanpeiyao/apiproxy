@@ -3,7 +3,7 @@
 
   <el-form ref="form"  >
       <el-form-item>
-        <el-button type="primary"  @click="addFormVisible = true">新增</el-button>
+        <el-button type="primary" size="small" @click="addFormVisible = true">新增</el-button>
       </el-form-item>
 
     </el-form>
@@ -105,15 +105,15 @@ export default {
       tableData: [{
           projectid: 'dzbl',
           projectname: '到账伴侣',
-          prikey: '上海市普陀区金沙江路 1518 弄'
+          prikey: 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC71XxqUGmI5kNbzPxGNABKE/vgCsntc76l+Mi9CCKGEBfwWxMSOPu/uAFtCKCU1tboySsAfzKaoku2mu/TuW6lbJiuH511sFgX355dzfSGrxJML0gqGg/QgcE8cPL+mXEnip6XAHYht/NBGh2AUuHm6N3iyEhhz1wStmC+Hk7d4QIDAQAB'
         }, {
           projectid: 'yzt',
           projectname:'银账通',
-          prikey: '上海市普陀区金沙江路 1518 弄'
+          prikey: 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC71XxqUGmI5kNbzPxGNABKE/vgCsntc76l+Mi9CCKGEBfwWxMSOPu/uAFtCKCU1tboySsAfzKaoku2mu/TuW6lbJiuH511sFgX355dzfSGrxJML0gqGg/QgcE8cPL+mXEnip6XAHYht/NBGh2AUuHm6N3iyEhhz1wStmC+Hk7d4QIDAQAB'
         }, {
           projectid: 'licai',
           projectname: '理财',
-          prikey: '上海市普陀区金沙江路 1518 弄'
+          prikey: 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC71XxqUGmI5kNbzPxGNABKE/vgCsntc76l+Mi9CCKGEBfwWxMSOPu/uAFtCKCU1tboySsAfzKaoku2mu/TuW6lbJiuH511sFgX355dzfSGrxJML0gqGg/QgcE8cPL+mXEnip6XAHYht/NBGh2AUuHm6N3iyEhhz1wStmC+Hk7d4QIDAQAB'
         }],
         formLabelWidth: '120px',
         addFormVisible: false,

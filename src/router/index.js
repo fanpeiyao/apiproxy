@@ -135,91 +135,25 @@ export const constantRoutes = [{
             },
             children: [{
                 path: 'api-notice',
-                component: () => import('@/views/config/api/index'), //暂时无用共用一个页面，有用时可单独新建
+                component: () => import('@/views/config/api/notice'), 
                 name: 'api-notice',
                 meta: {
                     title: '通知接口'
-                },
-                children: [{
-                    path: 'no-add',
-                    component: () => import('@/views/config/api/notice/add'),
-                    name: 'no-add',
-                    meta: {
-                        title: '新增接口'
-                    }
-                }, {
-                    path: 'no-del',
-                    component: () => import('@/views/config/api/notice/del'),
-                    name: 'no-del',
-                    meta: {
-                        title: '删除接口'
-                    }
-                }, {
-                    path: 'no-update',
-                    component: () => import('@/views/config/api/notice/update'),
-                    name: 'no-update',
-                    meta: {
-                        title: '修改接口'
-                    }
-                }]
+                }
             }, {
                 path: 'api-query',
-                component: () => import('@/views/config/api/index'),
+                component: () => import('@/views/config/api/query'),
                 name: 'api-query',
                 meta: {
                     title: '查询接口'
-                },
-                children: [{
-                    path: 'query-add',
-                    component: () => import('@/views/config/api/query/add'),
-                    name: 'query-add',
-                    meta: {
-                        title: '新增接口'
-                    }
-                }, {
-                    path: 'query-del',
-                    component: () => import('@/views/config/api/query/del'),
-                    name: 'query-del',
-                    meta: {
-                        title: '删除接口'
-                    }
-                }, {
-                    path: 'query-update',
-                    component: () => import('@/views/config/api/query/update'),
-                    name: 'query-update',
-                    meta: {
-                        title: '修改接口'
-                    }
-                }]
+                }
             }, {
                 path: 'api-jump',
-                component: () => import('@/views/config/api/index'),
+                component: () => import('@/views/config/api/jump'),
                 name: 'api-jump',
                 meta: {
                     title: '页面跳转接口'
-                },
-                children: [{
-                    path: 'jump-add',
-                    component: () => import('@/views/config/api/jump/add'),
-                    name: 'jump-add',
-                    meta: {
-                        title: '新增接口'
-                    }
-                }, {
-                    path: 'jump-del',
-                    component: () => import('@/views/config/api/jump/del'),
-                    name: 'jump-del',
-                    meta: {
-                        title: '删除接口'
-                    }
-                }, {
-                    path: 'jump-update',
-                    component: () => import('@/views/config/api/jump/update'),
-                    name: 'jump-update',
-                    meta: {
-                        title: '修改接口'
-                    }
-                }]
+                }
             }]
         }]
     }, {

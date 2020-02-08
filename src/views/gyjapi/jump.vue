@@ -47,7 +47,7 @@
 
 
       <el-form-item label="Base64编码">
-        <el-switch v-model="form.isBase64" />
+        <el-switch v-model="form.base64"  active-value="1" inactive-value="0"/>
       </el-form-item>
 
 
@@ -83,7 +83,7 @@ export default {
         reqdata: '',
         trancode:'',
         version:'2.0.0.0',
-        isBase64:true,//0-关 1-开
+        base64:'1',//0-关 1-开
         roleid:'1',customerId:'',
         customerName:'',
         mobile:'',

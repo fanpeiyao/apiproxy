@@ -46,7 +46,7 @@
 
 
       <el-form-item label="Base64编码">
-        <el-switch v-model="form.isBase64" />
+        <el-switch v-model="form.base64"  active-value="1" inactive-value="0" />
       </el-form-item>
 
       <el-form-item label="私钥">
@@ -82,7 +82,7 @@ export default {
             reqkey:'ADDAGREEMENT',
             channel:'gyjapi',
             version:'2.0.0.0',
-            isBase64:true,
+            base64:'1',
             projectid:'yzt',
             privateKey:'',
 

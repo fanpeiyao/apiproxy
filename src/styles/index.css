@@ -582,3 +582,7 @@ div:focus {
     width: 17px;
     height: 17px;
 }
+
+.mr10{
+    margin-right: 10px;
+}
