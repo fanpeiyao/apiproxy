@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
 
-  <el-form ref="form"  >
+    <el-form ref="form"  >
       <el-form-item>
         <el-button type="primary" size="small" @click="addFormVisible = true">新增</el-button>
       </el-form-item>

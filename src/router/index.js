@@ -135,7 +135,7 @@ export const constantRoutes = [{
             },
             children: [{
                 path: 'api-notice',
-                component: () => import('@/views/config/api/notice'), 
+                component: () => import('@/views/config/api/notice'),
                 name: 'api-notice',
                 meta: {
                     title: '通知接口'
@@ -176,19 +176,45 @@ export const constantRoutes = [{
         }, {
             path: 'RSA',
             name: 'RSA',
-            component: () => import('@/views/assist/RSA'),
+            component: () => import('@/views/assist/RSA/index'),
             meta: {
-                title: 'RSA编码/解码',
+                title: 'RSA',
                 icon: 'RSA'
-            }
+            },
+            children: [{
+                  path: 'code',
+                  component: () => import('@/views/assist/RSA/code'),
+                  meta: {
+                    title: '编码',
+                  }
+                  }, {
+                    path: 'decode',
+                    component: () => import('@/views/assist/RSA/decode'),
+                    meta: {
+                      title: '解码',
+                    }
+                }
+            ]
         }, {
             path: 'base64',
             name: 'base64',
-            component: () => import('@/views/assist/base64'),
+            component: () => import('@/views/assist/base64/index'),
             meta: {
-                title: 'BASE64编码/解码',
+                title: 'BASE64',
                 icon: 'code'
-            }
+            }, children: [{
+              path: 'code',
+              component: () => import('@/views/assist/base64/code'),
+              meta: {
+                title: '编码',
+              }
+            }, {
+              path: 'decode',
+              component: () => import('@/views/assist/base64/decode'),
+              meta: {
+                title: '解码',
+              }
+            }]
         }, {
             path: 'websocket',
             name: 'websocket',
