@@ -155,6 +155,35 @@ export const constantRoutes = [{
                     title: '页面跳转接口'
                 }
             }]
+        }, {
+          path: 'apiConf',
+          component: () => import('@/views/config/apiConf'), // Parent router-view
+          name: 'apiConf',
+          meta: {
+            title: '接口附加参数管理'
+          },
+          /* children: [{
+            path: 'api-notice',
+            component: () => import('@/views/config/apiConf/notice'),
+            name: 'api-notice',
+            meta: {
+              title: '通知接口'
+            }
+          }, {
+            path: 'api-query',
+            component: () => import('@/views/config/apiConf/query'),
+            name: 'api-query',
+            meta: {
+              title: '查询接口'
+            }
+          }, {
+            path: 'api-jump',
+            component: () => import('@/views/config/apiConf/jump'),
+            name: 'api-jump',
+            meta: {
+              title: '页面跳转接口'
+            }
+          }] */
         }]
     }, {
         path: '/assist',
