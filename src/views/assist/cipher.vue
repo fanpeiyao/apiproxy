@@ -19,36 +19,46 @@
             </el-form-item>
 
         </el-form>
-
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-        form:{
-            pubkey:'',
-            prikey:''
-        },
-        showForm:false
-    }
-
-
-  },
-  methods: {
-    onSubmit() {
-      this.$message('submit!');
-        this.showForm =true;
-        this.form.pubkey='11';
-
-        this.form.pubkey='22'
-
+    data() {
+        return {
+            form:{
+                pubkey:'',
+                prikey:''
+            },
+            showForm:false
+        }
     },
-    download() {
-        console.log();
-      },
-  }
+    methods: {
+        onSubmit() {
+            this.showForm =true;
+            this.form.pubkey='11';
+            this.form.prikey='22'
+        },
+        download() {
+            //创建元素
+            var ele = document.createElement('a');
+            //设置下载文件名
+            ele.download = "cipher.txt";
+            //隐藏元素
+            ele.style.display = "none";
+            var str = '公钥' + this.form.pubkey +'\n\n私钥' + this.form.prikey;
+            //字符内容转变成blob地址
+            var blob = new Blob([str]);
+            //如果是链接，这里也可以直接设置链接地址
+            ele.href = URL.createObjectURL(blob);
+            document.body.appendChild(ele);
+            //模拟点击
+            ele.click();
+            //移除元素
+            document.body.removeChild(ele);
+
+        },
+    },
 }
 </script>
 

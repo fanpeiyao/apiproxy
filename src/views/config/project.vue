@@ -22,16 +22,16 @@
       label="项目编号"
       width="120">
     </el-table-column>
-    <el-table-column
-      prop="prikey"
-      label="私钥"
-      width="3000">
-    </el-table-column>
+
+    <el-table-column  prop="prikey" label="私钥"  width="3000"></el-table-column>
+
+
     <el-table-column
       fixed="right"
       label="操作"
-      width="100">
+      width="160">
       <template slot-scope="scope">
+        <el-button @click="copy(scope.row)" type="text" size="small">复制私钥</el-button>
         <el-button @click="onDel(scope.row)" type="text" size="small">删除</el-button>
         <el-button type="text" size="small"  @click="upFormVisible = true" >修改</el-button>
       </template>
@@ -89,56 +89,73 @@
 
 <script>
 export default {
-  data() {
-    return {
-      addForm: {
-        projectid: '',
-        projectname: '',
-        prikey: '',
-      },
-      updateForm: {
-        projectid: '',
-        projectname: '',
-        prikey: '',
-      },
+    data() {
+        return {
+        addForm: {
+            projectid: '',
+            projectname: '',
+            prikey: '',
+        },
+        updateForm: {
+            projectid: '',
+            projectname: '',
+            prikey: '',
+        },
 
-      tableData: [{
-          projectid: 'dzbl',
-          projectname: '到账伴侣',
-          prikey: 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC71XxqUGmI5kNbzPxGNABKE/vgCsntc76l+Mi9CCKGEBfwWxMSOPu/uAFtCKCU1tboySsAfzKaoku2mu/TuW6lbJiuH511sFgX355dzfSGrxJML0gqGg/QgcE8cPL+mXEnip6XAHYht/NBGh2AUuHm6N3iyEhhz1wStmC+Hk7d4QIDAQAB'
+        tableData: [{
+            projectid: 'dzbl',
+            projectname: '到账伴侣',
+            prikey: 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC71XxqUGmI5kNbzPxGNABKE/vgCsntc76l+Mi9CCKGEBfwWxMSOPu/uAFtCKCU1tboySsAfzKaoku2mu/TuW6lbJiuH511sFgX355dzfSGrxJML0gqGg/QgcE8cPL+mXEnip6XAHYht/NBGh2AUuHm6N3iyEhhz1wStmC+Hk7d4QIDAQAB1'
         }, {
-          projectid: 'yzt',
-          projectname:'银账通',
-          prikey: 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC71XxqUGmI5kNbzPxGNABKE/vgCsntc76l+Mi9CCKGEBfwWxMSOPu/uAFtCKCU1tboySsAfzKaoku2mu/TuW6lbJiuH511sFgX355dzfSGrxJML0gqGg/QgcE8cPL+mXEnip6XAHYht/NBGh2AUuHm6N3iyEhhz1wStmC+Hk7d4QIDAQAB'
+            projectid: 'yzt',
+            projectname:'银账通',
+            prikey: 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC71XxqUGmI5kNbzPxGNABKE/vgCsntc76l+Mi9CCKGEBfwWxMSOPu/uAFtCKCU1tboySsAfzKaoku2mu/TuW6lbJiuH511sFgX355dzfSGrxJML0gqGg/QgcE8cPL+mXEnip6XAHYht/NBGh2AUuHm6N3iyEhhz1wStmC+Hk7d4QIDAQAB2'
         }, {
-          projectid: 'licai',
-          projectname: '理财',
-          prikey: 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC71XxqUGmI5kNbzPxGNABKE/vgCsntc76l+Mi9CCKGEBfwWxMSOPu/uAFtCKCU1tboySsAfzKaoku2mu/TuW6lbJiuH511sFgX355dzfSGrxJML0gqGg/QgcE8cPL+mXEnip6XAHYht/NBGh2AUuHm6N3iyEhhz1wStmC+Hk7d4QIDAQAB'
+            projectid: 'licai',
+            projectname: '理财',
+            prikey: 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC71XxqUGmI5kNbzPxGNABKE/vgCsntc76l+Mi9CCKGEBfwWxMSOPu/uAFtCKCU1tboySsAfzKaoku2mu/TuW6lbJiuH511sFgX355dzfSGrxJML0gqGg/QgcE8cPL+mXEnip6XAHYht/NBGh2AUuHm6N3iyEhhz1wStmC+Hk7d4QIDAQAB3'
         }],
         formLabelWidth: '120px',
         addFormVisible: false,
         upFormVisible: false,
-    }
+        }
 
 
-  },
-  methods: {
-    onSubmit() {
-      this.$message('submit!')
     },
-    onDel(row) {
-        console.log(row);
-      },
-    onUpdateForm(row) {
-        console.log(row);
-      },
-    onAdd(row) {
-        console.log(row);
-      },
-    onUpdate(row) {
-        console.log(row);
-      }
-  }
+    methods: {
+        onSubmit() {
+            this.$message('submit!')
+        },
+        onDel(row) {
+            console.log(row);
+        },
+        onUpdateForm(row) {
+            console.log(row);
+        },
+        onAdd(row) {
+            console.log(row);
+        },
+        onUpdate(row) {
+            console.log(row);
+        },
+        copy(row) {
+            console.log(row.prikey);
+            const input = document.createElement("input");
+            input.setAttribute("readonly", "readonly");
+            input.setAttribute("value", row.prikey);
+            document.body.appendChild(input);
+            input.select();
+            input.setSelectionRange(0, 9999);
+            if (document.execCommand("copy")) {
+                document.execCommand("copy");
+                this.$message({
+                    message: '复制成功！',
+                    type: 'success'
+                })
+            }
+            document.body.removeChild(input);
+        }
+    }
 }
 </script>
 
