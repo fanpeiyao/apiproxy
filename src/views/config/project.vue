@@ -109,6 +109,7 @@ export default {
                         type: 'success'
                     });
                     this.addFormVisible = false;
+                    this.listLoading = false;
                     this.getData();
                 }
             })
@@ -127,6 +128,7 @@ export default {
                         type: 'success'
                     });
                     this.addFormVisible = false;
+                    this.listLoading = false;
                     this.getData();
                 }
             })
@@ -140,6 +142,7 @@ export default {
                         type: 'success'
                     });
                     this.upFormVisible = false;
+                    this.listLoading = false;
                     this.getData();
                 }
             })

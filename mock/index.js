@@ -5,12 +5,13 @@ import user from './user'
 import project from './project'
 import req from './req'
 import assist from './assist'
-
+import config from './config'
 const mocks = [
   ...user,
   ...project,
   ...req,
-  ...assist
+  ...assist,
+  ...config
 ]
 
 // for front mock

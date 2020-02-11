@@ -99,7 +99,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="upFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="onUpdate(scope.row)">确 定</el-button>
+                <el-button type="primary" @click="onUpdate()">确 定</el-button>
             </div>
         </el-dialog>
 
@@ -109,6 +109,7 @@
 </template>
 
 <script>
+import { getRedirect,addRedirect,updateRedirect,delRedirect } from '@/api/config'
 
 export default {
   data() {
@@ -153,24 +154,77 @@ export default {
         }],
     }
   },
-  methods: {
-    onSubmit() {
-      this.$message('submit!')
+    methods: {
+        onSubmit() {
+            this.$message('submit!')
+        },
+        onDel(row) {
+            this.listLoading = true;
+            console.log(row)
+            delRedirect(row).then(result => {
+                if(result.retCode == '200'){
+                    this.listLoading = false;
+                    this.$message({
+                        message: '删除成功！',
+                        type: 'success'
+                    });
+                    this.addFormVisible = false;
+                    this.getData();
+                }
+            })
+        },
+        onUpdateForm(row) {
+            this.upFormVisible = true;
+            this.updateForm = row;
+        },
+        onAdd(row) {
+            addRedirect(this.addForm).then(result => {
+                if(result.retCode == '200'){
+                    this.$message({
+                        message: '新增成功！',
+                        type: 'success'
+                    });
+                    this.addFormVisible = false;
+                    this.listLoading = false;
+                    this.getData();
+                }
+            })
+        },
+        onUpdate(row) {
+            this.listLoading = true;
+            updateRedirect(this.updateForm).then(result => {
+                if(result.retCode == '200'){
+                    this.$message({
+                        message: '修改成功！',
+                        type: 'success'
+                    });
+                    this.upFormVisible = false;
+                    this.listLoading = false;
+                    this.getData();
+                }
+            })
+        },
+        //获取列表
+        getData() {
+            var that = this;
+            this.listLoading = true;
+            var params = {};
+            params.page = this.page;
+            getRedirect(params).then(result => {
+                console.log(result)
+                that.listLoading = false;
+                that.tableData = result.data;
+            })
+
+        },
+        //分页展示
+        handleCurrentChange(val) {
+            this.page = val-1;
+            this.getData();
+        },
     },
-    onDel(row) {
-        console.log(row);
-      },
-    onUpdateForm(row) {
-        this.upFormVisible = true;
-        console.log(row);
-        this.updateForm = row;
-    },
-    onAdd(row) {
-        console.log(row);
-      },
-    onUpdate(row) {
-      this.$message('submit!')
-      }
-  }
+    created(){
+        this.getData();
+    }
 }
 </script>
