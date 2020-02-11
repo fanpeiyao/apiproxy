@@ -7,3 +7,10 @@ export function redirect(params) {
     params
   })
 }
+export function passthrough(params) {
+  return request({
+    url: '/apiproxy/req/passthrough ',
+    method: 'post',
+    params
+  })
+}

@@ -49,9 +49,9 @@ export const constantRoutes = [{
                 icon: 'redirect'
             }
         }, {
-            path: 'passtrough',
-            name: 'reqPasstrough',
-            component: () => import('@/views/req/passtrough'),
+            path: 'passthrough',
+            name: 'reqpassthrough',
+            component: () => import('@/views/req/passthrough'),
             meta: {
                 title: '请求透传',
                 icon: 'trough'

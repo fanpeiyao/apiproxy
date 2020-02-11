@@ -1,25 +1,24 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="form" :rules="rules"  label-width="120px">
-      <el-form-item label="重定向地址" prop="redirectcode">
+      <!-- <el-form-item label="重定向地址" prop="redirectcode">
         <el-input v-model="form.redirectcode" placeholder="请输入重定向地址" />
-      </el-form-item>
-
-      <el-form-item label="环境编号" prop="redirectenv">
+      </el-form-item> -->
+      <!-- <el-form-item label="环境编号" prop="redirectenv">
         <el-input v-model="form.redirectenv" placeholder="请输入环境编号"/>
       </el-form-item>
 
       <el-form-item label="重定向名称" prop="redirectname">
         <el-input v-model="form.redirectname" placeholder="请输入重定向名称"/>
-      </el-form-item>
-
-     <!--  <el-form-item label="重定向地址" prop="redirecthost">
-        <el-input v-model="form.redirecthost" placeholder="请输入重定向地址"/>
       </el-form-item> -->
 
-      <!-- <el-form-item label="配置请求地址">
-        <el-input v-model="form.requrl" placeholder="请输入配置请求地址"/>
-      </el-form-item> -->
+        <el-form-item label="重定向地址" prop="redirecthost">
+            <el-input v-model="form.redirecthost" placeholder="请输入重定向地址"/>
+        </el-form-item>
+        <p class='tips'>
+            重定向地址格式：
+            <span>http://gyjapi1.deenet.com.cn/apiproxy/redirect/redirectcode/env，其中redirectcode和env请根据自己内容替换</span>
+        </p>
 
       <el-form-item>
         <el-button type="primary" @click="onSubmit">确认</el-button>
@@ -36,23 +35,22 @@ export default {
     data() {
         return {
             form: {
-                redirectcode: '',
-                redirectenv: '',
-                redirectname: '',
+                // redirectcode: '',
+                // redirectenv: '',
+                // redirectname: '',
                 redirecthost: '',
-                requrl: '',
             },
             rules: {
-                redirectcode: [
+                redirecthost: [
                     { required: true, message: '请输入重定向地址', trigger: 'blur' },
                     { pattern:/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/, message:'请输入正确的重定向地址', trigger: 'blur' }
                 ],
-                redirectenv: [
-                    { required: true, message: '请输入环境编号', trigger: 'blur' }
-                ],
-                redirectname: [
-                    { required: true, message: '请输入重定向名称', trigger: 'blur' }
-                ],
+                // redirectenv: [
+                //     { required: true, message: '请输入环境编号', trigger: 'blur' }
+                // ],
+                // redirectname: [
+                //     { required: true, message: '请输入重定向名称', trigger: 'blur' }
+                // ],
                 /* region: [
                     { required: true, message: '请选择活动区域', trigger: 'change' }
                 ],
@@ -77,7 +75,7 @@ export default {
             if (valid) {
 
                 var params = this.form;
-                redirect().then(response => {
+                redirect(params).then(response => {
                     console.log(response.data.requrl);
                     window.open(response.data.requrl, '_blank').location;
                 })
