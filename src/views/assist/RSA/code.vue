@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
-    <el-form ref="form" :model="form" label-width="120px">
-      <el-form-item label="公钥">
+    <el-form ref="form" :model="form" label-width="120px" :rules="rules">
+      <el-form-item label="公钥" prop='pubkey'>
         <el-input v-model="form.pubkey" placeholder="请输入公钥" />
       </el-form-item>
 
-      <el-form-item label="待加密内容">
+      <el-form-item label="待加密内容" prop='content'>
         <el-input v-model="form.content" placeholder="请输入待加密内容" type="textarea" :autosize="{ minRows:3}"/>
       </el-form-item>
 
@@ -24,19 +24,36 @@
 </template>
 
 <script>
+import { rsaCode } from '@/api/assist'
 export default {
-  data() {
-    return {
-      form: {
-        pubkey: '',
-        content: '',
-      },
-      result:''
+    data() {
+        return {
+        form: {
+            pubkey: '',
+            content: '',
+        },
+        rules: {
+            content: [
+                { required: true, message: '请输入待解密内容', trigger: 'blur' },
+            ],
+            pubkey: [
+                { required: true, message: '请输入公钥', trigger: 'blur' },
+            ]
+        },
+        result:''
     }
   },
   methods: {
     onSubmit() {
-      this.result = '11111111111';
+        this.$refs['form'].validate((valid) => {
+            if (valid) {
+                rsaCode(this.form).then(result => {
+                    if (result.retCode == "200") {
+                        this.result = result.data.reqdata;
+                    }
+                });
+            }
+        });
     }
   }
 }

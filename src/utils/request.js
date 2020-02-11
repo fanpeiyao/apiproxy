@@ -46,15 +46,15 @@ service.interceptors.response.use(
     const res = response.data
 
     // if the custom code is not 200, it is judged as an error.
-    if (res.code !== 200) {
+    if (res.retCode !== 200) {
       Message({
-        message: res.message || 'Error',
+        message: res.retMsg || 'Error',
         type: 'error',
         duration: 5 * 1000
       })
 
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
+      if (res.retCode === 50008 || res.retCode === 50012 || res.retCode === 50014) {
         // to re-login
         MessageBox.confirm('您已注销， 您可以取消以停留在此页， 或重新登录 ', ' Confirm logout ', {
           confirmButtonText: 'Re-Login',

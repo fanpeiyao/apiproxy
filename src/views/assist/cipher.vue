@@ -3,7 +3,6 @@
 
         <div class="handle-box">
             <el-button type="primary" size="small" icon="el-icon-edit"  class="handle-del mr10" @click="onSubmit()">生成</el-button>
-
         </div>
         <el-form ref="form" :model="form" v-if='showForm' label-width="120px">
             <el-form-item label="公钥">
@@ -23,6 +22,7 @@
 </template>
 
 <script>
+import { getCipher } from '@/api/assist'
 export default {
     data() {
         return {
@@ -35,9 +35,15 @@ export default {
     },
     methods: {
         onSubmit() {
-            this.showForm =true;
-            this.form.pubkey='11';
-            this.form.prikey='22'
+            console.log(1111)
+            getCipher().then(result => {
+                if(result.retCode == '200'){
+
+                    this.showForm =true;
+                    this.form = result.data;
+                }
+            })
+
         },
         download() {
             //创建元素
@@ -46,7 +52,7 @@ export default {
             ele.download = "cipher.txt";
             //隐藏元素
             ele.style.display = "none";
-            var str = '公钥' + this.form.pubkey +'\n\n私钥' + this.form.prikey;
+            var str = '公钥：' + this.form.pubkey +'\n\n私钥：' + this.form.prikey;
             //字符内容转变成blob地址
             var blob = new Blob([str]);
             //如果是链接，这里也可以直接设置链接地址
@@ -59,6 +65,11 @@ export default {
 
         },
     },
+    created(){
+        // this.onSubmit();
+    }
+
+
 }
 </script>
 

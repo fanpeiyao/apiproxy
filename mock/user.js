@@ -26,13 +26,13 @@ export default [
       // mock error
       if (!token) {
         return {
-          code: 500,
-          message: 'Account and password are incorrect.'
+          retCode: 500,
+          retMsg: 'Account and password are incorrect.'
         }
       }
 
       return {
-        code: 200,
+        retCode: 200,
         data: token
       }
     }
@@ -49,13 +49,13 @@ export default [
       // mock error
       if (!info) {
         return {
-          code: 50008,
-          message: 'Login failed, unable to get user details.'
+          retCode: 50008,
+          retMsg: 'Login failed, unable to get user details.'
         }
       }
 
       return {
-        code: 200,
+        retCode: 200,
         data: info
       }
     }
@@ -67,7 +67,7 @@ export default [
     type: 'post',
     response: _ => {
       return {
-        code: 200,
+        retCode: 200,
         data: 'success'
       }
     }

@@ -1,58 +1,45 @@
 <template>
   <div class="app-container">
 
-    <el-form ref="form"  >
-      <el-form-item>
-        <el-button type="primary" size="small" @click="addFormVisible = true">新增</el-button>
-      </el-form-item>
+        <el-form ref="form"  >
+            <el-form-item>
+                <el-button type="primary" size="small" @click="addFormVisible = true">新增</el-button>
+            </el-form-item>
 
-    </el-form>
-       <el-table
-    :data="tableData"
-    border
-    style="width: 100%">
-    <el-table-column
-      fixed
-      prop="projectname"
-      label="项目名称"
-      width="150">
-    </el-table-column>
-    <el-table-column
-      prop="projectid"
-      label="项目编号"
-      width="120">
-    </el-table-column>
+        </el-form>
+        <el-table :data="tableData" border style="width: 100%">
+            <el-table-column  fixed prop="projectname" label="项目名称" width="150"> </el-table-column>
+            <el-table-column  prop="projectid" label="项目编号" width="120"></el-table-column>
+            <el-table-column  prop="prikey" label="私钥"  width="3000"></el-table-column>
+            <el-table-column fixed="right" label="操作"  width="160">
+                <template slot-scope="scope">
+                    <el-button @click="copy(scope.row)" type="text" size="small">复制私钥</el-button>
+                    <el-button @click="onDel(scope.row)" type="text" size="small">删除</el-button>
+                    <el-button type="text" size="small"  @click="openUpForm(scope.row)" >修改</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
 
-    <el-table-column  prop="prikey" label="私钥"  width="3000"></el-table-column>
-
-
-    <el-table-column
-      fixed="right"
-      label="操作"
-      width="160">
-      <template slot-scope="scope">
-        <el-button @click="copy(scope.row)" type="text" size="small">复制私钥</el-button>
-        <el-button @click="onDel(scope.row)" type="text" size="small">删除</el-button>
-        <el-button type="text" size="small"  @click="upFormVisible = true" >修改</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
-
+        <!--工具条-->
+		<el-col :span="24" class="toolbar" v-show='tableData.length>0' >
+			<el-pagination layout="prev, pager, next" :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="limit" :total="tableData.length" style="float:right;">
+			</el-pagination>
+		</el-col>
 
 
 
 <el-dialog title="新增项目" :visible.sync="addFormVisible">
   <el-form :model="addForm">
     <el-form-item label="项目编号" :label-width="formLabelWidth">
-      <el-input v-model="addForm.projectid" autocomplete="off"></el-input>
+      <el-input v-model="addForm.projectid"  placeholder="请输入项目编号" autocomplete="off"></el-input>
     </el-form-item>
 
     <el-form-item label="项目名称" :label-width="formLabelWidth">
-      <el-input v-model="addForm.projectname" autocomplete="off"></el-input>
+      <el-input v-model="addForm.projectname" placeholder="请输入项目名称" autocomplete="off"></el-input>
     </el-form-item>
 
     <el-form-item label="项目私钥" :label-width="formLabelWidth">
-      <el-input v-model="addForm.prikey" autocomplete="off"></el-input>
+      <el-input v-model="addForm.prikey" placeholder="请输入项目私钥" autocomplete="off"></el-input>
     </el-form-item>
   </el-form>
   <div slot="footer" class="dialog-footer">
@@ -79,7 +66,7 @@
   </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="upFormVisible = false">取 消</el-button>
-    <el-button type="primary" @click="onUpdate(scope.row)">确 定</el-button>
+    <el-button type="primary" @click="onUpdate()">确 定</el-button>
   </div>
 </el-dialog>
 
@@ -88,6 +75,7 @@
 </template>
 
 <script>
+import { getProjects,addProject,upDateProject,delProject } from '@/api/project'
 export default {
     data() {
         return {
@@ -96,25 +84,13 @@ export default {
             projectname: '',
             prikey: '',
         },
-        updateForm: {
-            projectid: '',
-            projectname: '',
-            prikey: '',
-        },
+        updateForm: {},
 
-        tableData: [{
-            projectid: 'dzbl',
-            projectname: '到账伴侣',
-            prikey: 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC71XxqUGmI5kNbzPxGNABKE/vgCsntc76l+Mi9CCKGEBfwWxMSOPu/uAFtCKCU1tboySsAfzKaoku2mu/TuW6lbJiuH511sFgX355dzfSGrxJML0gqGg/QgcE8cPL+mXEnip6XAHYht/NBGh2AUuHm6N3iyEhhz1wStmC+Hk7d4QIDAQAB1'
-        }, {
-            projectid: 'yzt',
-            projectname:'银账通',
-            prikey: 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC71XxqUGmI5kNbzPxGNABKE/vgCsntc76l+Mi9CCKGEBfwWxMSOPu/uAFtCKCU1tboySsAfzKaoku2mu/TuW6lbJiuH511sFgX355dzfSGrxJML0gqGg/QgcE8cPL+mXEnip6XAHYht/NBGh2AUuHm6N3iyEhhz1wStmC+Hk7d4QIDAQAB2'
-        }, {
-            projectid: 'licai',
-            projectname: '理财',
-            prikey: 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC71XxqUGmI5kNbzPxGNABKE/vgCsntc76l+Mi9CCKGEBfwWxMSOPu/uAFtCKCU1tboySsAfzKaoku2mu/TuW6lbJiuH511sFgX355dzfSGrxJML0gqGg/QgcE8cPL+mXEnip6XAHYht/NBGh2AUuHm6N3iyEhhz1wStmC+Hk7d4QIDAQAB3'
-        }],
+        tableData:[],
+        total:0,
+        page:0,
+        limit:10,
+        currentpage:1,
         formLabelWidth: '120px',
         addFormVisible: false,
         upFormVisible: false,
@@ -123,20 +99,50 @@ export default {
 
     },
     methods: {
-        onSubmit() {
-            this.$message('submit!')
-        },
         onDel(row) {
-            console.log(row);
+            this.listLoading = true;
+            console.log(row)
+            delProject(row).then(result => {
+                if(result.retCode == '200'){
+                    this.$message({
+                        message: '删除成功！',
+                        type: 'success'
+                    });
+                    this.addFormVisible = false;
+                    this.getData();
+                }
+            })
         },
-        onUpdateForm(row) {
-            console.log(row);
+        openUpForm(row) {
+            this.upFormVisible = true;
+            this.updateForm = row;
         },
-        onAdd(row) {
-            console.log(row);
+        onAdd() {
+            this.listLoading = true;
+            addProject(this.addForm).then(result => {
+
+                if(result.retCode == '200'){
+                    this.$message({
+                        message: '新增成功！',
+                        type: 'success'
+                    });
+                    this.addFormVisible = false;
+                    this.getData();
+                }
+            })
         },
         onUpdate(row) {
-            console.log(row);
+            this.listLoading = true;
+            upDateProject(this.updateForm).then(result => {
+                if(result.retCode == '200'){
+                    this.$message({
+                        message: '修改成功！',
+                        type: 'success'
+                    });
+                    this.upFormVisible = false;
+                    this.getData();
+                }
+            })
         },
         copy(row) {
             console.log(row.prikey);
@@ -154,8 +160,42 @@ export default {
                 })
             }
             document.body.removeChild(input);
-        }
+        },
+        //获取列表
+        getData() {
+            var that = this;
+            this.listLoading = true;
+            /* var promise = s3.ajax('/messagenotify/query', param, appid,true,'POST',60000);
+            promise.then(function(result){
+                that.listLoading = false;
+                if(result.retCode == '200'){
+                    that.total = result.total;
+                    that.data = result.data;
+                    that.tableheight = 649;
+                }else{
+                    that.$message.error(result.retMsg);
+                }
+            }); */
+            var params = {};
+            params.page = this.page;
+            console.log(params)
+            getProjects(params).then(result => {
+
+                that.listLoading = false;
+                that.tableData = result.data;
+            })
+
+        },
+        //分页展示
+        handleCurrentChange(val) {
+            this.page = val-1;
+            this.getData();
+        },
+    },
+    created(){
+        this.getData();
     }
+
 }
 </script>
 

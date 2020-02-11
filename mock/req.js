@@ -6,7 +6,7 @@ export default [
         type: 'post',
         response: config => {
             return {
-            code: 200,
+            retCode: 200,
             data: {
                 requrl: 'http://mockjs.com/examples.html'
             }
@@ -18,7 +18,7 @@ export default [
         type: 'post',
         response: config => {
             return {
-            code: 200,
+            retCode: 200,
             data: {
                 requrl: 'http://mockjs.com'
             }

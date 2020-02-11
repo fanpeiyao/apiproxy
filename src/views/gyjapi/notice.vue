@@ -11,6 +11,12 @@
         </el-select>
       </el-form-item>
 
+      <el-form-item label="版本号">
+        <el-radio-group v-model="form.version">
+          <el-radio  label='2.0.0.0'>2.0.0.0</el-radio>
+          <el-radio  label='1.0.0.0'>1.0.0.0（自19年7月起不再提供对接支持）</el-radio>
+        </el-radio-group>
+      </el-form-item>
 
        <el-form-item label="通知接口">
         <el-select v-model="form.api" placeholder="请选择要调试的通知接口">
@@ -34,12 +40,6 @@
       </el-form-item> -->
 
 
-      <el-form-item label="版本号">
-        <el-radio-group v-model="form.version">
-          <el-radio  label='2.0.0.0'>2.0.0.0</el-radio>
-          <el-radio  label='1.0.0.0'>1.0.0.0（自19年7月起不再提供对接支持）</el-radio>
-        </el-radio-group>
-      </el-form-item>
 
      <!-- <el-form-item label="发送渠道">
         <el-select v-model="form.channel" placeholder="请选择发送渠道">
@@ -89,11 +89,14 @@
 </template>
 
 <script>
+
+import { getProjects} from '@/api/project'
+
 export default {
   data() {
     return {
       form: {
-        merid: '',
+        projectid: '',
         api: 'GYJWLHNOTIFY',
         reqdata: '',
         respdata:'',
@@ -130,20 +133,34 @@ export default {
         }]
     }
   },
-  methods: {
-    onSubmit() {
-      this.$message('submit!')
-    }
-  },
-  created() {
-      this.projects= [{
-        projectid:'yzt',
-        projectname:'银账通'
-      },{
-        projectid:'licai',
-        projectname:'理财'
-      }]
-  },
+    methods: {
+        onSubmit() {
+            this.$message('submit!');
+            //this.form.prikey = this.projects
+            console.log(this.form)
+        },
+        getProData() {
+            var that = this;
+            this.listLoading = true;
+            //分页展示待定
+            getProjects().then(result => {
+                that.listLoading = false;
+                that.projects = result.data;
+            })
+
+        },
+    },
+    created() {
+        /* this.projects= [{
+            projectid:'yzt',
+            projectname:'银账通'
+        },{
+            projectid:'licai',
+            projectname:'理财'
+        }] */
+        //查询项目列表可供选择
+        this.getProData();
+    },
 }
 </script>
 
