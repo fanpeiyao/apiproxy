@@ -20,7 +20,7 @@
             </el-table-column>
         </el-table>
 
-        <!--工具条-->
+        <!--分页-->
 		<el-col :span="24" class="toolbar" v-show='tableData.length>0' >
 			<el-pagination layout="prev, pager, next" :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="limit" :total="tableData.length" style="float:right;">
 			</el-pagination>
@@ -29,16 +29,16 @@
 
 
 <el-dialog title="新增项目" :visible.sync="addFormVisible">
-  <el-form :model="addForm">
-    <el-form-item label="项目编号" :label-width="formLabelWidth">
+  <el-form :model="addForm"  :rules="rules"   ref="addForm">
+    <el-form-item label="项目编号" :label-width="formLabelWidth" prop="projectid">
       <el-input v-model="addForm.projectid"  placeholder="请输入项目编号" autocomplete="off"></el-input>
     </el-form-item>
 
-    <el-form-item label="项目名称" :label-width="formLabelWidth">
+    <el-form-item label="项目名称" :label-width="formLabelWidth" prop="projectname">
       <el-input v-model="addForm.projectname" placeholder="请输入项目名称" autocomplete="off"></el-input>
     </el-form-item>
 
-    <el-form-item label="项目私钥" :label-width="formLabelWidth">
+    <el-form-item label="项目私钥" :label-width="formLabelWidth" prop="prikey">
       <el-input v-model="addForm.prikey" placeholder="请输入项目私钥" autocomplete="off"></el-input>
     </el-form-item>
   </el-form>
@@ -84,6 +84,17 @@ export default {
             projectname: '',
             prikey: '',
         },
+        rules: {
+            projectid: [
+                { required: true, message: '请输入项目编号', trigger: 'blur' },
+            ],
+            projectname: [
+                { required: true, message: '请输入项目名称', trigger: 'blur' },
+            ],
+            prikey: [
+                { required: true, message: '请输入私钥', trigger: 'blur' },
+            ],
+        },
         updateForm: {},
 
         tableData:[],
@@ -119,17 +130,21 @@ export default {
             this.updateForm = row;
         },
         onAdd() {
-            this.listLoading = true;
-            addProject(this.addForm).then(result => {
+            this.$refs['addForm'].validate((valid) => {
+                if (valid) {
+                    this.listLoading = true;
+                    addProject(this.addForm).then(result => {
 
-                if(result.retCode == '200'){
-                    this.$message({
-                        message: '新增成功！',
-                        type: 'success'
-                    });
-                    this.addFormVisible = false;
-                    this.listLoading = false;
-                    this.getData();
+                        if(result.retCode == '200'){
+                            this.$message({
+                                message: '新增成功！',
+                                type: 'success'
+                            });
+                            this.addFormVisible = false;
+                            this.listLoading = false;
+                            this.getData();
+                        }
+                    })
                 }
             })
         },

@@ -8,7 +8,16 @@ const data = Mock.mock({
     redirecthost: '@url',
     requrl: '@url'
   }]
-}) 
+})
+const passData = Mock.mock({
+    'items|10': [{
+        path: '@id',
+        name: '@name',
+        url: '@url',
+        redirecthost: '@url',
+        requrl: '@url'
+    }]
+})
 export default [
   //查询
   {
@@ -50,8 +59,52 @@ export default [
     response: config => {
       return {
         retCode: 200,
-        retMsg: '刹车成功！'
+        retMsg: '删除成功！'
       }
     }
-  }
+  },
+    //查询
+    {
+      url: '/apiproxy/pass/query',
+      type: 'post',
+      response: config => {
+        return {
+          retCode: 200,
+          data: passData.items
+        }
+      }
+    },
+    //新增
+    {
+      url: '/apiproxy/pass/add',
+      type: 'post',
+      response: config => {
+        return {
+          retCode: 200,
+          retMsg: '新增成功！'
+        }
+      }
+    },
+    //修改
+    {
+      url: '/apiproxy/pass/update',
+      type: 'post',
+      response: config => {
+        return {
+          retCode: 200,
+          retMsg: '修改成功！'
+        }
+      }
+    },
+    //删除
+    {
+      url: '/apiproxy/pass/del',
+      type: 'post',
+      response: config => {
+        return {
+          retCode: 200,
+          retMsg: '刹车成功！'
+        }
+      }
+    }
 ]

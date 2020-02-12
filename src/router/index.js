@@ -6,7 +6,8 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 
-export const constantRoutes = [{
+export const constantRoutes = [
+    {
         path: '/login',
         component: () => import('@/views/login/index'),
         hidden: true
@@ -31,35 +32,7 @@ export const constantRoutes = [{
                 icon: 'dashboard'
             }
         }]
-    }, {
-        path: '/req',
-        component: Layout,
-        redirect: '/req/redirect',
-        name: 'req',
-        meta: {
-            title: '请求转发',
-            icon: 'example'
-        },
-        children: [{
-            path: 'redirect',
-            name: 'reqRedirect',
-            component: () => import('@/views/req/redirect'),
-            meta: {
-                title: '请求重定向',
-                icon: 'redirect'
-            }
-        }, {
-            path: 'passthrough',
-            name: 'reqpassthrough',
-            component: () => import('@/views/req/passthrough'),
-            meta: {
-                title: '请求透传',
-                icon: 'trough'
-            }
-        }]
     },
-
-
     {
         path: '/gyjapi',
         component: Layout,
@@ -100,6 +73,36 @@ export const constantRoutes = [{
     },
 
     {
+        path: '/req',
+        component: Layout,
+        redirect: '/req/redirect',
+        name: 'req',
+        meta: {
+            title: '请求转发',
+            icon: 'example'
+        },
+        children: [{
+            path: 'redirect',
+            name: 'reqRedirect',
+            component: () => import('@/views/req/redirect'),
+            meta: {
+                title: '请求重定向',
+                icon: 'redirect'
+            }
+        }, {
+            path: 'passthrough',
+            name: 'reqpassthrough',
+            component: () => import('@/views/req/passthrough'),
+            meta: {
+                title: '请求透传',
+                icon: 'trough'
+            }
+        }]
+    },
+
+
+
+    {
         path: '/config',
         component: Layout,
         redirect: '/config/redirectConf',
@@ -108,84 +111,86 @@ export const constantRoutes = [{
             title: '功能配置',
             icon: 'config'
         },
-        children: [{
-            path: 'redirectConf',
-            component: () => import('@/views/config/redirect'),
-            meta: {
-                title: '重定向地址配置'
-            }
-        }, {
-            path: 'passConf',
-            component: () => import('@/views/config/pass'),
-            meta: {
-                title: '透传配置'
-            }
-        }, {
-            path: 'project',
-            component: () => import('@/views/config/project'),
-            meta: {
-                title: '项目管理'
-            }
-        }, {
-            path: 'api',
-            component: () => import('@/views/config/api/index'), // Parent router-view
-            name: 'apiManage',
-            meta: {
+        children: [
+            {
+              path: 'api',
+              component: () => import('@/views/config/api/index'), // Parent router-view
+              name: 'apiManage',
+              meta: {
                 title: '接口管理'
-            },
-            children: [{
+              },
+              children: [{
                 path: 'api-notice',
                 component: () => import('@/views/config/api/notice'),
                 name: 'api-notice',
                 meta: {
-                    title: '通知接口'
+                  title: '通知接口'
                 }
-            }, {
+              }, {
                 path: 'api-query',
                 component: () => import('@/views/config/api/query'),
                 name: 'api-query',
                 meta: {
-                    title: '查询接口'
+                  title: '查询接口'
                 }
-            }, {
+              }, {
                 path: 'api-jump',
                 component: () => import('@/views/config/api/jump'),
                 name: 'api-jump',
                 meta: {
-                    title: '页面跳转接口'
+                  title: '页面跳转接口'
+                }
+              }]
+            }, {
+              path: 'apiConf',
+              component: () => import('@/views/config/apiConf'), // Parent router-view
+              name: 'apiConf',
+              meta: {
+                title: '接口附加参数管理'
+              },
+              /* children: [{
+                path: 'api-notice',
+                component: () => import('@/views/config/apiConf/notice'),
+                name: 'api-notice',
+                meta: {
+                  title: '通知接口'
+                }
+              }, {
+                path: 'api-query',
+                component: () => import('@/views/config/apiConf/query'),
+                name: 'api-query',
+                meta: {
+                  title: '查询接口'
+                }
+              }, {
+                path: 'api-jump',
+                component: () => import('@/views/config/apiConf/jump'),
+                name: 'api-jump',
+                meta: {
+                  title: '页面跳转接口'
+                }
+              }] */
+            } ,{
+                path: 'redirectConf',
+                component: () => import('@/views/config/redirect'),
+                meta: {
+                    title: '重定向地址配置'
+                }
+            }, {
+                path: 'passConf',
+                component: () => import('@/views/config/pass'),
+                meta: {
+                    title: '透传配置'
+                }
+            }, {
+                path: 'project',
+                component: () => import('@/views/config/project'),
+                meta: {
+                    title: '项目管理'
                 }
             }]
-        }, {
-          path: 'apiConf',
-          component: () => import('@/views/config/apiConf'), // Parent router-view
-          name: 'apiConf',
-          meta: {
-            title: '接口附加参数管理'
-          },
-          /* children: [{
-            path: 'api-notice',
-            component: () => import('@/views/config/apiConf/notice'),
-            name: 'api-notice',
-            meta: {
-              title: '通知接口'
-            }
-          }, {
-            path: 'api-query',
-            component: () => import('@/views/config/apiConf/query'),
-            name: 'api-query',
-            meta: {
-              title: '查询接口'
-            }
-          }, {
-            path: 'api-jump',
-            component: () => import('@/views/config/apiConf/jump'),
-            name: 'api-jump',
-            meta: {
-              title: '页面跳转接口'
-            }
-          }] */
-        }]
-    }, {
+    },
+    {
         path: '/assist',
         component: Layout,
         redirect: '/assist/table',

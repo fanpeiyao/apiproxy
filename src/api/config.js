@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+
 //重定项地址配置查询
 export function getRedirect(params) {
   return request({
@@ -32,4 +33,39 @@ export function delRedirect(params) {
         method: 'post',
         params
     })
+}
+
+//重定项地址配置查询
+export function getPass(params) {
+  return request({
+    url: '/apiproxy/pass/query',
+    method: 'post',
+    params
+  })
+}
+//新增重定项地址配置
+export function addPass(params) {
+  return request({
+    url: '/apiproxy/pass/add',
+    method: 'post',
+    params
+  })
+}
+
+//修改重定项地址配置
+export function updatePass(params) {
+  return request({
+    url: '/apiproxy/pass/update',
+    method: 'post',
+    params
+  })
+}
+
+//删除重定项地址配置
+export function delPass(params) {
+  return request({
+    url: '/apiproxy/pass/del',
+    method: 'post',
+    params
+  })
 }

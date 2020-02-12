@@ -46,23 +46,30 @@
         </el-table>
 
 
+        <!--分页-->
+		<el-col :span="24" class="toolbar" v-show='tableData.length>0' >
+			<el-pagination layout="prev, pager, next" :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="limit" :total="tableData.length" style="float:right;">
+			</el-pagination>
+		</el-col>
+
+
 
 
         <el-dialog title="新增" :visible.sync="addFormVisible">
-            <el-form :model="addForm" label-width="120px">
-                <el-form-item label="重定向url">
+            <el-form :model="addForm" label-width="120px"  :rules="rules"   ref="addForm">
+                <el-form-item label="重定向url" prop="redirectcode">
                     <el-input v-model="addForm.redirectcode" placeholder="请输入重定向url" />
                 </el-form-item>
 
-                <el-form-item label="环境编号">
+                <el-form-item label="环境编号" prop="redirectenv">
                     <el-input v-model="addForm.redirectenv" placeholder="请输入环境编号"/>
                 </el-form-item>
 
-                <el-form-item label="重定向名称">
+                <el-form-item label="重定向名称" prop="redirectname">
                     <el-input v-model="addForm.redirectname" placeholder="请输入重定向名称"/>
                 </el-form-item>
 
-                <el-form-item label="重定向地址">
+                <el-form-item label="重定向地址" prop="redirecthost">
                     <el-input v-model="addForm.redirecthost" placeholder="请输入重定向地址"/>
                 </el-form-item>
 
@@ -114,14 +121,32 @@ import { getRedirect,addRedirect,updateRedirect,delRedirect } from '@/api/config
 export default {
   data() {
     return {
-      form: {
-        redirectcode: '',
-        redirectenv: '',
-        redirectname: '',
-        redirecthost: '',
-        requrl: '',
-      },
-
+        form: {
+            redirectcode: '',
+            redirectenv: '',
+            redirectname: '',
+            redirecthost: '',
+            requrl: '',
+        },
+        rules: {
+            redirecthost: [
+                { required: true, message: '请输入重定向地址', trigger: 'blur' },
+                { pattern:/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/, message:'请输入正确的重定向地址', trigger: 'blur' }
+            ],
+            redirectenv: [
+                { required: true, message: '请输入重定向地址', trigger: 'blur' },
+            ],
+            redirectname: [
+                { required: true, message: '请输入重定向名称', trigger: 'blur' },
+            ],
+            redirectcode: [
+                { required: true, message: '请输入重定向地址', trigger: 'blur' },
+            ],
+            requrl: [
+                { required: true, message: '请输入重定向地址', trigger: 'blur' },
+                { pattern:/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/, message:'请输入正确的重定向地址', trigger: 'blur' }
+            ],
+        },
         addForm: {
             redirectcode: '',
             redirectenv: '',
@@ -133,25 +158,10 @@ export default {
         addFormVisible: false,
         upFormVisible: false,
         updateForm:{},
-        tableData: [{
-          redirectcode: '11',
-          redirectenv: '22',
-          redirectname: '33',
-          redirecthost:'44',
-          requrl:'55'
-        }, {
-          redirectcode: '11',
-          redirectenv: '22',
-          redirectname: '33',
-          redirecthost:'44',
-          requrl:'55'
-        }, {
-          redirectcode: '11',
-          redirectenv: '22',
-          redirectname: '33',
-          redirecthost:'44',
-          requrl:'55'
-        }],
+        tableData: [],
+        page:0,
+        limit:10,
+        currentpage:1,
     }
   },
     methods: {
@@ -178,15 +188,18 @@ export default {
             this.updateForm = row;
         },
         onAdd(row) {
-            addRedirect(this.addForm).then(result => {
-                if(result.retCode == '200'){
-                    this.$message({
-                        message: '新增成功！',
-                        type: 'success'
-                    });
-                    this.addFormVisible = false;
-                    this.listLoading = false;
-                    this.getData();
+            this.$refs['addForm'].validate((valid) => {
+                if (valid) {
+                    addRedirect(this.addForm).then(result => {
+                        if(result.retCode == '200'){
+                            this.$message({
+                                message: '新增成功！',
+                                type: 'success'
+                            });
+                            this.addFormVisible = false;
+                            this.getData();
+                        }
+                    })
                 }
             })
         },
