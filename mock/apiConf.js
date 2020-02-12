@@ -1,22 +1,19 @@
 import Mock from 'mockjs'
 
 const data = Mock.mock({
-  'items|3': [{
-    projectid: 'yzt',
-    apiname: '外汇来汇明细通知',
-    key: 'GYJREMITNOTIFY',
-    version: '2.0.0.0',
-    content: 'sssssssssssssssssssssvvvvvvvvvvvvvssssss',
-    base64: '1'
-  }]
+      'items|3': [{
+          projectid: 'yzt',
+          apiname: '外汇来汇明细通知',
+          key: 'GYJREMITNOTIFY',
+          value: '2.0.0.0'
+      }]
 })
-
 
 
 export default [
   //查询
   {
-    url: '/apiproxy/notify/list',
+    url: '/apiproxy/apiConf/list',
     type: 'post',
     response: config => {
       return {
@@ -27,7 +24,7 @@ export default [
   },
   //新增
   {
-    url: '/apiproxy/notify/add',
+    url: '/apiproxy/apiConf/add',
     type: 'post',
     response: config => {
       return {
@@ -38,7 +35,7 @@ export default [
   },
   //修改
   {
-    url: '/apiproxy/notify/update',
+    url: '/apiproxy/apiConf/update',
     type: 'post',
     response: config => {
       return {
@@ -49,7 +46,7 @@ export default [
   },
   //删除
   {
-    url: '/apiproxy/notify/del',
+    url: '/apiproxy/apiConf/del',
     type: 'post',
     response: config => {
       return {

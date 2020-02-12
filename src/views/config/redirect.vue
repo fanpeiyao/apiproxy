@@ -83,24 +83,24 @@
 
 
         <el-dialog title="编辑" :visible.sync="upFormVisible">
-            <el-form :model="updateForm" label-width="120px">
-               <el-form-item label="重定向url">
+            <el-form :model="updateForm" label-width="120px" :rules="rules"  ref="updateForm">
+               <el-form-item label="重定向url" prop="redirectcode">
                     <el-input v-model="updateForm.redirectcode" placeholder="请输入重定向url" />
                 </el-form-item>
 
-                <el-form-item label="环境编号">
+                <el-form-item label="环境编号" prop="redirectenv">
                     <el-input v-model="updateForm.redirectenv" placeholder="请输入环境编号"/>
                 </el-form-item>
 
-                <el-form-item label="重定向名称">
+                <el-form-item label="重定向名称" prop="redirectname">
                     <el-input v-model="updateForm.redirectname" placeholder="请输入重定向名称"/>
                 </el-form-item>
 
-                <el-form-item label="重定向地址">
+                <el-form-item label="重定向地址" prop="redirecthost">
                     <el-input v-model="updateForm.redirecthost" placeholder="请输入重定向地址"/>
                 </el-form-item>
 
-                <el-form-item label="生成的请求地址">
+                <el-form-item label="生成的请求地址" prop="requrl">
                     <el-input v-model="updateForm.requrl" disabled=""/>
                 </el-form-item>
             </el-form>
@@ -204,16 +204,20 @@ export default {
             })
         },
         onUpdate(row) {
-            this.listLoading = true;
-            updateRedirect(this.updateForm).then(result => {
-                if(result.retCode == '200'){
-                    this.$message({
-                        message: '修改成功！',
-                        type: 'success'
-                    });
-                    this.upFormVisible = false;
-                    this.listLoading = false;
-                    this.getData();
+            this.$refs['updateForm'].validate((valid) => {
+                if (valid) {
+                    this.listLoading = true;
+                    updateRedirect(this.updateForm).then(result => {
+                        if(result.retCode == '200'){
+                            this.$message({
+                                message: '修改成功！',
+                                type: 'success'
+                            });
+                            this.upFormVisible = false;
+                            this.listLoading = false;
+                            this.getData();
+                        }
+                    })
                 }
             })
         },

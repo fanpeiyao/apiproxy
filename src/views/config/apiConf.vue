@@ -28,66 +28,74 @@
         </el-table>
 
 
-
-<el-dialog title="新增配置" :visible.sync="addFormVisible">
-  <el-form :model="addForm">
-    <el-form-item label="项目编号" :label-width="formLabelWidth">
-      <el-input v-model="addForm.projectid" autocomplete="off" placeholder="请输入内容" ></el-input>
-    </el-form-item>
-
-    <el-form-item label="接口名称" :label-width="formLabelWidth">
-      <el-input v-model="addForm.apiname" autocomplete="off" placeholder="请输入内容" ></el-input>
-    </el-form-item>
-
-    <el-form-item label="key" :label-width="formLabelWidth">
-      <el-input v-model="addForm.key" autocomplete="off" placeholder="请输入内容" ></el-input>
-    </el-form-item>
-
-    <el-form-item label="value" :label-width="formLabelWidth">
-      <el-input v-model="addForm.value" autocomplete="off" placeholder="请输入内容" ></el-input>
-    </el-form-item>
-
-  </el-form>
-  <div slot="footer" class="dialog-footer">
-    <el-button @click="addFormVisible = false" size='small'>取 消</el-button>
-    <el-button type="primary" @click="onAdd()" size='small'>确 定</el-button>
-  </div>
-</el-dialog>
+        <!--分页-->
+		<el-col :span="24" class="toolbar" v-show='tableData.length>0' >
+			<el-pagination layout="prev, pager, next" :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="limit" :total="tableData.length" style="float:right;">
+			</el-pagination>
+		</el-col>
 
 
 
-<el-dialog title="编辑跳转接口" :visible.sync="upFormVisible">
-  <el-form :model="updateForm">
-    <el-form-item label="项目编号" :label-width="formLabelWidth">
-      <el-input v-model="updateForm.projectid" disabled autocomplete="off"></el-input>
-    </el-form-item>
+        <el-dialog title="新增" :visible.sync="addFormVisible">
+        <el-form :model="addForm" :rules="rules" ref="addForm">
+            <el-form-item label="项目编号" :label-width="formLabelWidth" prop="projectid">
+            <el-input v-model="addForm.projectid" autocomplete="off" placeholder="请输入内容" ></el-input>
+            </el-form-item>
+
+            <el-form-item label="接口名称" :label-width="formLabelWidth" prop="apiname">
+            <el-input v-model="addForm.apiname" autocomplete="off" placeholder="请输入内容" ></el-input>
+            </el-form-item>
+
+            <el-form-item label="key" :label-width="formLabelWidth" prop="key">
+            <el-input v-model="addForm.key" autocomplete="off" placeholder="请输入内容" ></el-input>
+            </el-form-item>
+
+            <el-form-item label="value" :label-width="formLabelWidth" prop="value">
+            <el-input v-model="addForm.value" autocomplete="off" placeholder="请输入内容" ></el-input>
+            </el-form-item>
+
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="addFormVisible = false" size='small'>取 消</el-button>
+            <el-button type="primary" @click="onAdd()" size='small'>确 定</el-button>
+        </div>
+        </el-dialog>
 
 
-    <el-form-item label="接口名称" :label-width="formLabelWidth">
-      <el-input v-model="updateForm.apiname" disabled autocomplete="off"></el-input>
-    </el-form-item>
 
-    <el-form-item label="key" :label-width="formLabelWidth">
-      <el-input v-model="updateForm.key" autocomplete="off"></el-input>
-    </el-form-item>
-
-    <el-form-item label="value" :label-width="formLabelWidth">
-      <el-input v-model="updateForm.value" autocomplete="off"></el-input>
-    </el-form-item>
+        <el-dialog title="编辑" :visible.sync="upFormVisible">
+        <el-form :model="updateForm" :rules="rules" ref="updateForm">
+            <el-form-item label="项目编号" :label-width="formLabelWidth">
+            <el-input v-model="updateForm.projectid" disabled autocomplete="off" placeholder="请输入内容" ></el-input>
+            </el-form-item>
 
 
-  </el-form>
-  <div slot="footer" class="dialog-footer">
-    <el-button @click="upFormVisible = false" size='small'>取 消</el-button>
-    <el-button type="primary" @click="onUpdate(scope.row)" size='small'>确 定</el-button>
-  </div>
-</el-dialog>
+            <el-form-item label="接口名称" :label-width="formLabelWidth">
+            <el-input v-model="updateForm.apiname" disabled autocomplete="off" placeholder="请输入内容" ></el-input>
+            </el-form-item>
+
+            <el-form-item label="key" :label-width="formLabelWidth" prop="key">
+            <el-input v-model="updateForm.key" autocomplete="off" placeholder="请输入内容" ></el-input>
+            </el-form-item>
+
+            <el-form-item label="value" :label-width="formLabelWidth" prop="value">
+            <el-input v-model="updateForm.value" autocomplete="off" placeholder="请输入内容" ></el-input>
+            </el-form-item>
+
+
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="upFormVisible = false" size='small'>取 消</el-button>
+            <el-button type="primary" @click="onUpdate()" size='small'>确 定</el-button>
+        </div>
+        </el-dialog>
 
 
   </div>
 </template>
 
 <script>
+import { getApiConf,addApiConf,updateApiConf,delApiConf } from '@/api/apiConf'
 export default {
   data() {
     return {
@@ -104,12 +112,25 @@ export default {
         },
         updateForm: {},
 
-        tableData: [ {
-            projectid: 'yzt',
-            apiname: '外汇来汇明细通知',
-            key:'GYJREMITNOTIFY',
-            value:'2.0.0.0'
-        }],
+
+        rules: {
+            projectid: [
+                { required: true, message: '请输入项目编号', trigger: 'blur' }
+            ],
+            apiname: [
+                { required: true, message: '请输入接口名称', trigger: 'blur' }
+            ],
+            key: [
+                { required: true, message: '请输入key', trigger: 'blur' }
+            ],
+            value: [
+                { required: true, message: '请输入value', trigger: 'blur' }
+            ]
+        },
+        tableData: [],
+        page:0,
+        limit:10,
+        currentpage:1,
         formLabelWidth: '120px',
         addFormVisible: false,
         upFormVisible: false,
@@ -117,28 +138,88 @@ export default {
 
 
   },
-  methods: {
-    onSubmit() {
-      this.$message('submit!')
-    },
-    onDel(row) {
-        console.log(row);
-      },
-    onUpdateForm(row) {
-        this.updateForm = row;
-        this.upFormVisible = true
-      },
-    onAdd(row) {
-        console.log(row);
-      },
-    onUpdate(row) {
-        console.log(row);
-      },
-       //
+    methods: {
+        onDel(row) {
+            this.listLoading = true;
+            console.log(row)
+            delApiConf(row).then(result => {
+                if(result.retCode == '200'){
+                    this.$message({
+                        message: '删除成功！',
+                        type: 'success'
+                    });
+                    this.addFormVisible = false;
+                    this.listLoading = false;
+                    this.getData();
+                }
+            })
+        },
+        onUpdateForm(row) {
+            this.updateForm = row;
+            this.upFormVisible = true
+        },
+        onAdd(row) {
+            this.$refs['addForm'].validate((valid) => {
+                if (valid) {
+                    this.listLoading = true;
+                    addApiConf(this.addForm).then(result => {
+                        if(result.retCode == '200'){
+                            this.$message({
+                                message: '新增成功！',
+                                type: 'success'
+                            });
+                            this.addFormVisible = false;
+                            this.listLoading = false;
+                            this.getData();
+                        }
+                    })
+                }
+            })
+        },
+        onUpdate(row) {
+            this.$refs['updateForm'].validate((valid) => {
+                if (valid) {
+                    this.listLoading = true;
+                    updateApiConf(this.updateForm).then(result => {
+                        if(result.retCode == '200'){
+                            this.$message({
+                                message: '修改成功！',
+                                type: 'success'
+                            });
+                            this.upFormVisible = false;
+                            this.listLoading = false;
+                            this.getData();
+                        }
+                    })
+                }
+            })
+        },
+        //
         handleSearch() {
 
         },
-  }
+        //获取列表
+        getData() {
+            var that = this;
+            this.listLoading = true;
+            var params = {};
+            params.page = this.page;
+            console.log(params)
+            getApiConf(params).then(result => {
+                that.listLoading = false;
+                that.tableData = result.data;
+            })
+
+        },
+        //分页展示
+        handleCurrentChange(val) {
+            this.page = val-1;
+            this.getData();
+        },
+    },
+    created(){
+        this.getData();
+    }
 }
 </script>
 

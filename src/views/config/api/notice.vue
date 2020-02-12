@@ -43,20 +43,20 @@
 
 
 <el-dialog title="新增通知接口" :visible.sync="addFormVisible">
-  <el-form :model="addForm">
-    <el-form-item label="项目编号" :label-width="formLabelWidth">
-      <el-input v-model="addForm.projectid" autocomplete="off"></el-input>
+  <el-form :model="addForm" :rules="rules" ref="addForm">
+    <el-form-item label="项目编号" :label-width="formLabelWidth"  prop="projectid">
+      <el-input v-model="addForm.projectid" autocomplete="off" placeholder="请输入项目编号" ></el-input>
     </el-form-item>
 
-    <el-form-item label="接口名称" :label-width="formLabelWidth">
-      <el-input v-model="addForm.apiname" autocomplete="off"></el-input>
+    <el-form-item label="接口名称" :label-width="formLabelWidth"  prop="apiname">
+      <el-input v-model="addForm.apiname" autocomplete="off" placeholder="请输入接口名称" ></el-input>
     </el-form-item>
 
-    <el-form-item label="key" :label-width="formLabelWidth">
-      <el-input v-model="addForm.key" autocomplete="off"></el-input>
+    <el-form-item label="key" :label-width="formLabelWidth"  prop="key">
+      <el-input v-model="addForm.key" autocomplete="off" placeholder="请输入key" ></el-input>
     </el-form-item>
 
-      <el-form-item label="版本号" :label-width="formLabelWidth">
+      <el-form-item label="版本号" :label-width="formLabelWidth" >
         <el-radio-group v-model="addForm.version">
           <el-radio  label='2.0.0.0'>2.0.0.0</el-radio>
           <el-radio  label='1.0.0.0'>1.0.0.0</el-radio>
@@ -67,8 +67,8 @@
         <el-switch v-model="addForm.base64"  active-value="1" inactive-value="0"/>
       </el-form-item>
 
-      <el-form-item label="报文" :label-width="formLabelWidth">
-        <el-input v-model="addForm.content" type="textarea"
+      <el-form-item label="报文" :label-width="formLabelWidth"  prop="content">
+        <el-input v-model="addForm.content" type="textarea"  placeholder="请输入报文内容"
   :autosize="{ minRows:10}"/>
       </el-form-item>
 
@@ -84,8 +84,8 @@
 
 
 <el-dialog title="编辑通知接口" :visible.sync="upFormVisible">
-  <el-form :model="updateForm">
-    <el-form-item label="项目编号" :label-width="formLabelWidth">
+  <el-form :model="updateForm" :rules="rules" ref="updateForm">
+    <el-form-item label="项目编号" :label-width="formLabelWidth" >
       <el-input v-model="updateForm.projectid" disabled autocomplete="off"></el-input>
     </el-form-item>
 
@@ -94,8 +94,8 @@
       <el-input v-model="updateForm.apiname" disabled autocomplete="off"></el-input>
     </el-form-item>
 
-    <el-form-item label="key" :label-width="formLabelWidth">
-      <el-input v-model="updateForm.key" autocomplete="off"></el-input>
+    <el-form-item label="key" :label-width="formLabelWidth" prop="key">
+      <el-input v-model="updateForm.key" autocomplete="off" placeholder="请输入key"></el-input>
     </el-form-item>
 
       <el-form-item label="版本号" :label-width="formLabelWidth">
@@ -109,15 +109,15 @@
         <el-switch v-model="updateForm.base64" active-value="1" inactive-value="0" />
       </el-form-item>
 
-      <el-form-item label="报文" :label-width="formLabelWidth">
-        <el-input v-model="updateForm.content" type="textarea"
+      <el-form-item label="报文" :label-width="formLabelWidth"  prop="content">
+        <el-input v-model="updateForm.content" type="textarea" placeholder="请输入报文内容"
   :autosize="{ minRows:10}"/>
       </el-form-item>
 
   </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="upFormVisible = false" size='small'>取 消</el-button>
-    <el-button type="primary" @click="onUpdate(scope.row)" size='small'>确 定</el-button>
+    <el-button type="primary" @click="onUpdate()" size='small'>确 定</el-button>
   </div>
 </el-dialog>
 
@@ -126,6 +126,7 @@
 </template>
 
 <script>
+import { getNotify,addNotify,updateNotify,delNotify } from '@/api/notifyConf'
 export default {
   data() {
     return {
@@ -141,16 +142,24 @@ export default {
             content:'',
             base64:'1'
         },
+
+        rules: {
+            projectid: [
+                { required: true, message: '请输入项目编号', trigger: 'blur' }
+            ],
+            apiname: [
+                { required: true, message: '请输入接口名称', trigger: 'blur' }
+            ],
+            key: [
+                { required: true, message: '请输入key', trigger: 'blur' }
+            ],
+            content: [
+                { required: true, message: '请输入报文内容', trigger: 'blur' }
+            ]
+        },
         updateForm: {},
 
-        tableData: [ {
-            projectid: 'yzt',
-            apiname: '外汇来汇明细通知',
-            key:'GYJREMITNOTIFY',
-            version:'2.0.0.0',
-            content:'ssssssssssssssssss',
-            base64:'1'
-        }],
+        tableData: [],
         formLabelWidth: '120px',
         addFormVisible: false,
         upFormVisible: false,
@@ -158,28 +167,88 @@ export default {
 
 
   },
-  methods: {
-    onSubmit() {
-      this.$message('submit!')
-    },
-    onDel(row) {
-        console.log(row);
-      },
-    onUpdateForm(row) {
-        this.updateForm = row;
-        this.upFormVisible = true
-      },
-    onAdd(row) {
-        console.log(row);
-      },
-    onUpdate(row) {
-        console.log(row);
-      },
-       //
+    methods: {
+        onSubmit() {
+        this.$message('submit!')
+        },
+        onDel(row) {
+            this.listLoading = true;
+            console.log(row)
+            delNotify(row).then(result => {
+                if(result.retCode == '200'){
+                    this.$message({
+                        message: '删除成功！',
+                        type: 'success'
+                    });
+                    this.addFormVisible = false;
+                    this.listLoading = false;
+                    this.getData();
+                }
+            })
+        },
+        onUpdateForm(row) {
+            this.updateForm = row;
+            this.upFormVisible = true
+        },
+        onAdd(row) {
+            this.$refs['addForm'].validate((valid) => {
+                if (valid) {
+                    this.listLoading = true;
+                    addNotify(this.addForm).then(result => {
+
+                        if(result.retCode == '200'){
+                            this.$message({
+                                message: '新增成功！',
+                                type: 'success'
+                            });
+                            this.addFormVisible = false;
+                            this.listLoading = false;
+                            this.getData();
+                        }
+                    })
+                }
+            })
+        },
+        onUpdate(row) {
+            this.$refs['updateForm'].validate((valid) => {
+                if (valid) {
+                    this.listLoading = true;
+                    updateNotify(this.updateForm).then(result => {
+                        if(result.retCode == '200'){
+                            this.$message({
+                                message: '修改成功！',
+                                type: 'success'
+                            });
+                            this.upFormVisible = false;
+                            this.listLoading = false;
+                            this.getData();
+                        }
+                    })
+                }
+            })
+        },
+        //
         handleSearch() {
 
         },
-  }
+        //获取列表
+        getData() {
+            var that = this;
+            this.listLoading = true;
+            var params = {};
+            params = this.query;
+            params.page = this.page;
+            getNotify(params).then(result => {
+                console.log(result)
+                that.listLoading = false;
+                that.tableData = result.data;
+            })
+
+        },
+    },
+    created(){
+        this.getData();
+    }
 }
 </script>
 

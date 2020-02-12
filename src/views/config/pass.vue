@@ -62,24 +62,24 @@
 
 
         <el-dialog title="编辑" :visible.sync="upFormVisible">
-            <el-form :model="updateForm" label-width="120px">
-                <el-form-item label="重定向url">
+            <el-form :model="updateForm" label-width="120px"  :rules="rules"  ref="updateForm" >
+                <el-form-item label="重定向url" prop="path">
                     <el-input v-model="updateForm.path" placeholder="请输入重定向url" />
                 </el-form-item>
 
-                <el-form-item label="名称">
+                <el-form-item label="名称" prop="name">
                     <el-input v-model="updateForm.name" placeholder="请输入名称"/>
                 </el-form-item>
 
-                <el-form-item label="透传目的地址">
+                <el-form-item label="透传目的地址" prop="url">
                     <el-input v-model="updateForm.url" placeholder="请输入透传目的地址"/>
                 </el-form-item>
 
-                <el-form-item label="重定向地址">
+                <el-form-item label="重定向地址" prop="redirecthost">
                     <el-input v-model="updateForm.redirecthost" placeholder="请输入重定向地址"/>
                 </el-form-item>
 
-                <el-form-item label="生成的请求地址">
+                <el-form-item label="生成的请求地址" prop="requrl">
                     <el-input v-model="updateForm.requrl" disabled=""/>
                 </el-form-item>
 
@@ -180,16 +180,20 @@ export default {
             })
         },
         onUpdate(row) {
-            this.listLoading = true;
-            updatePass(this.updateForm).then(result => {
-                if(result.retCode == '200'){
-                    this.$message({
-                        message: '修改成功！',
-                        type: 'success'
-                    });
-                    this.upFormVisible = false;
-                    this.listLoading = false;
-                    this.getData();
+            this.$refs['updateForm'].validate((valid) => {
+                if (valid) {
+                    this.listLoading = true;
+                    updatePass(this.updateForm).then(result => {
+                        if(result.retCode == '200'){
+                            this.$message({
+                                message: '修改成功！',
+                                type: 'success'
+                            });
+                            this.upFormVisible = false;
+                            this.listLoading = false;
+                            this.getData();
+                        }
+                    })
                 }
             })
         },

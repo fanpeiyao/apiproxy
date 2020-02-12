@@ -2,12 +2,12 @@ import Mock from 'mockjs'
 
 const data = Mock.mock({
   'items|3': [{
-    projectid: 'yzt',
-    apiname: '外汇来汇明细通知',
-    key: 'GYJREMITNOTIFY',
-    version: '2.0.0.0',
-    content: 'sssssssssssssssssssssvvvvvvvvvvvvvssssss',
-    base64: '1'
+        projectid: 'yzt',
+      apiname: '商户签约(分行接口)',
+      key: 'ADDAGREEMENT',
+      version: '2.0.0.0',
+      content: 'ssssssssssssssssss',
+      base64: '1'
   }]
 })
 
@@ -16,7 +16,7 @@ const data = Mock.mock({
 export default [
   //查询
   {
-    url: '/apiproxy/notify/list',
+    url: '/apiproxy/query/list',
     type: 'post',
     response: config => {
       return {
@@ -27,7 +27,7 @@ export default [
   },
   //新增
   {
-    url: '/apiproxy/notify/add',
+    url: '/apiproxy/query/add',
     type: 'post',
     response: config => {
       return {
@@ -38,7 +38,7 @@ export default [
   },
   //修改
   {
-    url: '/apiproxy/notify/update',
+    url: '/apiproxy/query/update',
     type: 'post',
     response: config => {
       return {
@@ -49,7 +49,7 @@ export default [
   },
   //删除
   {
-    url: '/apiproxy/notify/del',
+    url: '/apiproxy/query/del',
     type: 'post',
     response: config => {
       return {

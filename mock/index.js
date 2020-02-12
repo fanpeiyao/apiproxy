@@ -6,12 +6,20 @@ import project from './project'
 import req from './req'
 import assist from './assist'
 import config from './config'
+import notifyConf from './notifyConf'
+import queryConf from './queryConf'
+import jumpConf from './jumpConf'
+import apiConf from './apiConf'
 const mocks = [
   ...user,
   ...project,
   ...req,
   ...assist,
-  ...config
+  ...config,
+  ...notifyConf,
+  ...queryConf,
+  ...jumpConf,
+  ...apiConf
 ]
 
 // for front mock
