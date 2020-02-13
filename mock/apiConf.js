@@ -13,7 +13,7 @@ const data = Mock.mock({
 export default [
   //查询
   {
-    url: '/apiproxy/apiConf/list',
+    url: '/apiproxy/attachmentinfo/query',
     type: 'post',
     response: config => {
       return {
@@ -24,7 +24,7 @@ export default [
   },
   //新增
   {
-    url: '/apiproxy/apiConf/add',
+    url: '/apiproxy/attachmentinfo/add',
     type: 'post',
     response: config => {
       return {
@@ -35,7 +35,7 @@ export default [
   },
   //修改
   {
-    url: '/apiproxy/apiConf/update',
+    url: '/apiproxy/attachmentinfo/update',
     type: 'post',
     response: config => {
       return {
@@ -46,7 +46,7 @@ export default [
   },
   //删除
   {
-    url: '/apiproxy/apiConf/del',
+    url: '/apiproxy/attachmentinfo/del',
     type: 'post',
     response: config => {
       return {

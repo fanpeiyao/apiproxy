@@ -1,11 +1,20 @@
 import Mock from 'mockjs'
 
 const data = Mock.mock({
-  'items|3': [{
-    projectid: '@projectid',
-    projectname: '@projectname',
+  'items': [{
+    projectid: 'yzt',
+    projectname: '银账通',
     prikey: '@sentence(10, 20)'
-  }]
+  },
+    {
+        projectid: 'licai',
+        projectname: '理财',
+        prikey: '@sentence(10, 20)'
+    }, {
+      projectid: 'dzbl',
+      projectname: '到账伴侣',
+      prikey: '@sentence(10, 20)'
+    }]
 })
 
 let Random = Mock.Random;

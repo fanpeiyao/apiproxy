@@ -18,6 +18,19 @@ const passData = Mock.mock({
         requrl: '@url'
     }]
 })
+
+
+const interdata = Mock.mock({
+      'items|3': [{
+            projectid: 'yzt',
+            apiname: '假接口名称' + '@name',
+            key: '@id',
+            version: '2.0.0.0',
+            content: 'sssssssssssssssssssssvvvvvvvvvvvvvssssss',
+            base64: '1'
+      }]
+})
+
 export default [
   //查询
   {
@@ -104,6 +117,51 @@ export default [
         return {
           retCode: 200,
           retMsg: '刹车成功！'
+        }
+      }
+    },
+
+    //查询
+    {
+      url: '/apiproxy/interface/query',
+      type: 'post',
+      response: config => {
+        return {
+          retCode: 200,
+          data: interdata.items
+        }
+      }
+    },
+    //新增
+    {
+      url: '/apiproxy/interface/add',
+      type: 'post',
+      response: config => {
+        return {
+          retCode: 200,
+          retMsg: '新增成功！'
+        }
+      }
+    },
+    //修改
+    {
+      url: '/apiproxy/interface/update',
+      type: 'post',
+      response: config => {
+        return {
+          retCode: 200,
+          retMsg: '修改成功！'
+        }
+      }
+    },
+    //删除
+    {
+      url: '/apiproxy/interface/del',
+      type: 'post',
+      response: config => {
+        return {
+          retCode: 200,
+          retMsg: '删除成功！'
         }
       }
     }

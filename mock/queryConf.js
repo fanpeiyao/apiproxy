@@ -16,7 +16,7 @@ const data = Mock.mock({
 export default [
   //查询
   {
-    url: '/apiproxy/query/list',
+    url: '/apiproxy/queryinfo/query',
     type: 'post',
     response: config => {
       return {
@@ -27,7 +27,7 @@ export default [
   },
   //新增
   {
-    url: '/apiproxy/query/add',
+    url: '/apiproxy/queryinfo/add',
     type: 'post',
     response: config => {
       return {
@@ -38,7 +38,7 @@ export default [
   },
   //修改
   {
-    url: '/apiproxy/query/update',
+    url: '/apiproxy/queryinfo/update',
     type: 'post',
     response: config => {
       return {
@@ -49,7 +49,7 @@ export default [
   },
   //删除
   {
-    url: '/apiproxy/query/del',
+    url: '/apiproxy/queryinfo/del',
     type: 'post',
     response: config => {
       return {

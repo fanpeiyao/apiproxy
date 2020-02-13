@@ -7,7 +7,7 @@ const data = Mock.mock({
 export default [
     //公私钥生成
     {
-        url: '/apiproxy/assist/getCipher',
+        url: '/apiproxy/encryption/getKeyPair',
         type: 'post',
         response: config => {
             return {
@@ -18,7 +18,7 @@ export default [
     },
     //base64编码
     {
-      url: '/apiproxy/assist/base64Code',
+      url: '/apiproxy/encryption/BASE64Encrypt',
       type: 'post',
       response: config => {
         return {
@@ -31,7 +31,7 @@ export default [
     },
     //base64解码
     {
-      url: '/apiproxy/assist/base64Decode',
+      url: '/apiproxy/encryption/BASE64Decrypt',
       type: 'post',
       response: config => {
         return {
@@ -44,7 +44,7 @@ export default [
     },
     //RSA编码
     {
-      url: '/apiproxy/assist/rsaCode',
+      url: '/apiproxy/encryption/RSAEncrypt',
       type: 'post',
       response: config => {
         return {
@@ -57,7 +57,7 @@ export default [
     },
     //RSA解码
     {
-      url: '/apiproxy/assist/rsaDecode',
+      url: '/apiproxy/encryption/RSADecrypt',
       type: 'post',
       response: config => {
         return {

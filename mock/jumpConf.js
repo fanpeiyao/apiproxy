@@ -15,7 +15,7 @@ const data = Mock.mock({
 export default [
   //查询
   {
-    url: '/apiproxy/jump/list',
+    url: '/apiproxy/jump/query',
     type: 'post',
     response: config => {
       return {
