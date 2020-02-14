@@ -1,29 +1,29 @@
 import request from '@/utils/request'
 
-export function getLists(params) {
+export function getQuery(params) {
   return request({
-    url: '/apiproxy/query/list',
+    url: '/apiproxy/interface/query',
     method: 'post',
     params
   })
 }
 export function addQuery(params) {
   return request({
-    url: '/apiproxy/query/add',
+    url: '/apiproxy/interface/add',
     method: 'post',
     params
   })
 }
 export function updateQuery(params) {
   return request({
-    url: '/apiproxy/query/update',
+    url: '/apiproxy/interface/update',
     method: 'post',
     params
   })
 }
 export function delQuery(params) {
   return request({
-    url: '/apiproxy/query/del',
+    url: '/apiproxy/interface/del',
     method: 'post',
     params
   })

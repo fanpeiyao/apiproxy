@@ -1,35 +1,35 @@
 <template>
   <div class="app-container">
-    <el-form ref="form" :model="form" label-width="120px">
-       <el-form-item label="项目名称">
-        <el-select v-model="form.projectid" placeholder="请选择项目">
-          <el-option  v-for="item in projects"
-                        :key="item.projectid"
-                        :label="item.projectname"
-                        :value="item.projectid">
-        </el-option>
-        </el-select>
-      </el-form-item>
-    <el-form-item label="查询接口">
-        <el-select v-model="form.reqkey" placeholder="请选择要调试的查询接口">
-          <el-option  v-for="item in apis"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-        </el-option>
-        </el-select>
-      </el-form-item>
+    <el-form ref="form" :model="form" label-width="120px"  :rules="rules">
+        <el-form-item label="项目名称" prop="projectid">
+            <el-select v-model="form.projectid" placeholder="请选择项目" @change="getApis()">
+                <el-option  v-for="item in projects"
+                                :key="item.projectid"
+                                :label="item.projectname"
+                                :value="item.projectid">
+                </el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="版本号">
+            <el-radio-group v-model="form.version">
+            <el-radio  label='2.0.0.0'>2.0.0.0</el-radio>
+            <el-radio  label='1.0.0.0'>1.0.0.0（自19年7月起不再提供对接支持）</el-radio>
+            </el-radio-group>
+        </el-form-item>
+        <el-form-item label="查询接口" prop="apiname">
+            <el-select v-model="form.apiname" placeholder="请选择要调试的查询接口"  @change="getReqdata(form.apiname)">
+            <el-option  v-for="item in apis"
+                            :key="item.key"
+                            :label="item.apiname"
+                            :value="item.key">
+            </el-option>
+            </el-select>
+        </el-form-item>
 
    <!--    <el-form-item label="请求的key">
         <el-input v-model="form.reqkey" placeholder="请输入请求的key" />
       </el-form-item> -->
 
-      <el-form-item label="版本号">
-        <el-radio-group v-model="form.version">
-          <el-radio  label='2.0.0.0'>2.0.0.0</el-radio>
-          <el-radio  label='1.0.0.0'>1.0.0.0（自19年7月起不再提供对接支持）</el-radio>
-        </el-radio-group>
-      </el-form-item>
 
       <el-form-item label="发送渠道">
         <el-radio-group v-model="form.channel">
@@ -49,11 +49,11 @@
         <el-switch v-model="form.base64"  active-value="1" inactive-value="0" />
       </el-form-item>
 
-      <el-form-item label="私钥">
+      <!-- <el-form-item label="私钥">
         <el-input v-model="form.privateKey"  type="textarea" :autosize="{ minRows:3}" placeholder="请输入您生成的RSA私钥" />
-      </el-form-item>
+      </el-form-item> -->
 
-      <el-form-item label="接口发送报文">
+      <el-form-item label="接口发送报文"  prop="reqdata">
         <el-input v-model="form.reqdata" type="textarea" :autosize="{ minRows:10}"/>
       </el-form-item>
 
@@ -64,7 +64,7 @@
 
 
       <el-form-item label="接口返回报文">
-        <el-input v-model="form.respdata" :disabled="true" type="textarea" :autosize="{ minRows:10}"/>
+        <el-input v-model="respdata" :disabled="true" type="textarea" :autosize="{ minRows:10}"/>
       </el-form-item>
 
     </el-form>
@@ -72,55 +72,104 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-        form: {
-            merid: '',
-            reqdata: '',
-            respdata:'',
-            reqkey:'ADDAGREEMENT',
-            channel:'gyjapi',
-            version:'2.0.0.0',
-            base64:'1',
-            projectid:'yzt',
-            privateKey:'',
 
+import { getProjects} from '@/api/project'
+import { getInterface} from '@/api/config'
+import { queryApi} from '@/api/gyjapi'
+export default {
+    data() {
+        return {
+            form: {
+                reqdata: '',
+                apiname:'',
+                channel:'gyjapi',
+                version:'2.0.0.0',
+                base64:'1',
+                projectid:'',
+                prikey:'',
+            },
+            respdata:'',
+            rules: {
+                reqdata: [
+                    { required: true, message: '请输入报文内容', trigger: 'blur' },
+                ],
+                projectid: [
+                    { required: true, message: '请选择项目', trigger: 'change' }
+                ],
+                apiname: [
+                    { required: true, message: '请选择接口', trigger: 'change' }
+                ],
+            },
+            projects:[],
+            apis: [],
+            channels:[{
+                value: 'gyjapi',
+                label: '工银聚API'
+            }]
+        }
+    },
+    methods: {
+        onSubmit() {
+             this.$refs['form'].validate((valid) => {
+                if (valid) {
+                    //根据产品编号获取该产品私钥
+                    console.log(this.projects)
+                    var project = this.projects.find((i) => {
+                        return i.projectid == this.form.projectid;
+                    });
+                    this.form.prikey = project.prikey;
+
+                    queryApi(this.form).then(result => {
+                        this.$message('submit!');
+                        this.resdata = result.data.resdata;
+                    });
+                }
+            })
+        },
+        getProData() {
+            var that = this;
+            this.listLoading = true;
+            //分页展示待定
+            getProjects().then(result => {
+                that.listLoading = false;
+                that.projects = result.data;
+            })
 
         },
+        //查询通知接口列表 --- 若有翻页则前端selec要更改
+        getApis() {
+            var that = this;
+            this.listLoading = true;
+            var params=  {};
+            params.type=3;
+            params.projectid=this.form.projectid;
+            //分页展示待定
+            getInterface(params).then(result => {
+                that.listLoading = false;
+                that.apis = result.data;
+                console.log(that.apis)
+            })
 
-
-        projects:[],
-         apis: [{
-          value: 'ADDAGREEMENT',
-          label: '商户签约(分行接口)'
-        }, {
-          value: 'QUERYAGREEMENT',
-          label: '商户签约信息查询'
-        }, {
-          value: 'GYJWLHQRY',
-          label: '结算账户明细查询'
-        }],
-        channels:[{
-          value: 'gyjapi',
-          label: '工银聚API'
-        }]
-    }
-  },
-  methods: {
-    onSubmit() {
-      this.$message('submit!')
-    }
-  },
-  created() {
-      this.projects= [{
-        projectid:'yzt',
-        projectname:'银账通'
-      },{
-        projectid:'licai',
-        projectname:'理财'
-      }]
-  },
+        },
+        //根据apikey获取报文内容
+        getReqdata() {
+            var ret = this.apis.find((i) => {
+                return i.key == this.form.apiname;
+            });
+            this.form.reqdata = ret.content;
+        },
+    },
+    created() {
+        /* this.projects= [{
+            projectid:'yzt',
+            projectname:'银账通'
+        },{
+            projectid:'licai',
+            projectname:'理财'
+        }] */
+        //查询项目列表可供选择
+        this.getProData();
+    },
 }
 </script>
 

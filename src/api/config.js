@@ -69,3 +69,32 @@ export function delPass(params) {
     params
   })
 }
+
+export function getInterface(params) {
+  return request({
+    url: '/apiproxy/interface/query',
+    method: 'post',
+    params
+  })
+}
+export function addInterface(params) {
+  return request({
+    url: '/apiproxy/interface/add',
+    method: 'post',
+    params
+  })
+}
+export function updateInterface(params) {
+  return request({
+    url: '/apiproxy/interface/update',
+    method: 'post',
+    params
+  })
+}
+export function delInterface(params) {
+  return request({
+    url: '/apiproxy/interface/del',
+    method: 'post',
+    params
+  })
+}

@@ -7,6 +7,7 @@
                 <el-option key="1" label="2.0.0.0" value="2.0.0.0"></el-option>
                 <el-option key="2" label="1.0.0.0" value="1.0.0.0"></el-option>
             </el-select>
+            <el-input  size="small" v-model="query.projectid" placeholder="项目编号" class="handle-input mr10"></el-input>
             <el-input  size="small" v-model="query.transcode" placeholder="接口名称" class="handle-input mr10"></el-input>
             <el-button size="small" type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
         </div>
@@ -25,7 +26,7 @@
     <el-table-column  prop="key" label="key"  width="300">
     </el-table-column>
     <el-table-column  prop="version" label="版本号" width="120"></el-table-column>
-    <el-table-column  prop="content" label="报文" width="400"></el-table-column>
+    <el-table-column  prop="content" label="报文" width="1000"></el-table-column>
     <el-table-column  prop="base64" label="base64" width="120"></el-table-column>
 
 
@@ -40,6 +41,12 @@
     </el-table-column>
   </el-table>
 
+
+        <!--分页-->
+		<el-col :span="24" class="toolbar" v-show='tableData.length>0' >
+			<el-pagination layout="prev, pager, next" :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="limit" :total="tableData.length" style="float:right;">
+			</el-pagination>
+		</el-col>
 
 
 <el-dialog title="新增查询接口" :visible.sync="addFormVisible">
@@ -125,13 +132,14 @@
 </template>
 
 <script>
-import { getLists,addQuery,updateQuery,delQuery } from '@/api/queryConf'
+import { getInterface,addInterface,updateInterface,delInterface } from '@/api/config'
 export default {
   data() {
     return {
         query:{
             version:'',
-            transcode:''
+            transcode:'',
+            projectid:''
         },
         addForm: {
             projectid: '',
@@ -162,6 +170,9 @@ export default {
         formLabelWidth: '120px',
         addFormVisible: false,
         upFormVisible: false,
+        page:0,
+        limit:10,
+        currentpage:1,
     }
 
 
@@ -170,7 +181,8 @@ export default {
         onDel(row) {
             this.listLoading = true;
             console.log(row)
-            delQuery(row).then(result => {
+            row.type = '3';  //1通知2跳转3查询
+            delInterface(row).then(result => {
                 if(result.retCode == '200'){
                     this.$message({
                         message: '删除成功！',
@@ -191,7 +203,8 @@ export default {
             this.$refs['addForm'].validate((valid) => {
                 if (valid) {
                     this.listLoading = true;
-                    addQuery(this.addForm).then(result => {
+                    this.addForm.type = '3';  //1通知2跳转3查询
+                    addInterface(this.addForm).then(result => {
 
                         if(result.retCode == '200'){
                             this.$message({
@@ -210,7 +223,8 @@ export default {
              this.$refs['updateForm'].validate((valid) => {
                 if (valid) {
                     this.listLoading = true;
-                    updateQuery(this.updateForm).then(result => {
+                    this.updateForm.type = '3';  //1通知2跳转3查询
+                    updateInterface(this.updateForm).then(result => {
                         if(result.retCode == '200'){
                             this.$message({
                                 message: '修改成功！',
@@ -233,9 +247,10 @@ export default {
             var that = this;
             this.listLoading = true;
             var params = {};
+            params.type = '3';  //1通知2跳转3查询
             params = this.query;
             params.page = this.page;
-            getLists(params).then(result => {
+            getInterface(params).then(result => {
                 console.log(result)
                 that.listLoading = false;
                 that.tableData = result.data;
@@ -260,7 +275,7 @@ export default {
     width: 120px;
 }
 .handle-input {
-    width: 300px;
+    width: 240px;
     display: inline-block;
 }
 </style>
