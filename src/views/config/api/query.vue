@@ -257,6 +257,11 @@ export default {
             })
 
         },
+        //分页展示
+        handleCurrentChange(val) {
+            this.page = val-1;
+            this.getData();
+        },
     },
     created(){
         this.getData();
