@@ -102,14 +102,27 @@ export const constantRoutes = [
 
 
 
-    {
+
+
+
+]
+
+
+
+/**
+ * 异步挂载的路由
+ * 根据用户角色动态加载的路由
+ */
+export const asyncRoutes = [
+ {
         path: '/config',
         component: Layout,
         redirect: '/config/redirectConf',
         name: 'Config',
         meta: {
             title: '功能配置',
-            icon: 'config'
+            icon: 'config',
+            roles: ['admin', 'editor'] // you can set roles in root nav
         },
         children: [
             {
@@ -186,7 +199,8 @@ export const constantRoutes = [
                 path: 'project',
                 component: () => import('@/views/config/project'),
                 meta: {
-                    title: '项目管理'
+                    title: '项目管理',
+                    roles: ['admin']
                 }
             }]
     },
@@ -197,77 +211,107 @@ export const constantRoutes = [
         name: 'assist',
         meta: {
             title: '辅助功能',
-            icon: 'assist'
+            icon: 'assist',
+            // roles: ['admin'] // you can set roles in root nav
+            roles: ['admin', 'editor'] // you can set roles in root nav
         },
         children: [{
             path: 'cipher',
             name: 'cipher',
             component: () => import('@/views/assist/cipher'),
             meta: {
-                title: '公私钥生成',
-                icon: 'cipher'
+            title: '公私钥生成',
+            icon: 'cipher'
             }
         }, {
             path: 'RSA',
             name: 'RSA',
             component: () => import('@/views/assist/RSA/index'),
             meta: {
-                title: 'RSA',
-                icon: 'RSA'
+            title: 'RSA',
+            icon: 'RSA'
             },
             children: [{
-                  path: 'code',
-                  component: () => import('@/views/assist/RSA/code'),
-                  meta: {
-                    title: '编码',
-                  }
-                  }, {
-                    path: 'decode',
-                    component: () => import('@/views/assist/RSA/decode'),
-                    meta: {
-                      title: '解码',
-                    }
-                }
-            ]
+            path: 'code',
+            component: () => import('@/views/assist/RSA/code'),
+            meta: {
+                title: '编码',
+            }
+            }, {
+            path: 'decode',
+            component: () => import('@/views/assist/RSA/decode'),
+            meta: {
+                title: '解码',
+            }
+            }]
         }, {
             path: 'base64',
             name: 'base64',
             component: () => import('@/views/assist/base64/index'),
             meta: {
-                title: 'BASE64',
-                icon: 'code'
-            }, children: [{
-              path: 'code',
-              component: () => import('@/views/assist/base64/code'),
-              meta: {
+            title: 'BASE64',
+            icon: 'code'
+            },
+            children: [{
+            path: 'code',
+            component: () => import('@/views/assist/base64/code'),
+            meta: {
                 title: '编码',
-              }
+            }
             }, {
-              path: 'decode',
-              component: () => import('@/views/assist/base64/decode'),
-              meta: {
+            path: 'decode',
+            component: () => import('@/views/assist/base64/decode'),
+            meta: {
                 title: '解码',
-              }
+            }
             }]
         }, {
             path: 'websocket',
             name: 'websocket',
             component: () => import('@/views/assist/websocket'),
             meta: {
-                title: '请求查看(websocket)',
-                icon: 'websocket2'
+            title: '请求查看(websocket)',
+            icon: 'websocket2'
             }
         }]
     },
-
-
+    {
+      path: '/permission',
+      component: Layout,
+      redirect: '/permission/page',
+      alwaysShow: true,
+      name: 'Permission',
+      meta: {
+        title: '权限配置',
+        icon: 'lock',
+        roles: ['admin', 'editor'] // you can set roles in root nav
+      },
+      children: [
+        {
+          path: 'directive',
+          component: () => import('@/views/permission/directive'),
+          name: 'DirectivePermission',
+          meta: {
+            title: '指令权限'
+          }
+        },
+        {
+          path: 'role',
+          component: () => import('@/views/permission/role'),
+          name: 'RolePermission',
+          meta: {
+            title: '角色权限',
+            roles: ['admin']
+          }
+        }
+      ]
+    },
     {
         path: '*',
         redirect: '/404',
         hidden: true
     }
-]
-
+];
 const createRouter = () => new Router({
     // mode: 'history', // require service support
     scrollBehavior: () => ({

@@ -25,6 +25,9 @@
         </el-form-item>
 
 
+        <el-form-item label="商户编号"  prop="merid">
+            <el-input v-model="form.merid" placeholder="请输入商户编号" />
+        </el-form-item>
 
         <el-form-item label="用户编号"  prop="customerId">
             <el-input v-model="form.customerId" placeholder="请输入用户编号" />
@@ -91,6 +94,7 @@ export default {
                 customerId:'',
                 customerName:'',
                 mobile:'',
+                merid:''
             },
 
             rules: {
@@ -113,6 +117,9 @@ export default {
                     { required: true, message: '请选择接口', trigger: 'blur' }
                 ],
                 transcode: [
+                    { required: true, message: '请选择接口', trigger: 'blur' }
+                ],
+                merid: [
                     { required: true, message: '请选择接口', trigger: 'blur' }
                 ],
             },
@@ -161,7 +168,6 @@ export default {
         },
         //查询通知接口列表 --- 若有翻页则前端selec要更改
         getApis() {
-            console.log(1111111111)
             var that = this;
             this.listLoading = true;
             var params=  {};

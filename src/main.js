@@ -3,6 +3,9 @@ import App from './App'
 import router from './router'
 import store from './store'
 
+/* import axios from 'axios'
+Vue.prototype.$axios = axios //全局注册，使用方法为:this.$axios */
+
 import '@/icons' // icon
 import '@/permission' // permission control
 import 'normalize.css/normalize.css' // a modern alternative to CSS resets

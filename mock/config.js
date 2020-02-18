@@ -78,7 +78,7 @@ export default [
   },
     //查询
     {
-      url: '/apiproxy/pass/query',
+      url: '/apiproxy/passthrough/query',
       type: 'post',
       response: config => {
         return {
@@ -89,7 +89,7 @@ export default [
     },
     //新增
     {
-      url: '/apiproxy/pass/add',
+      url: '/apiproxy/passthrough/add',
       type: 'post',
       response: config => {
         return {
@@ -100,7 +100,7 @@ export default [
     },
     //修改
     {
-      url: '/apiproxy/pass/update',
+      url: '/apiproxy/passthrough/update',
       type: 'post',
       response: config => {
         return {
@@ -111,7 +111,7 @@ export default [
     },
     //删除
     {
-      url: '/apiproxy/pass/del',
+      url: '/apiproxy/passthrough/del',
       type: 'post',
       response: config => {
         return {

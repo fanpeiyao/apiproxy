@@ -1,7 +1,9 @@
-
 const tokens = {
   admin: {
     token: 'admin-token'
+  },
+  editor: {
+    token: 'editor-token'
   }
 }
 
@@ -9,8 +11,14 @@ const users = {
   'admin-token': {
     roles: ['admin'],
     introduction: '管理员',
-    avatar: '',
+      avatar: 'static/images/logo.png',
     name: 'Admin'
+  },
+  'editor-token': {
+    roles: ['editor'],
+    introduction: 'I am an editor',
+    avatar: 'static/images/logo.png',
+    name: 'Normal Editor'
   }
 }
 
@@ -20,6 +28,7 @@ export default [
     url: '/apiproxy/user/login',
     type: 'post',
     response: config => {
+        console.log(config)
       const { username } = config.body
       const token = tokens[username]
 
@@ -63,7 +72,7 @@ export default [
 
   // user logout
   {
-    url: '/paiproxy/user/logout',
+    url: '/apiproxy/user/logout',
     type: 'post',
     response: _ => {
       return {

@@ -2,6 +2,7 @@ import Mock from 'mockjs'
 import { param2Obj } from '../src/utils'
 
 import user from './user'
+import role from './role'
 import project from './project'
 import req from './req'
 import assist from './assist'
@@ -10,6 +11,7 @@ import apiConf from './apiConf'
 import gyjapi from './gyjapi'
 const mocks = [
   ...user,
+  ...role,
   ...project,
   ...req,
   ...assist,

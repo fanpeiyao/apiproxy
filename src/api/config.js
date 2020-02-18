@@ -38,7 +38,7 @@ export function delRedirect(params) {
 //重定项地址配置查询
 export function getPass(params) {
   return request({
-    url: '/apiproxy/pass/query',
+    url: '/apiproxy/passthrough/query',
     method: 'post',
     params
   })
@@ -46,7 +46,7 @@ export function getPass(params) {
 //新增重定项地址配置
 export function addPass(params) {
   return request({
-    url: '/apiproxy/pass/add',
+    url: '/apiproxy/passthrough/add',
     method: 'post',
     params
   })
@@ -55,7 +55,7 @@ export function addPass(params) {
 //修改重定项地址配置
 export function updatePass(params) {
   return request({
-    url: '/apiproxy/pass/update',
+    url: '/apiproxy/passthrough/update',
     method: 'post',
     params
   })
@@ -64,7 +64,7 @@ export function updatePass(params) {
 //删除重定项地址配置
 export function delPass(params) {
   return request({
-    url: '/apiproxy/pass/del',
+    url: '/apiproxy/passthrough/del',
     method: 'post',
     params
   })

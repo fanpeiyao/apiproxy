@@ -12,6 +12,7 @@
 
 <script>
 import { Navbar, Sidebar, AppMain } from './components'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Layout',
@@ -21,7 +22,7 @@ export default {
     AppMain
   },
   computed: {
-    sidebar() {
+   /*  sidebar() {
       return this.$store.state.app.sidebar
     },
     device() {
@@ -29,7 +30,14 @@ export default {
     },
     fixedHeader() {
       return this.$store.state.settings.fixedHeader
-    },
+    }, */
+
+    ...mapState({
+      sidebar: state => state.app.sidebar,
+      device: state => state.app.device,
+      fixedHeader: state => state.settings.fixedHeader
+    }),
+
     classObj() {
       return {
         hideSidebar: !this.sidebar.opened,

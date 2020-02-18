@@ -153,6 +153,7 @@ export default {
                         this.$message('submit!');
                         this.resdata = result.data.resdata;
                     });
+
                 }
             })
         },
@@ -199,6 +200,22 @@ export default {
         }] */
         //查询项目列表可供选择
         this.getProData();
+
+
+         /* this.$axios({
+                method:'post',
+                url:'https://gyj1.dccnet.com.cn/webgate/dzbldataview/dataviewdetail/query',
+                data:{    //这里是发送给后台的数据
+                      userId:'<!--结算账户明细通知接口xml--><GYJ><pub><TransCode>{{transCode}}</TransCode><CIS>{{CIS}}</CIS><TransDate>{{transDate}}</TransDate><TransTime>{{transTime}}</TransTime><fSeqno></fSeqno></pub><out><transtime>{{transFull}}</transtime><orderid>{{transCode}}</orderid><total>20</total><batch>1</batch><rds><rd><wlhsellerid>icbctest_jx|icbctest_jx</wlhsellerid><wlhcustomerid>wang01|wanghaibing02</wlhcustomerid><gjksellerid></gjksellerid><gjkcustomerid></gjkcustomerid><transno>17193000001</transno><transtime>20170712163034</transtime><transamount>0.01</transamount><payeracctno>6222081207005577777</payeracctno><payeracctname>王海兵</payeracctname><payeeacctno>1204060019278900305</payeeacctno><payeeacctname>嘉兴分行测试集团总公司</payeeacctname><abstractinfo>网转</abstractinfo><purpose>-</purpose><postscript>-</postscript><oppositebankno>-</oppositebankno><oppositebankname>-</oppositebankname><currentbalance>287.67</currentbalance><proofno>0</proofno><channel></channel><transcode>2713</transcode><drcrf>2</drcrf><tellerno>59</tellerno><type></type><cardno></cardno><cardname></cardname><remark1></remark1><remark2></remark2><remark3></remark3><currtype>1</currtype></rd></rds></out></GYJ>',
+                      token:'33',
+                }
+            }).then((response) =>{          //这里使用了ES6的语法
+                console.log(response)       //请求成功返回的数据
+            }).catch((error) =>{
+                console.log(error)       //请求失败返回的数据
+            }) */
+
+
     },
 }
 </script>

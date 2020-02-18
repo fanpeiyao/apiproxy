@@ -1,14 +1,18 @@
 <template>
     <div class="app-container">
 
-        <el-form ref="form"  >
-            <el-form-item>
-                <el-button type="primary" size="small" @click="addFormVisible = true">新增</el-button>
-            </el-form-item>
-        </el-form>
+         <div class="handle-box">
+            <el-button type="primary" size="small" @click="addFormVisible = true">新增</el-button>
+            <el-input  size="small" v-model="query.projectid" placeholder="项目编号" class="handle-input mr10"></el-input>
+            <el-input  size="small" v-model="query.path" placeholder="path" class="handle-input mr10"></el-input>
+            <el-input  size="small" v-model="query.name" placeholder="name" class="handle-input mr10"></el-input>
+            <el-button size="small" type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+        </div>
 
         <el-table  :data="tableData" border style="width: 100%">
 
+            <el-table-column fixed  prop="projectid" label="项目编号"  width="150">
+            </el-table-column>
             <el-table-column  prop="path" label="重定向url"  width="300"> </el-table-column>
             <el-table-column  prop="name" label="名称"  width="180"></el-table-column>
             <el-table-column  prop="url" label="透传目的地址" width="180"></el-table-column>
@@ -109,7 +113,11 @@ export default {
                 url: '',
                 redirecthost:'',
             },
-
+            query:{
+                path: '',
+                name: '',
+                projectid: '',
+            },
             rules: {
                 redirecthost: [
                     { required: true, message: '请输入重定向地址', trigger: 'blur' },
@@ -202,6 +210,10 @@ export default {
             this.page = val-1;
             this.getData();
         },
+        //
+        handleSearch() {
+            console.log(this.query)
+        },
         //获取列表
         getData() {
             var that = this;
@@ -221,5 +233,14 @@ export default {
     }
 }
 </script>
+<style lang="">
 
+.handle-box {
+    margin-bottom: 20px;
+}
+.handle-input {
+    width: 240px;
+    display: inline-block;
+}
+</style>
 
