@@ -51,14 +51,14 @@ const actions = {
         const { data } = response
 
         if (!data) {
-          reject('Verification failed, please Login again.')
+          reject('验证失败，请重新登录！')
         }
 
         const { roles, name, avatar, introduction } = data
 
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
+          reject('getInfo: 角色必须是非空数组！')
         }
 
         commit('SET_ROLES', roles)
@@ -81,10 +81,7 @@ const actions = {
         removeToken()
         resetRouter()
 
-        // reset visited views and cached views
-        // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
         dispatch('tagsView/delAllViews', null, { root: true })
-
         resolve()
       }).catch(error => {
         reject(error)
@@ -107,28 +104,19 @@ const actions = {
       commit,
       dispatch
     }, role) {
-      console.log(commit)
     return new Promise(async resolve => {
       const token = role + '-token'
-        console.log(token)
       commit('SET_TOKEN', token)
       setToken(token)
 
-      const { roles } = await dispatch('getInfo')
-
-        console.log(roles)
+      const { roles } = await dispatch('getInfo');
       resetRouter()
 
       // generate accessible routes map based on roles
       const accessRoutes = await dispatch('permission/generateRoutes', roles, { root: true })
 
-        console.log(accessRoutes)
-      // dynamically add accessible routes
-      //router.options.routes = router.options.routes.concat(accessRoutes)
       router.addRoutes(accessRoutes)
 
-        console.log(router.options.routes)
-      // reset visited views and cached views
       dispatch('tagsView/delAllViews', null, { root: true })
 
       resolve()

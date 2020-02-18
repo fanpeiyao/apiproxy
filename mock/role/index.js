@@ -3,7 +3,7 @@ import { deepClone } from '../../src/utils/index.js'
 import { asyncRoutes, constantRoutes } from './routes.js'
 
 const routes = deepClone([...constantRoutes, ...asyncRoutes])
-
+console.log(routes)
 const roles = [
   {
     key: 'admin',
@@ -42,7 +42,7 @@ export default [
     type: 'get',
     response: _ => {
       return {
-        code: 200,
+        retCode: 200,
         data: routes
       }
     }
@@ -51,10 +51,10 @@ export default [
   // mock get all roles form server
   {
     url: '/apiproxy/roles',
-    type: 'get',
+    type: 'post',
     response: _ => {
       return {
-        code: 200,
+        retCode: 200,
         data: roles
       }
     }
@@ -65,7 +65,7 @@ export default [
     url: '/apiproxy/role',
     type: 'post',
     response: {
-      code: 200,
+      retCode: 200,
       data: {
         key: Mock.mock('@integer(300, 5000)')
       }
@@ -77,7 +77,7 @@ export default [
     url: '/apiproxy/role/[A-Za-z0-9]',
     type: 'put',
     response: {
-      code: 200,
+      retCode: 200,
       data: {
         status: 'success'
       }
@@ -89,7 +89,7 @@ export default [
     url: '/apiproxy/role/[A-Za-z0-9]',
     type: 'delete',
     response: {
-      code: 200,
+      retCode: 200,
       data: {
         status: 'success'
       }

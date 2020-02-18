@@ -89,35 +89,34 @@ export default {
       immediate: true
     }
   },
-  methods: {
-    showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
-      }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
-    },
-    handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true;
-          console.log(this.loginForm)
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
+    methods: {
+        showPwd() {
+        if (this.passwordType === 'password') {
+            this.passwordType = ''
         } else {
-          console.log('登陆失败!')
-          return false
+            this.passwordType = 'password'
         }
-      })
+        this.$nextTick(() => {
+            this.$refs.password.focus()
+        })
+        },
+        handleLogin() {
+            this.$refs.loginForm.validate(valid => {
+                if (valid) {
+                    this.loading = true;
+                    this.$store.dispatch('user/login', this.loginForm).then(() => {
+                        this.$router.push({ path: this.redirect || '/' })
+                        this.loading = false
+                    }).catch(() => {
+                        this.loading = false
+                    })
+                } else {
+                    console.log('登陆失败!')
+                    return false
+                }
+            })
+        }
     }
-  }
 }
 </script>
 

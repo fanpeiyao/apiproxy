@@ -8,18 +8,18 @@ const tokens = {
 }
 
 const users = {
-  'admin-token': {
-    roles: ['admin'],
-    introduction: '管理员',
-      avatar: 'static/images/logo.png',
-    name: 'Admin'
-  },
-  'editor-token': {
-    roles: ['editor'],
-    introduction: 'I am an editor',
-    avatar: 'static/images/logo.png',
-    name: 'Normal Editor'
-  }
+    'admin-token': {
+        roles: ['admin'],
+        introduction: '管理员',
+        avatar: 'static/images/logo.png',
+        name: 'Admin'
+    },
+    'editor-token': {
+        roles: ['editor'],
+        introduction: 'I am an editor',
+        avatar: 'static/images/logo.png',
+        name: 'Normal Editor'
+    }
 }
 
 export default [
@@ -28,8 +28,7 @@ export default [
     url: '/apiproxy/user/login',
     type: 'post',
     response: config => {
-        console.log(config)
-      const { username } = config.body
+      const { username } = config.body;
       const token = tokens[username]
 
       // mock error
@@ -52,9 +51,10 @@ export default [
     url: '/apiproxy/user/info\.*',
     type: 'get',
     response: config => {
+        console.log(config)
       const { token } = config.query
       const info = users[token]
-
+        console.log(info)
       // mock error
       if (!info) {
         return {

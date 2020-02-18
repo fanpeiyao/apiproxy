@@ -114,7 +114,7 @@ export const constantRoutes = [
  * 根据用户角色动态加载的路由
  */
 export const asyncRoutes = [
- {
+    {
         path: '/config',
         component: Layout,
         redirect: '/config/redirectConf',

@@ -10,7 +10,7 @@ export function getRoutes() {
 export function getRoles() {
   return request({
     url: '/apiproxy/roles',
-    method: 'get'
+    method: 'post'
   })
 }
 
