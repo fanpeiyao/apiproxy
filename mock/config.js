@@ -1,16 +1,18 @@
 import Mock from 'mockjs'
 
 const data = Mock.mock({
-  'items|10': [{
-    redirectcode: '@id',
-    redirectenv: '@cword("一二")',
-    redirectname: '@ctitle',
-    redirecthost: '@url',
-    requrl: '@url'
-  }]
+    'items|5': [{
+        projectid: '@id',
+        redirectcode: '@id',
+        redirectenv: '@cword("一二")',
+        redirectname: '@ctitle',
+        redirecthost: '@url',
+        requrl: '@url'
+    }]
 })
 const passData = Mock.mock({
-    'items|10': [{
+    'items|5': [{
+        projectid: '@id',
         path: '@id',
         name: '@name',
         url: '@url',
@@ -25,7 +27,7 @@ const interdata = Mock.mock({
             projectid: 'yzt',
             apiname: '假接口名称' + '@name',
             key: '@id',
-            version: '2.0.0.0',
+            version: '1.0.0.0',
             content: 'sssssssssssssssssssssvvvvvvvvvvvvvssssss',
             base64: '1'
       }]

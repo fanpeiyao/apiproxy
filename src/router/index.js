@@ -284,6 +284,7 @@ export const asyncRoutes = [
       meta: {
         title: '权限配置',
         icon: 'lock',
+        // roles: ['admin']
         roles: ['admin', 'editor'] // you can set roles in root nav
       },
       children: [

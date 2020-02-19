@@ -35,7 +35,7 @@
             label="操作"
                 width="100">
                 <template slot-scope="scope">
-                    <el-button @click="onDel(scope.row)" type="text" size="small">删除</el-button>
+                    <el-button @click="onDel(scope.row)" type="text" size="small"  v-permission="['admin']" >删除</el-button>
                     <el-button type="text" size="small"  @click="onUpdateForm(scope.row)" >修改</el-button>
                 </template>
             </el-table-column>
@@ -134,7 +134,9 @@
 
 <script>
 import { getInterface,addInterface,updateInterface,delInterface } from '@/api/config'
+import permission from '@/directive/permission/index.js' // 权限判断指令
 export default {
+  directives: { permission },
   data() {
     return {
         query:{

@@ -239,7 +239,7 @@ export default {
     margin-bottom: 20px;
 }
 .handle-input {
-    width: 240px;
+    width: 240px!important;
     display: inline-block;
 }
 </style>

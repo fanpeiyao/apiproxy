@@ -8,6 +8,12 @@
             </el-select>
         </el-form-item>
 
+        <el-form-item label="跳转接口" prop="apiname">
+            <el-select v-model="form.apiname" placeholder="请选择要调试的跳转接口"   @change="getReqdata()">
+                <el-option  v-for="item in apis"  :key="item.key" :label="item.apiname"  :value="item.key"></el-option>
+            </el-select>
+        </el-form-item>
+        
         <el-form-item label="版本号">
             <el-radio-group v-model="form.version">
             <el-radio  label='2.0.0.0'>2.0.0.0</el-radio>
@@ -15,12 +21,8 @@
             </el-radio-group>
         </el-form-item>
 
-            <el-form-item label="跳转接口" prop="apiname">
-                <el-select v-model="form.apiname" placeholder="请选择要调试的跳转接口"   @change="getReqdata()">
-                    <el-option  v-for="item in apis"  :key="item.key" :label="item.apiname"  :value="item.key"></el-option>
-                </el-select>
-            </el-form-item>
-        <el-form-item label="Trancode"  prop="transcode">
+
+        <el-form-item label="Transcode"  prop="transcode">
             <el-input v-model="form.transcode" placeholder="请输入transcode" />
         </el-form-item>
 
@@ -44,19 +46,19 @@
             </el-select>
         </el-form-item>
 
-        <el-form-item label="Trancode">
-            <el-input v-model="form.trancode" placeholder="请输入Trancode" />
-        </el-form-item> -->
-
 
         <el-form-item label="Base64编码">
             <el-switch v-model="form.base64"  active-value="1" inactive-value="0"/>
         </el-form-item>
 
 
-        <!-- <el-form-item label="跳转地址">
+        <el-form-item label="跳转地址">
             <el-input v-model="form.url" placeholder="请输入url" />
         </el-form-item> -->
+
+        <el-form-item label="企业私钥"  prop="prikey">
+            <el-input v-model="form.prikey" type="textarea"  placeholder="请输入您的私钥"  :autosize="{ minRows:3}"/>
+        </el-form-item>
 
         <el-form-item label="接口发送报文" prop="reqdata">
             <el-input v-model="form.reqdata" type="textarea"
@@ -87,14 +89,15 @@ export default {
                 transcode: '',
                 url:'',
                 reqdata: '',
-                trancode:'',
                 version:'2.0.0.0',
                 base64:'1',//0-关 1-开
                 roleid:'1',
                 customerId:'',
                 customerName:'',
                 mobile:'',
-                merid:''
+                merid:'',
+                apiname:'',
+                prikey:''
             },
 
             rules: {
@@ -122,6 +125,9 @@ export default {
                 merid: [
                     { required: true, message: '请选择接口', trigger: 'blur' }
                 ],
+                prikey: [
+                    { required: true, message: '请输入企业私钥', trigger: 'blur' }
+                ],
             },
             projects:[],
             apis: [],
@@ -144,11 +150,10 @@ export default {
              this.$refs['form'].validate((valid) => {
                 if (valid) {
                     //根据产品编号获取该产品私钥
-                    console.log(this.projects)
-                    var project = this.projects.find((i) => {
+                    /* var project = this.projects.find((i) => {
                         return i.projectid == this.form.projectid;
                     });
-                    this.form.prikey = project.prikey;
+                    this.form.prikey = project.prikey; */
 
                     jumpApi(this.form).then(result => {
                         this.$message('submit!');
@@ -183,10 +188,12 @@ export default {
         },
         //根据apikey获取报文内容
         getReqdata() {
+
             var ret = this.apis.find((i) => {
                 return i.key == this.form.apiname;
             });
             this.form.reqdata = ret.content;
+            this.form.version = ret.version;
         },
   },
   created() {

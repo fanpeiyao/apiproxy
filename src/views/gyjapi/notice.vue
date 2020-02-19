@@ -8,17 +8,18 @@
             </el-select>
         </el-form-item>
 
+        <el-form-item label="通知接口" prop="apiname">
+            <el-select v-model="form.apiname" placeholder="请选择要调试的通知接口"   @change="getReqdata()">
+                <el-option  v-for="item in apis"  :key="item.key" :label="item.apiname"  :value="item.key"></el-option>
+            </el-select>
+        </el-form-item>
+
+
         <el-form-item label="版本号" >
             <el-radio-group v-model="form.version">
                 <el-radio  label='2.0.0.0'>2.0.0.0</el-radio>
                 <el-radio  label='1.0.0.0'>1.0.0.0（自19年7月起不再提供对接支持）</el-radio>
             </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="通知接口" prop="apiname">
-            <el-select v-model="form.apiname" placeholder="请选择要调试的通知接口"   @change="getReqdata()">
-                <el-option  v-for="item in apis"  :key="item.key" :label="item.apiname"  :value="item.key"></el-option>
-            </el-select>
         </el-form-item>
 
         <el-form-item label="通知地址" prop="notifyurl">
@@ -58,7 +59,16 @@
             <el-switch v-model="form.base64"  active-value="1" inactive-value="0"/>
         </el-form-item>
 
-        <el-form-item label="接口发送报文"  prop="reqdata">
+        <el-form-item label="企业私钥"  prop="prikey">
+            <el-input v-model="form.prikey" type="textarea"  placeholder="请输入您的私钥"  :autosize="{ minRows:3}"/>
+        </el-form-item>
+
+        <el-form-item>
+            <el-button type="primary" @click="onSubmit">确认</el-button>
+        </el-form-item>
+
+
+        <!-- <el-form-item label="接口发送报文"  prop="reqdata">
             <el-input v-model="form.reqdata" type="textarea"  :autosize="{ minRows:10}"/>
         </el-form-item>
 
@@ -70,7 +80,22 @@
 
         <el-form-item label="接口返回报文">
             <el-input v-model="resdata" :disabled="true" type="textarea" :autosize="{ minRows:10}"/>
-        </el-form-item>
+        </el-form-item> -->
+
+
+        <el-row>
+            <el-col :span="12">
+                 <el-form-item label="接口发送报文"  prop="reqdata">
+                    <el-input v-model="form.reqdata" type="textarea"  :autosize="{ minRows:20}"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="接口返回报文">
+                    <el-input v-model="resdata" :disabled="true" type="textarea" :autosize="{ minRows:20}"/>
+                </el-form-item>
+            </el-col>
+        </el-row>
+
 
         </el-form>
     </div>
@@ -88,7 +113,6 @@ export default {
         form: {
             apiname: '',
             reqdata: '',
-            resdata:'',
             notifyurl:'',
             channel:'gyj',
             version:'2.0.0.0',
@@ -110,6 +134,9 @@ export default {
             ],
             apiname: [
                 { required: true, message: '请选择接口', trigger: 'change' }
+            ],
+            prikey: [
+                { required: true, message: '请输入企业私钥', trigger: 'blur' }
             ],
         },
 
@@ -143,11 +170,11 @@ export default {
              this.$refs['form'].validate((valid) => {
                 if (valid) {
                     //根据产品编号获取该产品私钥
-                    console.log(this.projects)
+                    /* console.log(this.projects)
                     var project = this.projects.find((i) => {
                         return i.projectid == this.form.projectid;
                     });
-                    this.form.prikey = project.prikey;
+                    this.form.prikey = project.prikey; */
 
                     noticeApi(this.form).then(result => {
                         this.$message('submit!');
@@ -188,6 +215,8 @@ export default {
                 return i.key == this.form.apiname;
             });
             this.form.reqdata = ret.content;
+            //根据接口展示版本？？？
+            this.form.version = ret.version;
         },
     },
     created() {
