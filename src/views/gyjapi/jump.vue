@@ -13,7 +13,7 @@
                 <el-option  v-for="item in apis"  :key="item.key" :label="item.apiname"  :value="item.key"></el-option>
             </el-select>
         </el-form-item>
-        
+
         <el-form-item label="版本号">
             <el-radio-group v-model="form.version">
             <el-radio  label='2.0.0.0'>2.0.0.0</el-radio>
@@ -60,10 +60,10 @@
             <el-input v-model="form.prikey" type="textarea"  placeholder="请输入您的私钥"  :autosize="{ minRows:3}"/>
         </el-form-item>
 
-        <el-form-item label="接口发送报文" prop="reqdata">
+        <!-- <el-form-item label="接口发送报文" prop="reqdata">
             <el-input v-model="form.reqdata" type="textarea"
     :autosize="{ minRows:10}"/>
-        </el-form-item>
+        </el-form-item> -->
 
 
         <el-form-item>
@@ -71,6 +71,42 @@
         </el-form-item>
 
 
+        <el-row>
+            <el-col :span="12">
+                 <el-form-item label="接口发送报文"  prop="reqdata">
+                    <el-input v-model="form.reqdata" type="textarea"  :autosize="{ minRows:20}"/>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <label  class="el-form-item__label" style="width: 120px;">接口示例报文</label>
+                <div class="el-form-item__content example">
+                    <section class="normal markdown-section">
+
+                        <pre><code class="lang-xml"><span class="php"><span class="hljs-meta">&lt;?</span>xml version=<span class="hljs-string">"1.0"</span> encoding = <span class="hljs-string">"UTF-8"</span><span class="hljs-meta">?&gt;</span></span>
+<span class="hljs-tag">&lt;<span class="hljs-name">GYJ</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">pub</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">TransCode</span>&gt;</span>DZBLSIGN_Develop2<span class="hljs-tag">&lt;/<span class="hljs-name">TransCode</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">MerId</span>&gt;</span>daizhangtest<span class="hljs-tag">&lt;/<span class="hljs-name">MerId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">TranDate</span>&gt;</span>20181225<span class="hljs-tag">&lt;/<span class="hljs-name">TranDate</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">TranTime</span>&gt;</span>093737<span class="hljs-tag">&lt;/<span class="hljs-name">TranTime</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">TransNo</span>&gt;</span>TN20181225093737<span class="hljs-tag">&lt;/<span class="hljs-name">TransNo</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">pub</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">in</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Techno</span>&gt;</span>daizhangtest<span class="hljs-tag">&lt;/<span class="hljs-name">Techno</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Intno</span>&gt;</span>10086<span class="hljs-tag">&lt;/<span class="hljs-name">Intno</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Accname</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Accname</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Accno</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Accno</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">EnterprizeCreditNo</span>&gt;</span>1122334455<span class="hljs-tag">&lt;/<span class="hljs-name">EnterprizeCreditNo</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">in</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">GYJ</span>&gt;</span>
+</code></pre>
+
+
+                                </section>
+                </div>
+
+            </el-col>
+        </el-row>
 
 
         </el-form>
@@ -99,7 +135,7 @@ export default {
                 apiname:'',
                 prikey:''
             },
-
+            resdata:'',
             rules: {
                 reqdata: [
                     { required: true, message: '请输入报文内容', trigger: 'blur' },
@@ -206,6 +242,15 @@ export default {
 <style scoped>
 .line{
   text-align: center;
+}
+.example{
+    font-size: inherit;
+    color: #606266;
+    background-color: #FFF;
+    background-image: none;
+    border: 1px solid #DCDFE6;
+    border-radius: 4px;
+    margin-left: 120px;
 }
 </style>
 

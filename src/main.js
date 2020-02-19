@@ -18,10 +18,10 @@ import '@/styles/index.css' // global css
 
 Vue.config.productionTip = false
 
-if (process.env.NODE_ENV === 'development') {
+// if (process.env.NODE_ENV === 'development') {
   const { mockXHR } = require('../mock')
   mockXHR()
-}
+// }
 
 new Vue({
   el: '#app',

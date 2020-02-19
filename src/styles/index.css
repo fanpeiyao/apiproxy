@@ -1,3 +1,7 @@
+@import './typora/font.css';
+@import './typora/style.css';
+@import './typora/website.css';
+
 body {
     height: 100%;
     -moz-osx-font-smoothing: grayscale;
@@ -5,7 +9,6 @@ body {
     text-rendering: optimizeLegibility;
     font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif
 }
-
 label {
     font-weight: 700
 }

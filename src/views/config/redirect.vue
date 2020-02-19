@@ -37,8 +37,9 @@
             <el-table-column  prop="requrl" label="配置生成的请求地址" width="300"></el-table-column>
 
 
-            <el-table-column fixed="right"  label="操作"  width="100">
+            <el-table-column fixed="right"  label="操作"  width="170">
                 <template slot-scope="scope">
+                    <el-button @click="onSubmit(scope.row)" type="text" size="small">请求重定向</el-button>
                     <el-button @click="onDel(scope.row)" type="text" size="small">删除</el-button>
                     <el-button type="text" size="small"  @click="onUpdateForm(scope.row)" >修改</el-button>
                 </template>
@@ -118,6 +119,8 @@
 <script>
 import { getRedirect,addRedirect,updateRedirect,delRedirect } from '@/api/config'
 
+import { redirect } from '@/api/req'
+
 export default {
   data() {
     return {
@@ -165,8 +168,11 @@ export default {
     }
   },
     methods: {
-        onSubmit() {
-            this.$message('submit!')
+        onSubmit(row) {
+            redirect(row).then(response => {
+                console.log(response.data.requrl);
+                window.open(response.data.requrl, '_blank').location;
+            })
         },
         onDel(row) {
             this.listLoading = true;
