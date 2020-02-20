@@ -60,9 +60,6 @@
         </el-form-item>
 
 
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">确认</el-button>
-      </el-form-item>
       <!-- <el-form-item label="接口发送报文"  prop="reqdata">
         <el-input v-model="form.reqdata" type="textarea" :autosize="{ minRows:10}"/>
       </el-form-item>
@@ -84,12 +81,20 @@
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="接口返回报文">
-                    <el-input v-model="resdata" :disabled="true" type="textarea" :autosize="{ minRows:20}"/>
+                <el-form-item label="示例报文">
+                    <el-input v-model="form.exdata" :disabled="true" type="textarea" :autosize="{ minRows:20}"/>
                 </el-form-item>
             </el-col>
         </el-row>
 
+
+        <el-form-item>
+            <el-button type="primary" @click="onSubmit">确认</el-button>
+        </el-form-item>
+
+         <el-form-item label="接口返回报文">
+            <el-input v-model="resdata" :disabled="true" type="textarea" :autosize="{ minRows:10}"/>
+        </el-form-item>
     </el-form>
   </div>
 </template>
@@ -110,8 +115,9 @@ export default {
                 base64:'1',
                 projectid:'',
                 prikey:'',
+                exdata:''//示例代码
             },
-            respdata:'',
+            resdata:'',
             rules: {
                 reqdata: [
                     { required: true, message: '请输入报文内容', trigger: 'blur' },
@@ -184,6 +190,7 @@ export default {
             this.form.reqdata = ret.content;
             //根据接口展示版本？？？
             this.form.version = ret.version;
+            this.form.exdata = 'sssssssssss'
         },
     },
     created() {
