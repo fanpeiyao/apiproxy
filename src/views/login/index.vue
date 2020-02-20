@@ -108,7 +108,12 @@ export default {
                         this.$router.push({ path: this.redirect || '/' })
                         this.loading = false
                     }).catch(() => {
-                        this.loading = false
+                        this.loading = false;
+                        this.$message({
+                            showClose: true,
+                            message: '用户名或密码错误',
+                            type: 'error'
+                        });
                     })
                 } else {
                     console.log('登陆失败!')

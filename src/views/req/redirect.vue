@@ -128,6 +128,10 @@ export default {
             })
 
         },
+        //
+        handleSearch() {
+            console.log(this.query)
+        },
         //分页展示
         handleCurrentChange(val) {
             this.page = val-1;
