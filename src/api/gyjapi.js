@@ -10,7 +10,7 @@ export function getReqdata(params) {
 
 export function noticeApi(params) {
   return request({
-    url: '/apiproxy/gyjapi/notice ',
+    url: '/apiproxy/debug/notice ',
     method: 'post',
     params
   })
@@ -18,7 +18,7 @@ export function noticeApi(params) {
 
 export function jumpApi(params) {
   return request({
-    url: '/apiproxy/gyjapi/jump ',
+    url: '/apiproxy/debug/jump ',
     method: 'post',
     params
   })
@@ -26,7 +26,7 @@ export function jumpApi(params) {
 
 export function queryApi(params) {
   return request({
-    url: '/apiproxy/gyjapi/query ',
+    url: '/apiproxy/debug/query ',
     method: 'post',
     params
   })

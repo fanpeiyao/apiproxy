@@ -56,7 +56,7 @@ export default [
 
   //通知接口
   {
-    url: '/apiproxy/gyjapi/notice',
+    url: '/apiproxy/debug/notice',
     type: 'post',
     response: config => {
       return {
@@ -70,7 +70,7 @@ export default [
   },
   //修改
   {
-    url: '/apiproxy/gyjapi/query',
+    url: '/apiproxy/debug/query',
     type: 'post',
     response: config => {
       return {
@@ -84,7 +84,7 @@ export default [
   },
   //删除
   {
-    url: '/apiproxy/gyjapi/jump',
+    url: '/apiproxy/debug/jump',
     type: 'post',
     response: config => {
       return {

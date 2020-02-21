@@ -1,6 +1,6 @@
-@import './typora/font.css';
+/* @import './typora/font.css';
 @import './typora/style.css';
-@import './typora/website.css';
+@import './typora/website.css'; */
 
 body {
     height: 100%;
@@ -9,6 +9,7 @@ body {
     text-rendering: optimizeLegibility;
     font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif
 }
+
 label {
     font-weight: 700
 }
@@ -602,4 +603,22 @@ blockquote {
     font-size: 12px;
     color: #999;
     margin-left: 120px;
+}
+
+section.normal pre,
+section.normal code {
+    min-height: 432px;
+}
+
+xmp {
+    overflow: auto;
+    word-wrap: normal;
+    margin: 0 !important;
+    line-height: 20px;
+    padding: .85em 1em;
+    margin-bottom: 1.275em;
+    background: #f7f7f7;
+    height: 432px;
+    font-family: Consolas, Liberation Mono, Menlo, Courier, monospace;
+    font-size: 12px !important;
 }

@@ -1,5 +1,6 @@
 <template>
     <div class="app-container">
+
         <el-form ref="form" :model="form" label-width="120px" :rules="rules">
         <el-form-item label="项目名称" prop="projectid">
             <el-select v-model="form.projectid" placeholder="请选择项目"  @change="getApis()">
@@ -70,7 +71,6 @@
             <el-button type="primary" @click="onSubmit">确认</el-button>
         </el-form-item>
 
-
         <el-row>
             <el-col :span="12">
                  <el-form-item label="接口发送报文"  prop="reqdata">
@@ -81,28 +81,16 @@
                 <label  class="el-form-item__label" style="width: 120px;">接口示例报文</label>
                 <div class="el-form-item__content example">
                     <section class="normal markdown-section">
+                        <!-- <pre> -->
+                            <!-- <code class="lang-xml"> -->
+                            <xmp v-html="form.samplecode"></xmp>
+                        <!-- </code> -->
+                        <!-- </pre> -->
 
-                        <pre><code class="lang-xml"><span class="php"><span class="hljs-meta">&lt;?</span>xml version=<span class="hljs-string">"1.0"</span> encoding = <span class="hljs-string">"UTF-8"</span><span class="hljs-meta">?&gt;</span></span>
-<span class="hljs-tag">&lt;<span class="hljs-name">GYJ</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">pub</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">TransCode</span>&gt;</span>DZBLSIGN_Develop2<span class="hljs-tag">&lt;/<span class="hljs-name">TransCode</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">MerId</span>&gt;</span>daizhangtest<span class="hljs-tag">&lt;/<span class="hljs-name">MerId</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">TranDate</span>&gt;</span>20181225<span class="hljs-tag">&lt;/<span class="hljs-name">TranDate</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">TranTime</span>&gt;</span>093737<span class="hljs-tag">&lt;/<span class="hljs-name">TranTime</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">TransNo</span>&gt;</span>TN20181225093737<span class="hljs-tag">&lt;/<span class="hljs-name">TransNo</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">pub</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">in</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">Techno</span>&gt;</span>daizhangtest<span class="hljs-tag">&lt;/<span class="hljs-name">Techno</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">Intno</span>&gt;</span>10086<span class="hljs-tag">&lt;/<span class="hljs-name">Intno</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">Accname</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Accname</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">Accno</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">Accno</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">EnterprizeCreditNo</span>&gt;</span>1122334455<span class="hljs-tag">&lt;/<span class="hljs-name">EnterprizeCreditNo</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">in</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">GYJ</span>&gt;</span>
-</code></pre>
+                    </section>
 
 
-                                </section>
+
                 </div>
 
             </el-col>
@@ -117,6 +105,7 @@
 import { getProjects} from '@/api/project'
 import { getInterface} from '@/api/config'
 import { jumpApi} from '@/api/gyjapi'
+import { showXml} from '@/utils'
 export default {
     data() {
         return {
@@ -133,7 +122,8 @@ export default {
                 mobile:'',
                 merid:'',
                 apiname:'',
-                prikey:''
+                prikey:'',
+                samplecode:''
             },
             resdata:'',
             rules: {
@@ -178,7 +168,7 @@ export default {
                     value: 'icbc',
                     label: '总行发送'
                 }
-            ]
+            ],
         }
     },
     methods: {
@@ -190,7 +180,7 @@ export default {
                         return i.projectid == this.form.projectid;
                     });
                     this.form.prikey = project.prikey; */
-
+                    this.form.reqdata = encodeURI(this.form.reqdata);
                     jumpApi(this.form).then(result => {
                         this.$message('submit!');
                     });
@@ -230,6 +220,8 @@ export default {
             });
             this.form.reqdata = ret.content;
             this.form.version = ret.version;
+
+            this.form.samplecode =  showXml(ret.samplecode);
         },
   },
   created() {

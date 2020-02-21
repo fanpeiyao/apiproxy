@@ -81,9 +81,18 @@
                 </el-form-item>
             </el-col>
             <el-col :span="12">
-                <el-form-item label="示例报文">
-                    <el-input v-model="form.exdata" :disabled="true" type="textarea" :autosize="{ minRows:20}"/>
-                </el-form-item>
+                 <label  class="el-form-item__label" style="width: 120px;">接口示例报文</label>
+                <div class="el-form-item__content example">
+                    <section class="normal markdown-section">
+                        <!-- <pre> -->
+                            <!-- <code class="lang-xml"> -->
+                            <xmp v-html="form.samplecode"></xmp>
+                        <!-- </code> -->
+                        <!-- </pre> -->
+
+                    </section>
+
+                </div>
             </el-col>
         </el-row>
 
@@ -104,6 +113,7 @@
 import { getProjects} from '@/api/project'
 import { getInterface} from '@/api/config'
 import { queryApi} from '@/api/gyjapi'
+import { showXml} from '@/utils'
 export default {
     data() {
         return {
@@ -115,7 +125,7 @@ export default {
                 base64:'1',
                 projectid:'',
                 prikey:'',
-                exdata:''//示例代码
+                samplecode:''
             },
             resdata:'',
             rules: {
@@ -190,7 +200,7 @@ export default {
             this.form.reqdata = ret.content;
             //根据接口展示版本？？？
             this.form.version = ret.version;
-            this.form.exdata = 'sssssssssss'
+            this.form.samplecode =  showXml(ret.samplecode);
         },
     },
     created() {

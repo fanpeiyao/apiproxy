@@ -2,10 +2,22 @@
     <div class="app-container">
         <el-form ref="form" :model="form" label-width="120px"  :rules="rules">
         <el-form-item label="项目名称" prop="projectid">
-            <el-select v-model="form.projectid" placeholder="请选择项目"  @change="getApis()">
+            <!-- <el-select v-model="form.projectid" placeholder="请选择项目"  @change="getApis()">
                 <el-option  v-for="item in projects"  :key="item.projectid"  :label="item.projectname" :value="item.projectid">
                 </el-option>
+            </el-select> -->
+
+
+
+            <el-select v-model="form.projectid" filterable :filter-method="selectChange"  @change="getApis()" clearable>
+                <el-option  v-for="item in projects"  :key="item.projectid"  :label="item.projectname" :value="item.projectid"></el-option>
+                <div style="bottom: 0;width: 100%;background: #fff">
+                    <el-pagination small  layout="prev, pager, next"  :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="7" :total="projects.length"  >
+                    </el-pagination>
+                </div>
             </el-select>
+
+
         </el-form-item>
 
         <el-form-item label="通知接口" prop="apiname">
@@ -120,6 +132,7 @@ export default {
             projectid:'',
             prikey:''
         },
+        currentpage:1,
         resdata:'',
         rules: {
             reqdata: [
@@ -177,7 +190,7 @@ export default {
                     this.form.prikey = project.prikey; */
 
                     noticeApi(this.form).then(result => {
-                        this.$message('submit!');
+                        // this.$message('submit!');
                         this.resdata = result.data.resdata;
                     });
 
@@ -218,6 +231,43 @@ export default {
             //根据接口展示版本？？？
             this.form.version = ret.version;
         },
+
+
+        selectChange(val) {
+            console.log(val)
+            // 如果存在上一次请求，则取消上一次请求
+            if (this.cancel) {
+                this.cancel()
+            }
+            this.search(val)
+        },
+        //分页
+        handleSizeChange(val) {
+            this.currentpage = val;
+            this.search(val);
+        },
+        handleCurrentChange(val) {
+            this.currentpage = val
+            this.search(val);
+        },
+        search(projectid,page) {
+            this.loading = true;
+            var params = {};
+            params.projectid =  projectid;
+            if(page){
+                    params.page =  page;
+            }
+            getProjects(params).then(result => {
+                this.listLoading = false;
+                this.projects = result.data;
+                console.log(this.projects)
+                this.currentpage = 0;
+                this.loading = false
+            }).catch(e => {
+                this.loading = false
+            })
+        },
+
     },
     created() {
         /* this.projects= [{

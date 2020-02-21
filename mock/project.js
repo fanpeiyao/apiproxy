@@ -14,6 +14,42 @@ const data = Mock.mock({
       projectid: 'dzbl',
       projectname: '到账伴侣',
       prikey: '@sentence(10, 20)'
+    }, {
+      projectid: 'yzt8',
+      projectname: '银账通',
+      prikey: '@sentence(10, 20)'
+    }, {
+      projectid: 'licai2',
+      projectname: '理财',
+      prikey: '@sentence(10, 20)'
+    }, {
+      projectid: 'dzbl3',
+      projectname: '到账伴侣',
+      prikey: '@sentence(10, 20)'
+    }, {
+      projectid: 'yzt2',
+      projectname: '银账通',
+      prikey: '@sentence(10, 20)'
+    }, {
+      projectid: 'licai1',
+      projectname: '理财',
+      prikey: '@sentence(10, 20)'
+    }, {
+      projectid: 'dzbl1',
+      projectname: '到账伴侣',
+      prikey: '@sentence(10, 20)'
+    }, {
+      projectid: 'yzt1',
+      projectname: '银账通',
+      prikey: '@sentence(10, 20)'
+    }, {
+      projectid: 'licai8',
+      projectname: '理财',
+      prikey: '@sentence(10, 20)'
+    }, {
+      projectid: 'dzbl8',
+      projectname: '到账伴侣',
+      prikey: '@sentence(10, 20)'
     }]
 })
 

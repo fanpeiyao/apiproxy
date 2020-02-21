@@ -2,7 +2,7 @@
     <div class="app-container">
 
          <div class="handle-box">
-            <el-button type="primary" size="small" @click="addFormVisible = true">新增</el-button>
+            <el-button type="primary" class='mr10'  size="small" @click="addFormVisible = true">新增</el-button>
             <el-input  size="small" v-model="query.projectid" placeholder="项目编号" class="handle-input mr10"></el-input>
             <el-input  size="small" v-model="query.path" placeholder="path" class="handle-input mr10"></el-input>
             <el-input  size="small" v-model="query.name" placeholder="name" class="handle-input mr10"></el-input>

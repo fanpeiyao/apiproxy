@@ -1,12 +1,19 @@
 <template>
   <div class="app-container">
 
-        <el-form ref="form"  >
+        <!-- <el-form ref="form"  >
             <el-form-item>
                 <el-button type="primary" size="small" @click="addFormVisible = true">新增</el-button>
             </el-form-item>
 
-        </el-form>
+        </el-form> -->
+         <div class="handle-box">
+            <el-button type="primary" class='mr10' size="small" @click="addFormVisible = true">新增</el-button>
+            <el-input  size="small" v-model="query.projectid" placeholder="请输入项目编号" class="handle-input mr10"></el-input>
+            <el-input  size="small" v-model="query.projectname" placeholder="请输入项目名称" class="handle-input mr10"></el-input>
+            <el-button size="small" type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+        </div>
+
         <el-table :data="tableData" border style="width: 100%">
             <el-table-column  fixed prop="projectname" label="项目名称" width="150"> </el-table-column>
             <el-table-column  prop="projectid" label="项目编号" width="120"></el-table-column>
@@ -39,7 +46,7 @@
     </el-form-item>
 
     <el-form-item label="项目私钥" :label-width="formLabelWidth" prop="prikey">
-      <el-input v-model="addForm.prikey" placeholder="请输入项目私钥" autocomplete="off"></el-input>
+      <el-input v-model="addForm.prikey"  type="textarea"  placeholder="请输入您的私钥"  :autosize="{ minRows:3}" autocomplete="off"></el-input>
     </el-form-item>
   </el-form>
   <div slot="footer" class="dialog-footer">
@@ -61,7 +68,7 @@
     </el-form-item>
 
     <el-form-item label="项目私钥" :label-width="formLabelWidth">
-      <el-input v-model="updateForm.prikey" autocomplete="off"></el-input>
+      <el-input v-model="updateForm.prikey"  type="textarea"  placeholder="请输入您的私钥"  :autosize="{ minRows:3}"></el-input>
     </el-form-item>
   </el-form>
   <div slot="footer" class="dialog-footer">
@@ -79,35 +86,38 @@ import { getProjects,addProject,upDateProject,delProject } from '@/api/project'
 export default {
     data() {
         return {
-        addForm: {
-            projectid: '',
-            projectname: '',
-            prikey: '',
-        },
-        rules: {
-            projectid: [
-                { required: true, message: '请输入项目编号', trigger: 'blur' },
-            ],
-            projectname: [
-                { required: true, message: '请输入项目名称', trigger: 'blur' },
-            ],
-            prikey: [
-                { required: true, message: '请输入私钥', trigger: 'blur' },
-            ],
-        },
-        updateForm: {},
+            addForm: {
+                projectid: '',
+                projectname: '',
+                prikey: '',
+            },
+            query:{
+                projectname: '',
+                projectid: '',
+                page:'0'
+            },
+            rules: {
+                projectid: [
+                    { required: true, message: '请输入项目编号', trigger: 'blur' },
+                ],
+                projectname: [
+                    { required: true, message: '请输入项目名称', trigger: 'blur' },
+                ],
+                prikey: [
+                    { required: true, message: '请输入私钥', trigger: 'blur' },
+                ],
+            },
+            updateForm: {},
 
-        tableData:[],
-        total:0,
-        page:0,
-        limit:10,
-        currentpage:1,
-        formLabelWidth: '120px',
-        addFormVisible: false,
-        upFormVisible: false,
+            tableData:[],
+            total:0,
+            page:0,
+            limit:10,
+            currentpage:1,
+            formLabelWidth: '120px',
+            addFormVisible: false,
+            upFormVisible: false,
         }
-
-
     },
     methods: {
         onDel(row) {
@@ -209,6 +219,17 @@ export default {
             this.page = val-1;
             this.getData();
         },
+        //搜索
+        handleSearch() {
+            var that = this;
+            this.listLoading = true;
+            console.log(this.query)
+            getProjects(this.query).then(result => {
+                that.listLoading = false;
+                this.page = 0;
+                that.tableData = result.data;
+            })
+        },
     },
     created(){
         this.getData();
@@ -220,6 +241,14 @@ export default {
 <style scoped>
 .line{
   text-align: center;
+}
+
+.handle-box {
+    margin-bottom: 20px;
+}
+.handle-input {
+    width: 240px!important;
+    display: inline-block;
 }
 </style>
 
