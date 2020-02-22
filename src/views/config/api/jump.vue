@@ -44,7 +44,7 @@
 
         <!--分页-->
 		<el-col :span="24" class="toolbar" v-show='tableData.length>0' >
-			<el-pagination layout="prev, pager, next" :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="limit" :total="tableData.length" style="float:right;">
+			<el-pagination layout="prev, pager, next" :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="pageSize" :total="tableData.length" style="float:right;">
 			</el-pagination>
 		</el-col>
 
@@ -170,8 +170,8 @@ export default {
         formLabelWidth: '120px',
         addFormVisible: false,
         upFormVisible: false,
-        page:0,
-        limit:10,
+        page:1,
+        pageSize:10,
         currentpage:1,
     }
 
@@ -179,7 +179,7 @@ export default {
   },
     methods: {
         onSubmit() {
-        this.$message('submit!')
+            this.$message('submit!')
         },
         onDel(row) {
             this.listLoading = true;
@@ -243,7 +243,15 @@ export default {
         },
         //
         handleSearch() {
-
+            /* var that = this;
+            this.listLoading = true;
+            console.log(this.query)
+            getInterface(this.query).then(result => {
+                that.listLoading = false;
+                this.page = 1;
+                that.tableData = result.data;
+            }) */
+            this.getData()
         },
         //获取列表
         getData() {
@@ -251,8 +259,10 @@ export default {
             this.listLoading = true;
             var params = {};
             params = this.query;
-            params.type = '3';  //1通知2跳转3查询
-            params.page = this.page;
+            params.type = '2';  //1通知2跳转3查询
+            params.pageNum = this.page;
+            params.pageSize = this.pageSize;
+            console.log(params)
             getInterface(params).then(result => {
                 console.log(result)
                 that.listLoading = false;
@@ -262,7 +272,7 @@ export default {
         },
         //分页展示
         handleCurrentChange(val) {
-            this.page = val-1;
+            this.page = val;
             this.getData();
         },
     },

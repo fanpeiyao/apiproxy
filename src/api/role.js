@@ -1,22 +1,24 @@
-import request from '@/utils/request'
+import request, {
+  appid
+} from '@/utils/request'
 
 export function getRoutes() {
   return request({
-    url: '/apiproxy/routes',
+    url: appid() + '/routes',
     method: 'get'
   })
 }
 
 export function getRoles() {
   return request({
-    url: '/apiproxy/roles',
+    url: appid() + '/roles',
     method: 'post'
   })
 }
 
 export function addRole(data) {
   return request({
-    url: '/apiproxy/role',
+    url: appid() + '/role',
     method: 'post',
     data
   })

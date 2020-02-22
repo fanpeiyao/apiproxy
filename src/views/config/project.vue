@@ -29,7 +29,7 @@
 
         <!--分页-->
 		<el-col :span="24" class="toolbar" v-show='tableData.length>0' >
-			<el-pagination layout="prev, pager, next" :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="limit" :total="tableData.length" style="float:right;">
+			<el-pagination layout="prev, pager, next" :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="pageSize" :total="tableData.length" style="float:right;">
 			</el-pagination>
 		</el-col>
 
@@ -94,7 +94,6 @@ export default {
             query:{
                 projectname: '',
                 projectid: '',
-                page:'0'
             },
             rules: {
                 projectid: [
@@ -111,8 +110,8 @@ export default {
 
             tableData:[],
             total:0,
-            page:0,
-            limit:10,
+            page:1,
+            pageSize:10,
             currentpage:1,
             formLabelWidth: '120px',
             addFormVisible: false,
@@ -205,7 +204,9 @@ export default {
                 }
             }); */
             var params = {};
-            params.page = this.page;
+            params = this.query;
+            params.pageNum = this.page;
+            params.pageSize = this.pageSize;
             console.log(params)
             getProjects(params).then(result => {
 
@@ -216,19 +217,20 @@ export default {
         },
         //分页展示
         handleCurrentChange(val) {
-            this.page = val-1;
+            this.page = val;
             this.getData();
         },
         //搜索
         handleSearch() {
-            var that = this;
-            this.listLoading = true;
-            console.log(this.query)
-            getProjects(this.query).then(result => {
-                that.listLoading = false;
-                this.page = 0;
-                that.tableData = result.data;
-            })
+            this.getData();
+            // var that = this;
+            // this.listLoading = true;
+            // console.log(this.query)
+            // getProjects(this.query).then(result => {
+            //     that.listLoading = false;
+            //     this.page = 1;
+            //     that.tableData = result.data;
+            // })
         },
     },
     created(){

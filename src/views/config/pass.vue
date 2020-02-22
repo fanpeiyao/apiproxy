@@ -32,7 +32,7 @@
 
         <!--分页-->
 		<el-col :span="24" class="toolbar" v-show='tableData.length>0' >
-			<el-pagination layout="prev, pager, next" :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="limit" :total="tableData.length" style="float:right;">
+			<el-pagination layout="prev, pager, next" :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="pageSize" :total="tableData.length" style="float:right;">
 			</el-pagination>
 		</el-col>
 
@@ -149,8 +149,8 @@ export default {
             upFormVisible: false,
             updateForm:{},
             tableData: [],
-            page:0,
-            limit:10,
+            page:1,
+            pageSize:10,
             currentpage:1,
         }
     },
@@ -215,19 +215,21 @@ export default {
         },
         //分页展示
         handleCurrentChange(val) {
-            this.page = val-1;
+            this.page = val;
             this.getData();
         },
         //
         handleSearch() {
-            console.log(this.query)
+            this.getData();
         },
         //获取列表
         getData() {
             var that = this;
             this.listLoading = true;
             var params = {};
-            params.page = this.page;
+            params = this.query;
+            params.pageNum = this.page;
+            params.pageSize = this.pageSize;
             getPass(params).then(result => {
                 console.log(result)
                 that.listLoading = false;

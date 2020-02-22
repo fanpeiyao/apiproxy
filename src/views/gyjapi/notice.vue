@@ -12,7 +12,7 @@
             <el-select v-model="form.projectid" filterable :filter-method="selectChange"  @change="getApis()" clearable>
                 <el-option  v-for="item in projects"  :key="item.projectid"  :label="item.projectname" :value="item.projectid"></el-option>
                 <div style="bottom: 0;width: 100%;background: #fff">
-                    <el-pagination small  layout="prev, pager, next"  :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="7" :total="projects.length"  >
+                    <el-pagination small  layout="prev, pager, next"  :current-page.sync='currentpage'  @current-change="handleCurrentChange" :page-size="pageSize" :total="projects.length"  >
                     </el-pagination>
                 </div>
             </el-select>
@@ -133,6 +133,8 @@ export default {
             prikey:''
         },
         currentpage:1,
+        page:1,
+        pageSize:7,
         resdata:'',
         rules: {
             reqdata: [
@@ -201,7 +203,14 @@ export default {
             var that = this;
             this.listLoading = true;
             //分页展示待定
-            getProjects().then(result => {
+            var params = {};
+            if(this.page){
+                    params.pageNum =  this.page;
+            }else{
+                    params.pageNum =  1;
+            }
+            params.pageSize =this.pageSize;
+            getProjects(params).then(result => {
                 that.listLoading = false;
                 that.projects = result.data;
             })
@@ -241,22 +250,22 @@ export default {
             }
             this.search(val)
         },
-        //分页
-        handleSizeChange(val) {
-            this.currentpage = val;
-            this.search(val);
-        },
         handleCurrentChange(val) {
-            this.currentpage = val
-            this.search(val);
+            this.currentpage = val;
+            this.search('',val);
         },
         search(projectid,page) {
             this.loading = true;
             var params = {};
             params.projectid =  projectid;
+
             if(page){
-                    params.page =  page;
+                    params.pageNum = page;
+            }else{
+                    params.pageNum =  1;
             }
+            params.pageSize = this.pageSize;
+            console.log(params)
             getProjects(params).then(result => {
                 this.listLoading = false;
                 this.projects = result.data;

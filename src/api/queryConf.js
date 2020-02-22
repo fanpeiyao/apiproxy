@@ -1,29 +1,30 @@
-import request from '@/utils/request'
-
+import request, {
+  appid
+} from '@/utils/request'
 export function getQuery(params) {
   return request({
-    url: '/apiproxy/interface/query',
+    url: appid() + '/interface/query',
     method: 'post',
     params
   })
 }
 export function addQuery(params) {
   return request({
-    url: '/apiproxy/interface/add',
+    url: appid() + '/interface/add',
     method: 'post',
     params
   })
 }
 export function updateQuery(params) {
   return request({
-    url: '/apiproxy/interface/update',
+    url: appid() + '/interface/update',
     method: 'post',
     params
   })
 }
 export function delQuery(params) {
   return request({
-    url: '/apiproxy/interface/del',
+    url: appid() + '/interface/del',
     method: 'post',
     params
   })

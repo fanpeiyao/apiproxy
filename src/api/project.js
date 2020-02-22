@@ -1,29 +1,31 @@
-import request from '@/utils/request'
+import request, {
+  appid
+} from '@/utils/request'
 
 export function getProjects(params) {
   return request({
-    url: '/apiproxy/project/list',
+    url: appid() + '/project/query',
     method: 'post',
     params
   })
 }
 export function addProject(params) {
   return request({
-    url: '/apiproxy/project/add',
+    url: appid() + '/project/add',
     method: 'post',
     params
   })
 }
 export function upDateProject(params) {
   return request({
-    url: '/apiproxy/project/update',
+    url: appid() + '/project/update',
     method: 'post',
     params
   })
 }
 export function delProject(params) {
   return request({
-    url: '/apiproxy/project/del',
+    url: appid() + '/project/del',
     method: 'post',
     params
   })

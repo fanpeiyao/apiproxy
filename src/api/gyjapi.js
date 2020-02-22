@@ -1,8 +1,10 @@
-import request from '@/utils/request'
+import request, {
+  appid
+} from '@/utils/request'
 //根据projectid、apiname、version - 获取展示报文
 export function getReqdata(params) {
   return request({
-    url: '/apiproxy/notify/reqdata ',
+    url: appid() + '/notify/reqdata ',
     method: 'post',
     params
   })
@@ -10,7 +12,7 @@ export function getReqdata(params) {
 
 export function noticeApi(params) {
   return request({
-    url: '/apiproxy/debug/notice ',
+    url: appid() + '/debug/notice ',
     method: 'post',
     params
   })
@@ -18,7 +20,7 @@ export function noticeApi(params) {
 
 export function jumpApi(params) {
   return request({
-    url: '/apiproxy/debug/jump ',
+    url: appid() + '/debug/jump ',
     method: 'post',
     params
   })
@@ -26,7 +28,7 @@ export function jumpApi(params) {
 
 export function queryApi(params) {
   return request({
-    url: '/apiproxy/debug/query ',
+    url: appid() + '/debug/query ',
     method: 'post',
     params
   })

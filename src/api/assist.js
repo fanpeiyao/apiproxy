@@ -1,8 +1,9 @@
-import request from '@/utils/request'
-
+import request, {
+  appid
+} from '@/utils/request'
 export function getCipher(params) {
   return request({
-    url: '/apiproxy/encryption/getKeyPair',
+    url: '/encryption/getKeyPair',
     method: 'post',
     params
   })
@@ -10,7 +11,7 @@ export function getCipher(params) {
 
 export function rsaDecode(params) {
   return request({
-    url: '/apiproxy/encryption/RSADecrypt',
+    url: appid() + '/encryption/RSADecrypt',
     method: 'post',
     params
   })
@@ -19,7 +20,7 @@ export function rsaDecode(params) {
 
 export function rsaCode(params) {
   return request({
-    url: '/apiproxy/encryption/RSAEncrypt',
+    url: appid() + '/encryption/RSAEncrypt',
     method: 'post',
     params
   })
@@ -27,7 +28,7 @@ export function rsaCode(params) {
 
 export function base64Decode(params) {
   return request({
-    url: '/apiproxy/encryption/BASE64Decrypt',
+    url: appid() + '/encryption/BASE64Decrypt',
     method: 'post',
     params
   })
@@ -35,7 +36,7 @@ export function base64Decode(params) {
 
 export function base64Code(params) {
   return request({
-    url: '/apiproxy/encryption/BASE64Encrypt',
+    url: appid() + '/encryption/BASE64Encrypt',
     method: 'post',
     params
   })

@@ -1,29 +1,31 @@
-import request from '@/utils/request'
+import request, {
+  appid
+} from '@/utils/request'
 
 export function getApiConf(params) {
   return request({
-    url: '/apiproxy/attachmentinfo/query',
+    url: appid() + '/attachmentinfo/query',
     method: 'post',
     params
   })
 }
 export function addApiConf(params) {
   return request({
-    url: '/apiproxy/attachmentinfo/add',
+    url: appid() + '/attachmentinfo/add',
     method: 'post',
     params
   })
 }
 export function updateApiConf(params) {
   return request({
-    url: '/apiproxy/attachmentinfo/update',
+    url: appid() + '/attachmentinfo/update',
     method: 'post',
     params
   })
 }
 export function delApiConf(params) {
   return request({
-    url: '/apiproxy/attachmentinfo/del',
+    url: appid() + '/attachmentinfo/del',
     method: 'post',
     params
   })

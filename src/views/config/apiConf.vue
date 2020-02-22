@@ -30,7 +30,7 @@
 
         <!--分页-->
 		<el-col :span="24" class="toolbar" v-show='tableData.length>0' >
-			<el-pagination layout="prev, pager, next" :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="limit" :total="tableData.length" style="float:right;">
+			<el-pagination layout="prev, pager, next" :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="pageSize" :total="tableData.length" style="float:right;">
 			</el-pagination>
 		</el-col>
 
@@ -128,8 +128,8 @@ export default {
             ]
         },
         tableData: [],
-        page:0,
-        limit:10,
+        page:1,
+        pageSize:10,
         currentpage:1,
         formLabelWidth: '120px',
         addFormVisible: false,
@@ -196,14 +196,24 @@ export default {
         },
         //
         handleSearch() {
-
+            this.getData()
+            // var that = this;
+            // this.listLoading = true;
+            // console.log(this.query)
+            // getApiConf(this.query).then(result => {
+            //     that.listLoading = false;
+            //     this.page = 1;
+            //     that.tableData = result.data;
+            // })
         },
         //获取列表
         getData() {
             var that = this;
             this.listLoading = true;
             var params = {};
-            params.page = this.page;
+            params = this.query;
+            params.pageNum = this.page;
+            params.pageSize = this.pageSize;
             console.log(params)
             getApiConf(params).then(result => {
                 that.listLoading = false;

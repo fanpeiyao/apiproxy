@@ -70,7 +70,7 @@ Random.extend({
 export default [
     //查询
     {
-        url: '/apiproxy/project/list',
+        url: '/apiproxy/project/query',
         type: 'post',
         response: config => {
             return {

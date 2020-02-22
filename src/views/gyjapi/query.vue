@@ -2,12 +2,19 @@
   <div class="app-container">
     <el-form ref="form" :model="form" label-width="120px"  :rules="rules">
         <el-form-item label="项目名称" prop="projectid">
-            <el-select v-model="form.projectid" placeholder="请选择项目" @change="getApis()">
+            <!-- <el-select v-model="form.projectid" placeholder="请选择项目" @change="getApis()">
                 <el-option  v-for="item in projects"
                                 :key="item.projectid"
                                 :label="item.projectname"
                                 :value="item.projectid">
                 </el-option>
+            </el-select> -->
+             <el-select v-model="form.projectid" filterable :filter-method="selectChange"  @change="getApis()" clearable>
+                <el-option  v-for="item in projects"  :key="item.projectid"  :label="item.projectname" :value="item.projectid"></el-option>
+                <div style="bottom: 0;width: 100%;background: #fff">
+                    <el-pagination small  layout="prev, pager, next"  :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="pageSize" :total="projects.length"  >
+                    </el-pagination>
+                </div>
             </el-select>
         </el-form-item>
 
@@ -142,6 +149,9 @@ export default {
                     { required: true, message: '请输入企业私钥', trigger: 'blur' }
                 ],
             },
+            currentpage:1,
+            page:1,
+            pageSize:7,
             projects:[],
             apis: [],
             channels:[{
@@ -168,10 +178,19 @@ export default {
             })
         },
         getProData() {
+
             var that = this;
             this.listLoading = true;
             //分页展示待定
-            getProjects().then(result => {
+            var params = {};
+            if(this.page){
+                    params.pageNum =  this.page;
+            }else{
+                    params.pageNum =  1;
+            }
+            params.pageSize =this.pageSize;
+            console.log(params)
+            getProjects(params).then(result => {
                 that.listLoading = false;
                 that.projects = result.data;
             })
@@ -201,6 +220,47 @@ export default {
             //根据接口展示版本？？？
             this.form.version = ret.version;
             this.form.samplecode =  showXml(ret.samplecode);
+        },
+
+        selectChange(val) {
+            console.log(val)
+            // 如果存在上一次请求，则取消上一次请求
+            if (this.cancel) {
+                this.cancel()
+            }
+            this.search(val)
+        },
+        //分页
+        handleSizeChange(val) {
+            this.currentpage = val;
+            this.search('',val);
+        },
+        handleCurrentChange(val) {
+            // this.currentpage = val;
+            this.page = val;
+            console.log(val)
+            this.search('',val);
+        },
+        search(projectid,page) {
+            this.loading = true;
+            var params = {};
+            params.projectid =  projectid;
+            if(page){
+                    params.pageNum = page;
+            }else{
+                    params.pageNum =  1;
+            }
+            params.pageSize = this.pageSize;
+            console.log(params)
+            getProjects(params).then(result => {
+                this.listLoading = false;
+                this.projects = result.data;
+                console.log(this.projects)
+                this.currentpage = 1;
+                this.loading = false
+            }).catch(e => {
+                this.loading = false
+            })
         },
     },
     created() {

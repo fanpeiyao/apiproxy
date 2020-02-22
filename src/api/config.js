@@ -1,9 +1,10 @@
-import request from '@/utils/request'
-
+import request, {
+  appid
+} from '@/utils/request'
 //重定项地址配置查询
 export function getRedirect(params) {
   return request({
-    url: '/apiproxy/redirect/query',
+    url: appid() + '/redirect/query',
     method: 'post',
     params
   })
@@ -11,7 +12,7 @@ export function getRedirect(params) {
 //新增重定项地址配置
 export function addRedirect(params) {
   return request({
-    url: '/apiproxy/redirect/add',
+    url: appid() + '/redirect/add',
     method: 'post',
     params
   })
@@ -20,7 +21,7 @@ export function addRedirect(params) {
 //修改重定项地址配置
 export function updateRedirect(params) {
   return request({
-        url: '/apiproxy/redirect/update',
+        url: appid() + '/redirect/update',
     method: 'post',
     params
   })
@@ -29,7 +30,7 @@ export function updateRedirect(params) {
 //删除重定项地址配置
 export function delRedirect(params) {
     return request({
-        url: '/apiproxy/redirect/del',
+        url: appid() + '/redirect/del',
         method: 'post',
         params
     })
@@ -38,7 +39,7 @@ export function delRedirect(params) {
 //重定项地址配置查询
 export function getPass(params) {
   return request({
-    url: '/apiproxy/passthrough/query',
+    url: appid() + '/passthrough/query',
     method: 'post',
     params
   })
@@ -46,7 +47,7 @@ export function getPass(params) {
 //新增重定项地址配置
 export function addPass(params) {
   return request({
-    url: '/apiproxy/passthrough/add',
+    url: appid() + '/passthrough/add',
     method: 'post',
     params
   })
@@ -55,7 +56,7 @@ export function addPass(params) {
 //修改重定项地址配置
 export function updatePass(params) {
   return request({
-    url: '/apiproxy/passthrough/update',
+    url: appid() + '/passthrough/update',
     method: 'post',
     params
   })
@@ -64,7 +65,7 @@ export function updatePass(params) {
 //删除重定项地址配置
 export function delPass(params) {
   return request({
-    url: '/apiproxy/passthrough/del',
+    url: appid() + '/passthrough/del',
     method: 'post',
     params
   })
@@ -72,28 +73,28 @@ export function delPass(params) {
 
 export function getInterface(params) {
   return request({
-    url: '/apiproxy/interface/query',
+    url: appid() + '/interface/query',
     method: 'post',
     params
   })
 }
 export function addInterface(params) {
   return request({
-    url: '/apiproxy/interface/add',
+    url: appid() + '/interface/add',
     method: 'post',
     params
   })
 }
 export function updateInterface(params) {
   return request({
-    url: '/apiproxy/interface/update',
+    url: appid() + '/interface/update',
     method: 'post',
     params
   })
 }
 export function delInterface(params) {
   return request({
-    url: '/apiproxy/interface/del',
+    url: appid() + '/interface/del',
     method: 'post',
     params
   })

@@ -1,8 +1,10 @@
-import request from '@/utils/request'
+import request, {
+  appid
+} from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/apiproxy/user/login',
+    url: appid() + '/user/login',
     method: 'post',
     data
   })
@@ -10,7 +12,7 @@ export function login(data) {
 
 export function getInfo(token) {
   return request({
-    url: '/apiproxy/user/info',
+    url: appid() + '/user/info',
     method: 'get',
     params: { token }
   })
@@ -18,7 +20,7 @@ export function getInfo(token) {
 
 export function logout() {
   return request({
-    url: '/apiproxy/user/logout',
+    url: appid() + '/user/logout',
     method: 'post'
   })
 }
