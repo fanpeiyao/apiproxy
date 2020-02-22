@@ -203,6 +203,9 @@ export default {
             var params=  {};
             params.type=3;
             params.projectid=this.form.projectid;
+
+            params.pageNum =  this.apiPage;
+            params.pageSize =this.apiPageSize;
             //分页展示待定
             getInterface(params).then(result => {
                 that.listLoading = false;

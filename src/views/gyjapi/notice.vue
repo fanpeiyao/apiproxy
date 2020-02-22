@@ -135,6 +135,9 @@ export default {
         currentpage:1,
         page:1,
         pageSize:7,
+        apiCurrentpage:1,
+        apiPage:1,
+        apiPageSize:7,
         resdata:'',
         rules: {
             reqdata: [
@@ -204,12 +207,10 @@ export default {
             this.listLoading = true;
             //分页展示待定
             var params = {};
-            if(this.page){
-                    params.pageNum =  this.page;
-            }else{
-                    params.pageNum =  1;
-            }
+
+            params.pageNum =  this.page;
             params.pageSize =this.pageSize;
+            console.log(params)
             getProjects(params).then(result => {
                 that.listLoading = false;
                 that.projects = result.data;
@@ -223,6 +224,10 @@ export default {
             var params=  {};
             params.type=1;
             params.projectid=this.form.projectid;
+
+            params.pageNum =  this.apiPage;
+            params.pageSize =this.apiPageSize;
+            console.log(params)
             //分页展示待定
             getInterface(params).then(result => {
                 that.listLoading = false;
