@@ -2,12 +2,12 @@
   <div class="app-container">
     <!-- <el-form ref="form" :model="form" :rules="rules"  label-width="120px">
 
-        <el-form-item label="重定向地址" prop="redirecthost">
-            <el-input v-model="form.redirecthost" placeholder="请输入重定向地址"/>
+        <el-form-item label="重定向地址" prop="host">
+            <el-input v-model="form.host" placeholder="请输入重定向地址"/>
         </el-form-item>
         <p class='tips'>
             重定向地址格式：
-            <span>http://gyjapi1.deenet.com.cn/apiproxy/redirect/redirectcode/env，其中redirectcode和env请根据自己内容替换</span>
+            <span>http://gyjapi1.deenet.com.cn/apiproxy/redirect/code/env，其中code和env请根据自己内容替换</span>
         </p>
 
       <el-form-item>
@@ -18,18 +18,17 @@
 
 
         <div class="handle-box">
-            <el-input  size="small" v-model="query.projectid" placeholder="项目编号" class="handle-input mr10"></el-input>
-            <el-input  size="small" v-model="query.path" placeholder="path" class="handle-input mr10"></el-input>
-            <el-input  size="small" v-model="query.name" placeholder="name" class="handle-input mr10"></el-input>
+           <el-input  size="small" v-model="query.code" placeholder="请输入重定向地址" class="handle-input mr10"></el-input>
+            <el-input  size="small" v-model="query.env" placeholder="请输入环境编号" class="handle-input mr10"></el-input>
             <el-button size="small" type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
         </div>
 
         <el-table  :data="tableData" border style="width: 100%">
 
-            <el-table-column  prop="redirectcode" label="重定向url"  width="300"> </el-table-column>
-            <el-table-column  prop="redirectenv" label="环境编号"  width="180"></el-table-column>
-            <el-table-column  prop="redirectname" label="重定向名称" width="180"></el-table-column>
-            <el-table-column  prop="redirecthost" label="重定向地址" width="300"></el-table-column>
+            <el-table-column  prop="code" label="重定向url"  width="300"> </el-table-column>
+            <el-table-column  prop="env" label="环境编号"  width="180"></el-table-column>
+            <el-table-column  prop="name" label="重定向名称" width="180"></el-table-column>
+            <el-table-column  prop="host" label="重定向地址" width="300"></el-table-column>
             <el-table-column  prop="requrl" label="配置生成的请求地址" width="300"></el-table-column>
 
 
@@ -58,10 +57,10 @@ export default {
     data() {
         return {
             form: {
-                redirecthost: '',
+                host: '',
             },
             rules: {
-                redirecthost: [
+                host: [
                     { required: true, message: '请输入重定向地址', trigger: 'blur' },
                     { pattern:/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/, message:'请输入正确的重定向地址', trigger: 'blur' }
                 ],
@@ -98,9 +97,8 @@ export default {
     data() {
         return {
             query:{
-                path: '',
-                name: '',
-                projectid: '',
+                code: '',
+                naenvme: ''
             },
             tableData: [],
             page:1,
@@ -127,7 +125,7 @@ export default {
             console.log(params)
             getRedirect(params).then(result => {
                 that.listLoading = false;
-                that.tableData = result.data;
+                that.tableData = result.list;
             })
 
         },

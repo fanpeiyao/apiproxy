@@ -22,11 +22,11 @@ const roles = [
 export default [
   // mock get all routes form server
   {
-    url: '/apiproxy/routes',
+    url: '/routes',
     type: 'get',
     response: _ => {
       return {
-        retCode: 200,
+        retCode: '00',
         data: routes
       }
     }
@@ -34,11 +34,11 @@ export default [
 
   // mock get all roles form server
   {
-    url: '/apiproxy/roles',
+    url: '/roles',
     type: 'post',
     response: _ => {
       return {
-        retCode: 200,
+        retCode: '00',
         data: roles
       }
     }
@@ -46,10 +46,10 @@ export default [
 
   // add role
   {
-    url: '/apiproxy/role',
+    url: '/role',
     type: 'post',
     response: {
-      retCode: 200,
+      retCode: '00',
       data: {
         key: Mock.mock('@integer(300, 5000)')
       }
@@ -58,10 +58,10 @@ export default [
 
   // update role
   {
-    url: '/apiproxy/role/[A-Za-z0-9]',
+    url: '/role/[A-Za-z0-9]',
     type: 'put',
     response: {
-      retCode: 200,
+      retCode: '00',
       data: {
         status: 'success'
       }
@@ -70,10 +70,10 @@ export default [
 
   // delete role
   {
-    url: '/apiproxy/role/[A-Za-z0-9]',
+    url: '/role/[A-Za-z0-9]',
     type: 'delete',
     response: {
-      retCode: 200,
+      retCode: '00',
       data: {
         status: 'success'
       }

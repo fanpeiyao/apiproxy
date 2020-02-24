@@ -22,33 +22,33 @@ export default [
 
   //通知接口
   {
-    url: '/apiproxy/notify/reqdata',
+    url: '/notify/reqdata',
     type: 'post',
     response: config => {
       return {
-        retCode: 200,
+        retCode: '00',
         retMsg: '调用成功！'
       }
     }
   },
   //修改
   {
-    url: '/apiproxy/query/reqdata',
+    url: '/query/reqdata',
     type: 'post',
     response: config => {
       return {
-        retCode: 200,
+        retCode: '00',
           retMsg: '调用成功！'
       }
     }
   },
   //删除
   {
-    url: '/apiproxy/jump/reqdata',
+    url: '/jump/reqdata',
     type: 'post',
     response: config => {
       return {
-            retCode: 200,
+            retCode: '00',
           retMsg: '调用成功！',
       }
     }
@@ -56,11 +56,11 @@ export default [
 
   //通知接口
   {
-    url: '/apiproxy/debug/notice',
+    url: '/gyjapi/notice',
     type: 'post',
     response: config => {
       return {
-        retCode: 200,
+        retCode: '00',
         retMsg: '调用成功！',
         data: {
           resdata: 'ww'
@@ -70,11 +70,11 @@ export default [
   },
   //修改
   {
-    url: '/apiproxy/debug/query',
+    url: '/gyjapi/query',
     type: 'post',
     response: config => {
       return {
-        retCode: 200,
+        retCode: '00',
         retMsg: '调用成功！',
         data: {
           resdata: 'query'
@@ -84,11 +84,11 @@ export default [
   },
   //删除
   {
-    url: '/apiproxy/debug/jump',
+    url: '/gyjapi/jump',
     type: 'post',
     response: config => {
       return {
-        retCode: 200,
+        retCode: '00',
         retMsg: '调用成功！',
         data: {
           resdata: 'jump'

@@ -3,7 +3,7 @@ import request, {
 } from '@/utils/request'
 export function getCipher(params) {
   return request({
-    url: '/encryption/getKeyPair',
+    url: appid() + '/encryption/getKeyPair',
     method: 'post',
     params
   })

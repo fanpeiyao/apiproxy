@@ -2,6 +2,7 @@ import Mock from 'mockjs'
 
 const data = Mock.mock({
       'items|3': [{
+          id: '|1-100',
             projectid: 'yzt',
             apiname: '外汇来汇明细通知',
             key: 'GYJREMITNOTIFY',
@@ -15,44 +16,44 @@ const data = Mock.mock({
 export default [
   //查询
   {
-    url: '/apiproxy/jump/query',
+    url: '/jump/query',
     type: 'post',
     response: config => {
       return {
-        retCode: 200,
-        data: data.items
+        retCode: '00',
+        list: data.items
       }
     }
   },
   //新增
   {
-    url: '/apiproxy/jump/add',
+    url: '/jump/add',
     type: 'post',
     response: config => {
       return {
-        retCode: 200,
+        retCode: '00',
         retMsg: '新增成功！'
       }
     }
   },
   //修改
   {
-    url: '/apiproxy/jump/update',
+    url: '/jump/update',
     type: 'post',
     response: config => {
       return {
-        retCode: 200,
+        retCode: '00',
         retMsg: '修改成功！'
       }
     }
   },
   //删除
   {
-    url: '/apiproxy/jump/del',
+    url: '/jump/del',
     type: 'post',
     response: config => {
       return {
-        retCode: 200,
+        retCode: '00',
         retMsg: '删除成功！'
       }
     }

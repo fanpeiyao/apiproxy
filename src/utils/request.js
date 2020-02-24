@@ -45,7 +45,7 @@ service.interceptors.response.use(
   response => {
     const res = response.data;
     // if the custom code is not 200, it is judged as an error.
-    if (res.retCode !== 200) {
+    if (res.retCode !== '00') {
       Message({
         message: res.retMsg || 'Error',
         type: 'error',
@@ -85,5 +85,5 @@ service.interceptors.response.use(
 export default service
 export function appid(){
     // return '/apiproxy';
-    return '';
+    return location.pathname.substring(0,location.pathname.substring(1).indexOf('/')+1);
 }

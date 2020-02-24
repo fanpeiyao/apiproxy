@@ -25,7 +25,7 @@ const users = {
 export default [
   // user login
   {
-    url: '/apiproxy/user/login',
+    url: '/user/login',
     type: 'post',
     response: config => {
       const { username } = config.body;
@@ -40,7 +40,7 @@ export default [
       }
 
       return {
-        retCode: 200,
+        retCode: '00',
         data: token
       }
     }
@@ -48,7 +48,7 @@ export default [
 
   // get user info
   {
-    url: '/apiproxy/user/info\.*',
+    url: '/user/info\.*',
     type: 'get',
     response: config => {
         console.log(config)
@@ -64,7 +64,7 @@ export default [
       }
 
       return {
-        retCode: 200,
+        retCode: '00',
         data: info
       }
     }
@@ -72,11 +72,11 @@ export default [
 
   // user logout
   {
-    url: '/apiproxy/user/logout',
+    url: '/user/logout',
     type: 'post',
     response: _ => {
       return {
-        retCode: 200,
+        retCode: '00',
         data: 'success'
       }
     }

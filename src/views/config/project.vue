@@ -9,8 +9,8 @@
         </el-form> -->
          <div class="handle-box">
             <el-button type="primary" class='mr10' size="small" @click="addFormVisible = true">新增</el-button>
-            <el-input  size="small" v-model="query.projectid" placeholder="请输入项目编号" class="handle-input mr10"></el-input>
-            <el-input  size="small" v-model="query.projectname" placeholder="请输入项目名称" class="handle-input mr10"></el-input>
+            <el-input  size="small" v-model="query.projectid" maxlength="8" placeholder="请输入项目编号" class="handle-input mr10"></el-input>
+            <el-input  size="small" v-model="query.projectname" maxlength="13" placeholder="请输入项目名称" class="handle-input mr10"></el-input>
             <el-button size="small" type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
         </div>
 
@@ -18,11 +18,11 @@
             <el-table-column  fixed prop="projectname" label="项目名称" width="150"> </el-table-column>
             <el-table-column  prop="projectid" label="项目编号" width="120"></el-table-column>
             <el-table-column  prop="prikey" label="私钥"  width="3000"></el-table-column>
-            <el-table-column fixed="right" label="操作"  width="160">
+            <el-table-column fixed="right" label="操作"  width="115">
                 <template slot-scope="scope">
                     <el-button @click="copy(scope.row)" type="text" size="small">复制私钥</el-button>
                     <el-button @click="onDel(scope.row)" type="text" size="small">删除</el-button>
-                    <el-button type="text" size="small"  @click="openUpForm(scope.row)" >修改</el-button>
+                    <!-- <el-button type="text" size="small"  @click="openUpForm(scope.row)" >修改</el-button> -->
                 </template>
             </el-table-column>
         </el-table>
@@ -38,15 +38,15 @@
 <el-dialog title="新增项目" :visible.sync="addFormVisible">
   <el-form :model="addForm"  :rules="rules"   ref="addForm">
     <el-form-item label="项目编号" :label-width="formLabelWidth" prop="projectid">
-      <el-input v-model="addForm.projectid"  placeholder="请输入项目编号" autocomplete="off"></el-input>
+      <el-input v-model="addForm.projectid" maxlength="8" placeholder="请输入项目编号" autocomplete="off"></el-input>
     </el-form-item>
 
     <el-form-item label="项目名称" :label-width="formLabelWidth" prop="projectname">
-      <el-input v-model="addForm.projectname" placeholder="请输入项目名称" autocomplete="off"></el-input>
+      <el-input v-model="addForm.projectname" maxlength="13" placeholder="请输入项目名称" autocomplete="off"></el-input>
     </el-form-item>
 
     <el-form-item label="项目私钥" :label-width="formLabelWidth" prop="prikey">
-      <el-input v-model="addForm.prikey"  type="textarea"  placeholder="请输入您的私钥"  :autosize="{ minRows:3}" autocomplete="off"></el-input>
+      <el-input v-model="addForm.prikey" maxlength="60" type="textarea"  placeholder="请输入您的私钥"  :autosize="{ minRows:5}" autocomplete="off"></el-input>
     </el-form-item>
   </el-form>
   <div slot="footer" class="dialog-footer">
@@ -60,15 +60,15 @@
 <el-dialog title="编辑项目" :visible.sync="upFormVisible">
   <el-form :model="updateForm">
     <el-form-item label="项目编号" :label-width="formLabelWidth">
-      <el-input v-model="updateForm.projectid" autocomplete="off"></el-input>
+      <el-input v-model="updateForm.projectid"  maxlength="8"  autocomplete="off"></el-input>
     </el-form-item>
 
     <el-form-item label="项目名称" :label-width="formLabelWidth">
-      <el-input v-model="updateForm.projectname" autocomplete="off"></el-input>
+      <el-input v-model="updateForm.projectname" maxlength="13"  autocomplete="off"></el-input>
     </el-form-item>
 
     <el-form-item label="项目私钥" :label-width="formLabelWidth">
-      <el-input v-model="updateForm.prikey"  type="textarea"  placeholder="请输入您的私钥"  :autosize="{ minRows:3}"></el-input>
+      <el-input v-model="updateForm.prikey"  maxlength="60"  type="textarea"  placeholder="请输入您的私钥"  :autosize="{ minRows:5}"></el-input>
     </el-form-item>
   </el-form>
   <div slot="footer" class="dialog-footer">
@@ -123,12 +123,11 @@ export default {
             this.listLoading = true;
             console.log(row)
             delProject(row).then(result => {
-                if(result.retCode == '200'){
+                if(result.retCode == '00'){
                     this.$message({
                         message: '删除成功！',
                         type: 'success'
                     });
-                    this.addFormVisible = false;
                     this.listLoading = false;
                     this.getData();
                 }
@@ -142,13 +141,19 @@ export default {
             this.$refs['addForm'].validate((valid) => {
                 if (valid) {
                     this.listLoading = true;
+                    console.log(this.addForm)
                     addProject(this.addForm).then(result => {
 
-                        if(result.retCode == '200'){
+                        if(result.retCode == '00'){
                             this.$message({
                                 message: '新增成功！',
                                 type: 'success'
                             });
+            this.addForm= {
+                projectid: '',
+                projectname: '',
+                prikey: '',
+            };
                             this.addFormVisible = false;
                             this.listLoading = false;
                             this.getData();
@@ -160,7 +165,7 @@ export default {
         onUpdate(row) {
             this.listLoading = true;
             upDateProject(this.updateForm).then(result => {
-                if(result.retCode == '200'){
+                if(result.retCode == '00'){
                     this.$message({
                         message: '修改成功！',
                         type: 'success'
@@ -192,26 +197,14 @@ export default {
         getData() {
             var that = this;
             this.listLoading = true;
-            /* var promise = s3.ajax('/messagenotify/query', param, appid,true,'POST',60000);
-            promise.then(function(result){
-                that.listLoading = false;
-                if(result.retCode == '200'){
-                    that.total = result.total;
-                    that.data = result.data;
-                    that.tableheight = 649;
-                }else{
-                    that.$message.error(result.retMsg);
-                }
-            }); */
             var params = {};
             params = this.query;
             params.pageNum = this.page;
             params.pageSize = this.pageSize;
             console.log(params)
             getProjects(params).then(result => {
-
                 that.listLoading = false;
-                that.tableData = result.data;
+                that.tableData = result.list;
             })
 
         },
@@ -223,14 +216,6 @@ export default {
         //搜索
         handleSearch() {
             this.getData();
-            // var that = this;
-            // this.listLoading = true;
-            // console.log(this.query)
-            // getProjects(this.query).then(result => {
-            //     that.listLoading = false;
-            //     this.page = 1;
-            //     that.tableData = result.data;
-            // })
         },
     },
     created(){

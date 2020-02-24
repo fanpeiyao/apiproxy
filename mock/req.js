@@ -2,11 +2,11 @@ import Mock from 'mockjs'
 
 export default [
     {
-        url: '/apiproxy/req/redirect',
+        url: '/req/redirect',
         type: 'post',
         response: config => {
             return {
-            retCode: 200,
+            retCode: '00',
             data: {
                 requrl: 'http://mockjs.com/examples.html'
             }
@@ -14,11 +14,11 @@ export default [
         }
     },
     {
-        url: '/apiproxy/req/passthrough',
+        url: '/req/passthrough',
         type: 'post',
         response: config => {
             return {
-            retCode: 200,
+            retCode: '00',
             data: {
                 requrl: 'http://mockjs.com'
             }

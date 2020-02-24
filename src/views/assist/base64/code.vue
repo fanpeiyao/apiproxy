@@ -42,8 +42,8 @@ export default {
         this.$refs['form'].validate((valid) => {
             if (valid) {
                 base64Code(this.form).then(result => {
-                    if (result.retCode == "200") {
-                        this.result = result.data.reqdata;
+                    if (result.retCode == '00') {
+                        this.result = result.encrypt;
                     }
                 });
             }

@@ -16,44 +16,44 @@ const data = Mock.mock({
 export default [
   //查询
   {
-    url: '/apiproxy/queryinfo/query',
+    url: '/queryinfo/query',
     type: 'post',
     response: config => {
       return {
-        retCode: 200,
-        data: data.items
+        retCode: '00',
+        list: data.items
       }
     }
   },
   //新增
   {
-    url: '/apiproxy/queryinfo/add',
+    url: '/queryinfo/add',
     type: 'post',
     response: config => {
       return {
-        retCode: 200,
+        retCode: '00',
         retMsg: '新增成功！'
       }
     }
   },
   //修改
   {
-    url: '/apiproxy/queryinfo/update',
+    url: '/queryinfo/update',
     type: 'post',
     response: config => {
       return {
-        retCode: 200,
+        retCode: '00',
         retMsg: '修改成功！'
       }
     }
   },
   //删除
   {
-    url: '/apiproxy/queryinfo/del',
+    url: '/queryinfo/del',
     type: 'post',
     response: config => {
       return {
-        retCode: 200,
+        retCode: '00',
         retMsg: '删除成功！'
       }
     }

@@ -8,7 +8,7 @@
                 <el-option key="2" label="1.0.0.0" value="1.0.0.0"></el-option>
             </el-select>
             <el-input  size="small" v-model="query.projectid" placeholder="项目编号" class="handle-input mr10"></el-input>
-            <el-input  size="small" v-model="query.transcode" placeholder="接口名称" class="handle-input mr10"></el-input>
+            <el-input  size="small" v-model="query.apiname" placeholder="接口名称" class="handle-input mr10"></el-input>
             <el-button size="small" type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
         </div>
 
@@ -23,7 +23,7 @@
       width="150">
     </el-table-column>
     <el-table-column  prop="apiname" label="接口名称"  width="180"> </el-table-column>
-    <el-table-column  prop="key" label="key"  width="300">
+    <el-table-column  prop="reqkey" label="reqkey"  width="300">
     </el-table-column>
     <el-table-column  prop="version" label="版本号" width="120"></el-table-column>
     <el-table-column  prop="content" label="报文" width="1000"></el-table-column>
@@ -59,8 +59,8 @@
       <el-input v-model="addForm.apiname" autocomplete="off" placeholder="请输入接口名称" ></el-input>
     </el-form-item>
 
-    <el-form-item label="key" :label-width="formLabelWidth" prop="key">
-      <el-input v-model="addForm.key" autocomplete="off" placeholder="请输入key" ></el-input>
+    <el-form-item label="reqkey" :label-width="formLabelWidth" prop="reqkey">
+      <el-input v-model="addForm.reqkey" autocomplete="off" placeholder="请输入reqkey" ></el-input>
     </el-form-item>
 
       <el-form-item label="版本号" :label-width="formLabelWidth">
@@ -101,8 +101,8 @@
       <el-input v-model="updateForm.apiname" disabled autocomplete="off"></el-input>
     </el-form-item>
 
-    <el-form-item label="key" :label-width="formLabelWidth" prop="key">
-      <el-input v-model="updateForm.key" autocomplete="off" placeholder="请输入key"></el-input>
+    <el-form-item label="reqkey" :label-width="formLabelWidth" prop="reqkey">
+      <el-input v-model="updateForm.reqkey" autocomplete="off" placeholder="请输入reqkey"></el-input>
     </el-form-item>
 
       <el-form-item label="版本号" :label-width="formLabelWidth">
@@ -139,13 +139,13 @@ export default {
     return {
         query:{
             version:'',
-            transcode:'',
+            apiname:'',
             projectid:''
         },
         addForm: {
             projectid: '',
             apiname: '',
-            key: '',
+            reqkey: 'biz_content',
             version:'2.0.0.0',
             content:'',
             base64:'1'
@@ -159,8 +159,8 @@ export default {
             apiname: [
                 { required: true, message: '请输入接口名称', trigger: 'blur' }
             ],
-            key: [
-                { required: true, message: '请输入key', trigger: 'blur' }
+            reqkey: [
+                { required: true, message: '请输入reqkey', trigger: 'blur' }
             ],
             content: [
                 { required: true, message: '请输入报文内容', trigger: 'blur' }
@@ -184,9 +184,9 @@ export default {
         onDel(row) {
             this.listLoading = true;
             console.log(row)
-            row.type = '3';  //1通知2跳转3查询
+            row.type = '2';  //1通知2跳转3查询
             delInterface(row).then(result => {
-                if(result.retCode == '200'){
+                if(result.retCode == '00'){
                     this.$message({
                         message: '删除成功！',
                         type: 'success'
@@ -205,14 +205,22 @@ export default {
             this.$refs['addForm'].validate((valid) => {
                 if (valid) {
                     this.listLoading = true;
-                    this.addForm.type = '3';  //1通知2跳转3查询
+                    this.addForm.type = '2';  //1通知2跳转3查询
                     addInterface(this.addForm).then(result => {
 
-                        if(result.retCode == '200'){
+                        if(result.retCode == '00'){
                             this.$message({
                                 message: '新增成功！',
                                 type: 'success'
                             });
+                            this.addForm={
+                                projectid: '',
+                                apiname: '',
+                                reqkey: 'biz_content',
+                                version:'2.0.0.0',
+                                content:'',
+                                base64:'1'
+                            };
                             this.addFormVisible = false;
                             this.listLoading = false;
                             this.getData();
@@ -226,9 +234,9 @@ export default {
             this.$refs['updateForm'].validate((valid) => {
                 if (valid) {
                     this.listLoading = true;
-                    this.updateForm.type = '3';  //1通知2跳转3查询
+                    this.updateForm.type = '2';  //1通知2跳转3查询
                     updateInterface(this.updateForm).then(result => {
-                        if(result.retCode == '200'){
+                        if(result.retCode == '00'){
                             this.$message({
                                 message: '修改成功！',
                                 type: 'success'
@@ -266,7 +274,7 @@ export default {
             getInterface(params).then(result => {
                 console.log(result)
                 that.listLoading = false;
-                that.tableData = result.data;
+                that.tableData = result.list;
             })
 
         },

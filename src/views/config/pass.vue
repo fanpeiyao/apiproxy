@@ -3,20 +3,20 @@
 
          <div class="handle-box">
             <el-button type="primary" class='mr10'  size="small" @click="addFormVisible = true">新增</el-button>
-            <el-input  size="small" v-model="query.projectid" placeholder="项目编号" class="handle-input mr10"></el-input>
-            <el-input  size="small" v-model="query.path" placeholder="path" class="handle-input mr10"></el-input>
-            <el-input  size="small" v-model="query.name" placeholder="name" class="handle-input mr10"></el-input>
+
+            <el-input  size="small" v-model="query.path"   maxlength="64" placeholder="请输入重定向地址" class="handle-input mr10"></el-input>
+            <el-input  size="small" v-model="query.name"   maxlength="3" placeholder="请输入名称" class="handle-input mr10"></el-input>
             <el-button size="small" type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
         </div>
 
         <el-table  :data="tableData" border style="width: 100%">
 
-            <el-table-column fixed  prop="projectid" label="项目编号"  width="150">
-            </el-table-column>
-            <el-table-column  prop="path" label="重定向url"  width="300"> </el-table-column>
-            <el-table-column  prop="name" label="名称"  width="180"></el-table-column>
-            <el-table-column  prop="url" label="透传目的地址" width="180"></el-table-column>
-            <el-table-column  prop="redirecthost" label="重定向地址" width="300"></el-table-column>
+
+
+            <el-table-column  prop="path" label="重定向地址"   > </el-table-column>
+            <el-table-column  prop="name" label="名称"   ></el-table-column>
+            <el-table-column  prop="url" label="透传目的地址" ></el-table-column>
+            <!-- <el-table-column  prop="redirecthost" label="重定向地址" width="300"></el-table-column> -->
             <el-table-column  prop="requrl" label="配置生成的请求地址" width="300"></el-table-column>
 
 
@@ -41,21 +41,21 @@
 
         <el-dialog title="新增" :visible.sync="addFormVisible">
             <el-form :model="addForm" label-width="120px"  :rules="rules"  ref="addForm" >
-                <el-form-item label="重定向url" prop="path">
-                    <el-input v-model="addForm.path" placeholder="请输入重定向url" />
+                <el-form-item label="重定向地址" prop="path">
+                    <el-input v-model="addForm.path"  maxlength="64" placeholder="请输入重定向地址" />
                 </el-form-item>
 
-                <el-form-item label="环境编号" prop="name">
-                    <el-input v-model="addForm.name" placeholder="请输入名称"/>
+                <el-form-item label="名称" prop="name">
+                    <el-input v-model="addForm.name"  maxlength="3" placeholder="请输入名称"/>
                 </el-form-item>
 
-                <el-form-item label="重定向名称" prop="url">
-                    <el-input v-model="addForm.url" placeholder="请输入透传目的地址"/>
+                <el-form-item label="透传目的地址" prop="url">
+                    <el-input v-model="addForm.url"  maxlength="64" placeholder="请输入透传目的地址"/>
                 </el-form-item>
 
-                <el-form-item label="重定向地址" prop="redirecthost">
+                <!-- <el-form-item label="重定向地址" prop="redirecthost">
                     <el-input v-model="addForm.redirecthost" placeholder="请输入重定向地址"/>
-                </el-form-item>
+                </el-form-item> -->
 
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -68,23 +68,23 @@
 
         <el-dialog title="编辑" :visible.sync="upFormVisible">
             <el-form :model="updateForm" label-width="120px"  :rules="rules"  ref="updateForm" >
-                <el-form-item label="重定向url" prop="path">
-                    <el-input v-model="updateForm.path" placeholder="请输入重定向url" />
+                <el-form-item label="重定向地址" prop="path">
+                    <el-input v-model="updateForm.path"  maxlength="64" placeholder="请输入重定向地址" />
                 </el-form-item>
 
                 <el-form-item label="名称" prop="name">
-                    <el-input v-model="updateForm.name" placeholder="请输入名称"/>
+                    <el-input v-model="updateForm.name" maxlength="3" placeholder="请输入名称"/>
                 </el-form-item>
 
                 <el-form-item label="透传目的地址" prop="url">
-                    <el-input v-model="updateForm.url" placeholder="请输入透传目的地址"/>
+                    <el-input v-model="updateForm.url"  maxlength="64" placeholder="请输入透传目的地址"/>
                 </el-form-item>
 
-                <el-form-item label="重定向地址" prop="redirecthost">
+                <!-- <el-form-item label="重定向地址" prop="redirecthost">
                     <el-input v-model="updateForm.redirecthost" placeholder="请输入重定向地址"/>
-                </el-form-item>
+                </el-form-item> -->
 
-                <el-form-item label="生成的请求地址" prop="requrl">
+                <el-form-item label="生成的请求地址" >
                     <el-input v-model="updateForm.requrl" disabled=""/>
                 </el-form-item>
 
@@ -93,7 +93,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="upFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="onUpdate(scope.row)">确 定</el-button>
+                <el-button type="primary" @click="onUpdate()">确 定</el-button>
             </div>
         </el-dialog>
 
@@ -113,26 +113,27 @@ export default {
                 path: '',
                 name: '',
                 url: '',
-                redirecthost:'',
+                // redirecthost:'',
             },
             query:{
                 path: '',
                 name: '',
-                projectid: '',
+                // projectid: '',
             },
             rules: {
-                redirecthost: [
-                    { required: true, message: '请输入重定向地址', trigger: 'blur' },
-                    { pattern:/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/, message:'请输入正确的重定向地址', trigger: 'blur' }
-                ],
+                // redirecthost: [
+                //     { required: true, message: '请输入重定向地址', trigger: 'blur' },
+                //     { pattern:/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/, message:'请输入正确的重定向地址', trigger: 'blur' }
+                // ],
                 path: [
-                    { required: true, message: '请输入重定向地址', trigger: 'blur' },
+                    { required: true, message: '请输入重定向地址', trigger: 'blur' },,
+                    // { pattern:/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/, message:'请输入正确的重定向地址', trigger: 'blur' }
                 ],
                 name: [
                     { required: true, message: '请输入重定向名称', trigger: 'blur' },
                 ],
                 url: [
-                    { required: true, message: '请输入重定向地址', trigger: 'blur' },
+                    { required: true, message: '请输入透传目的地址', trigger: 'blur' },
                 ],
                 requrl: [
                     { required: true, message: '请输入重定向地址', trigger: 'blur' },
@@ -143,7 +144,6 @@ export default {
                 path: '',
                 name: '',
                 url: '',
-                redirecthost:'',
             },
             addFormVisible: false,
             upFormVisible: false,
@@ -157,8 +157,9 @@ export default {
     methods: {
         onDel(row) {
             this.listLoading = true;
+            console.log(row)
             delPass(row).then(result => {
-                if(result.retCode == '200'){
+                if(result.retCode == '00'){
                     this.listLoading = false;
                     this.$message({
                         message: '删除成功！',
@@ -176,12 +177,18 @@ export default {
         onAdd(row) {
             this.$refs['addForm'].validate((valid) => {
                 if (valid) {
+                    console.log(this.addForm)
                     addPass(this.addForm).then(result => {
-                        if(result.retCode == '200'){
+                        if(result.retCode == '00'){
                             this.$message({
                                 message: '新增成功！',
                                 type: 'success'
                             });
+                            this.addForm = {
+                                path: '',
+                                name: '',
+                                url: '',
+                            };
                             this.addFormVisible = false;
                             this.getData();
                         }
@@ -189,12 +196,13 @@ export default {
                 }
             })
         },
-        onUpdate(row) {
+        onUpdate() {
             this.$refs['updateForm'].validate((valid) => {
                 if (valid) {
                     this.listLoading = true;
+                    console.log(this.updateForm)
                     updatePass(this.updateForm).then(result => {
-                        if(result.retCode == '200'){
+                        if(result.retCode == '00'){
                             this.$message({
                                 message: '修改成功！',
                                 type: 'success'
@@ -233,7 +241,7 @@ export default {
             getPass(params).then(result => {
                 console.log(result)
                 that.listLoading = false;
-                that.tableData = result.data;
+                that.tableData = result.list;
             })
 
         },

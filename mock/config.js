@@ -2,21 +2,18 @@ import Mock from 'mockjs'
 
 const data = Mock.mock({
     'items|5': [{
-        projectid: '@id',
-        redirectcode: '@id',
-        redirectenv: '@cword("一二")',
-        redirectname: '@ctitle',
-        redirecthost: '@url',
+        code: '@id',
+        env: '@cword("一二")',
+       name: '@ctitle',
+        host: '@url',
         requrl: '@url'
     }]
 })
 const passData = Mock.mock({
     'items|5': [{
-        projectid: '@id',
         path: '@id',
         name: '@name',
         url: '@url',
-        redirecthost: '@url',
         requrl: '@url'
     }]
 })
@@ -37,88 +34,88 @@ const interdata = Mock.mock({
 export default [
   //查询
   {
-    url: '/apiproxy/redirect/query',
+    url: '/redirect/query',
     type: 'post',
     response: config => {
       return {
-        retCode: 200,
-        data: data.items
+        retCode: '00',
+        list: data.items
       }
     }
   },
   //新增
   {
-    url: '/apiproxy/redirect/add',
+    url: '/redirect/add',
     type: 'post',
     response: config => {
       return {
-        retCode: 200,
+        retCode: '00',
         retMsg: '新增成功！'
       }
     }
   },
   //修改
   {
-    url: '/apiproxy/redirect/update',
+    url: '/redirect/update',
     type: 'post',
     response: config => {
       return {
-        retCode: 200,
+        retCode: '00',
         retMsg: '修改成功！'
       }
     }
   },
   //删除
   {
-    url: '/apiproxy/redirect/del',
+    url: '/redirect/del',
     type: 'post',
     response: config => {
       return {
-        retCode: 200,
+        retCode: '00',
         retMsg: '删除成功！'
       }
     }
   },
     //查询
     {
-      url: '/apiproxy/passthrough/query',
+      url: '/passthrough/query',
       type: 'post',
       response: config => {
         return {
-          retCode: 200,
-          data: passData.items
+          retCode: '00',
+          list: passData.items
         }
       }
     },
     //新增
     {
-      url: '/apiproxy/passthrough/add',
+      url: '/passthrough/add',
       type: 'post',
       response: config => {
         return {
-          retCode: 200,
+          retCode: '00',
           retMsg: '新增成功！'
         }
       }
     },
     //修改
     {
-      url: '/apiproxy/passthrough/update',
+      url: '/passthrough/update',
       type: 'post',
       response: config => {
         return {
-          retCode: 200,
+          retCode: '00',
           retMsg: '修改成功！'
         }
       }
     },
     //删除
     {
-      url: '/apiproxy/passthrough/del',
+      url: '/passthrough/del',
       type: 'post',
       response: config => {
         return {
-          retCode: 200,
+          retCode: '00',
           retMsg: '刹车成功！'
         }
       }
@@ -126,44 +123,44 @@ export default [
 
     //查询
     {
-      url: '/apiproxy/interface/query',
+      url: '/interface/query',
       type: 'post',
       response: config => {
         return {
-          retCode: 200,
-          data: interdata.items
+          retCode: '00',
+          list: interdata.items
         }
       }
     },
     //新增
     {
-      url: '/apiproxy/interface/add',
+      url: '/interface/add',
       type: 'post',
       response: config => {
         return {
-          retCode: 200,
+          retCode: '00',
           retMsg: '新增成功！'
         }
       }
     },
     //修改
     {
-      url: '/apiproxy/interface/update',
+      url: '/interface/update',
       type: 'post',
       response: config => {
         return {
-          retCode: 200,
+          retCode: '00',
           retMsg: '修改成功！'
         }
       }
     },
     //删除
     {
-      url: '/apiproxy/interface/del',
+      url: '/interface/del',
       type: 'post',
       response: config => {
         return {
-          retCode: 200,
+          retCode: '00',
           retMsg: '删除成功！'
         }
       }

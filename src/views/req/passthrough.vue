@@ -14,22 +14,16 @@
         </el-form-item>
         </el-form> -->
           <div class="handle-box">
-            <el-input  size="small" v-model="query.projectid" placeholder="项目编号" class="handle-input mr10"></el-input>
-            <el-input  size="small" v-model="query.path" placeholder="path" class="handle-input mr10"></el-input>
-            <el-input  size="small" v-model="query.name" placeholder="name" class="handle-input mr10"></el-input>
+            <el-input  size="small" v-model="query.path" placeholder="请输入重定向地址" class="handle-input mr10"></el-input>
+            <el-input  size="small" v-model="query.name" placeholder="请输入名称" class="handle-input mr10"></el-input>
             <el-button size="small" type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
         </div>
 
         <el-table  :data="tableData" border style="width: 100%">
-
-            <el-table-column fixed  prop="projectid" label="项目编号"  width="180">
-            </el-table-column>
             <el-table-column  prop="path" label="重定向url"  width="300"> </el-table-column>
             <el-table-column  prop="name" label="名称"  width="180"></el-table-column>
             <el-table-column  prop="url" label="透传目的地址" width="180"></el-table-column>
-            <el-table-column  prop="redirecthost" label="重定向地址" width="300"></el-table-column>
             <el-table-column  prop="requrl" label="配置生成的请求地址" width="300"></el-table-column>
-
 
             <el-table-column fixed="right"  label="操作"  width="100">
                 <template slot-scope="scope">
@@ -99,7 +93,6 @@ export default {
             query:{
                 path: '',
                 name: '',
-                projectid: '',
             },
             tableData: [],
             page:1,
@@ -136,7 +129,7 @@ export default {
             getPass(params).then(result => {
                 console.log(result)
                 that.listLoading = false;
-                that.tableData = result.data;
+                that.tableData = result.list;
             })
 
         },

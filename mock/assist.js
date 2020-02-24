@@ -7,64 +7,57 @@ const data = Mock.mock({
 export default [
     //公私钥生成
     {
-        url: '/apiproxy/encryption/getKeyPair',
+        url: '/encryption/getKeyPair',
         type: 'post',
         response: config => {
             return {
-                retCode: 200,
-                data
+                retCode: '00',
+                privateKey: data.prikey,
+                publicKey: data.pubkey,
             }
         }
     },
     //base64编码
     {
-      url: '/apiproxy/encryption/BASE64Encrypt',
+      url: '/encryption/BASE64Encrypt',
       type: 'post',
       response: config => {
         return {
-          retCode: 200,
-          data:{
-              reqdata: data.pubkey
-          }
+          retCode: '00',
+          encrypt: data.pubkey
         }
       }
     },
     //base64解码
     {
-      url: '/apiproxy/encryption/BASE64Decrypt',
+      url: '/encryption/BASE64Decrypt',
       type: 'post',
       response: config => {
         return {
-          retCode: 200,
-          data: {
-            reqdata: data.pubkey
-          }
+          retCode: '00',
+          decrypt: data.pubkey
         }
       }
     },
     //RSA编码
     {
-      url: '/apiproxy/encryption/RSAEncrypt',
+      url: '/encryption/RSAEncrypt',
       type: 'post',
       response: config => {
         return {
-          retCode: 200,
-          data: {
-            reqdata: data.pubkey
-          }
+          retCode: '00',
+          encrypt: data.pubkey
         }
       }
     },
     //RSA解码
     {
-      url: '/apiproxy/encryption/RSADecrypt',
+      url: '/encryption/RSADecrypt',
       type: 'post',
       response: config => {
         return {
-          retCode: 200,
-          data: {
-            reqdata: data.pubkey
-          }
+          retCode: '00',
+          decrypt: data.pubkey
         }
       }
     }

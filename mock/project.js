@@ -68,46 +68,57 @@ Random.extend({
 
 
 export default [
-    //查询
+    //查询列表
     {
-        url: '/apiproxy/project/query',
+        url: '/project/query',
         type: 'post',
         response: config => {
             return {
-                retCode: 200,
-                data: data.items
+                retCode: '00',
+                list: data.items
             }
         }
     },
+    //查询详情
+    {
+      url: '/project/qry',
+      type: 'post',
+      response: config => {
+        return {
+          retCode: '00',
+          list: data.items
+        }
+      }
+    },
     //新增
     {
-        url: '/apiproxy/project/add',
+        url: '/project/add',
         type: 'post',
         response: config => {
         return {
-            retCode: 200,
+            retCode: '00',
             retMsg:'新增成功！'
         }
         }
     },
     //修改
     {
-        url: '/apiproxy/project/update',
+        url: '/project/update',
         type: 'post',
         response: config => {
         return {
-            retCode: 200,
+            retCode: '00',
             retMsg:'修改成功！'
         }
         }
     },
     //删除
     {
-      url: '/apiproxy/project/del',
+      url: '/project/del',
       type: 'post',
       response: config => {
         return {
-          retCode: 200,
+          retCode: '00',
           retMsg: '刹车成功！'
         }
       }

@@ -1,7 +1,7 @@
 import request, {
   appid
 } from '@/utils/request'
-
+//查询项目列表
 export function getProjects(params) {
   return request({
     url: appid() + '/project/query',
@@ -26,6 +26,14 @@ export function upDateProject(params) {
 export function delProject(params) {
   return request({
     url: appid() + '/project/del',
+    method: 'post',
+    params
+  })
+}
+//查询某个项目
+export function qryInfo(params) {
+  return request({
+    url: appid() + '/project/qry',
     method: 'post',
     params
   })

@@ -170,6 +170,8 @@ export default {
                     });
                     this.form.prikey = project.prikey; */
 
+                    this.form.reqdata = encodeURI(this.form.reqdata);
+                    console.log(this.form)
                     queryApi(this.form).then(result => {
                         this.$message('submit!');
                         this.resdata = result.data.resdata;
@@ -192,7 +194,7 @@ export default {
             console.log(params)
             getProjects(params).then(result => {
                 that.listLoading = false;
-                that.projects = result.data;
+                that.projects = result.list;
             })
 
         },
@@ -209,7 +211,7 @@ export default {
             //分页展示待定
             getInterface(params).then(result => {
                 that.listLoading = false;
-                that.apis = result.data;
+                that.apis = result.list;
                 console.log(that.apis)
             })
 
@@ -222,7 +224,8 @@ export default {
             this.form.reqdata = ret.content;
             //根据接口展示版本？？？
             this.form.version = ret.version;
-            this.form.samplecode =  showXml(ret.samplecode);
+            this.form.samplecode =  ret.samplecode;
+            // this.form.samplecode =  showXml(ret.samplecode);
         },
 
         selectChange(val) {
@@ -257,7 +260,7 @@ export default {
             console.log(params)
             getProjects(params).then(result => {
                 this.listLoading = false;
-                this.projects = result.data;
+                this.projects = result.list;
                 console.log(this.projects)
                 this.currentpage = 1;
                 this.loading = false

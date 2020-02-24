@@ -37,10 +37,12 @@ export default {
         onSubmit() {
             console.log(1111)
             getCipher().then(result => {
-                if(result.retCode == '200'){
+                console.log(result)
+                if(result.retCode == '00'){
 
                     this.showForm =true;
-                    this.form = result.data;
+                    this.form.pubkey = result.publicKey;
+                    this.form.prikey = result.privateKey;
                 }
             })
 

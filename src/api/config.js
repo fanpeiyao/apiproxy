@@ -79,6 +79,7 @@ export function getInterface(params) {
   })
 }
 export function addInterface(params) {
+    console.log(params)
   return request({
     url: appid() + '/interface/add',
     method: 'post',

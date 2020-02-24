@@ -6,9 +6,9 @@
             </el-button>
 
 
-            <el-input  size="small" v-model="query.projectid" placeholder="项目编号" class="handle-input mr10"></el-input>
-            <el-input  size="small" v-model="query.apiname" placeholder="接口名称" class="handle-input mr10"></el-input>
-            <el-input  size="small" v-model="query.key" placeholder="字段key" class="handle-input mr10"></el-input>
+            <el-input  size="small" v-model="query.projectid"  placeholder="项目编号" class="handle-input mr10"></el-input>
+            <el-input  size="small" v-model="query.apiname" maxlength="64" placeholder="接口名称" class="handle-input mr10"></el-input>
+            <el-input  size="small" v-model="query.keycode" placeholder="字段keycode" class="handle-input mr10"></el-input>
             <el-button size="small" type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
         </div>
 
@@ -16,7 +16,7 @@
             <el-table-column  fixed  prop="projectid" label="项目编号" >
             </el-table-column>
             <el-table-column  prop="apiname" label="接口名称"  width="180"> </el-table-column>
-            <el-table-column  prop="key" label="key" >
+            <el-table-column  prop="keycode" label="keycode" >
             </el-table-column>
             <el-table-column  prop="value" label="value" ></el-table-column>
             <el-table-column fixed="right" label="操作"  >
@@ -38,20 +38,20 @@
 
         <el-dialog title="新增" :visible.sync="addFormVisible">
         <el-form :model="addForm" :rules="rules" ref="addForm">
-            <el-form-item label="项目编号" :label-width="formLabelWidth" prop="projectid">
+            <el-form-item label="项目编号" :label-width="formLabelWidth" maxlength="32"  prop="projectid">
             <el-input v-model="addForm.projectid" autocomplete="off" placeholder="请输入内容" ></el-input>
             </el-form-item>
 
             <el-form-item label="接口名称" :label-width="formLabelWidth" prop="apiname">
-            <el-input v-model="addForm.apiname" autocomplete="off" placeholder="请输入内容" ></el-input>
+            <el-input v-model="addForm.apiname" maxlength="64"  autocomplete="off" placeholder="请输入内容" ></el-input>
             </el-form-item>
 
-            <el-form-item label="key" :label-width="formLabelWidth" prop="key">
-            <el-input v-model="addForm.key" autocomplete="off" placeholder="请输入内容" ></el-input>
+            <el-form-item label="keycode" :label-width="formLabelWidth" prop="keycode">
+            <el-input v-model="addForm.keycode" autocomplete="off"  maxlength="32"  placeholder="请输入内容" ></el-input>
             </el-form-item>
 
             <el-form-item label="value" :label-width="formLabelWidth" prop="value">
-            <el-input v-model="addForm.value" autocomplete="off" placeholder="请输入内容" ></el-input>
+            <el-input v-model="addForm.value" autocomplete="off" maxlength="64"  placeholder="请输入内容" ></el-input>
             </el-form-item>
 
         </el-form>
@@ -66,20 +66,20 @@
         <el-dialog title="编辑" :visible.sync="upFormVisible">
         <el-form :model="updateForm" :rules="rules" ref="updateForm">
             <el-form-item label="项目编号" :label-width="formLabelWidth">
-            <el-input v-model="updateForm.projectid" disabled autocomplete="off" placeholder="请输入内容" ></el-input>
+            <el-input v-model="updateForm.projectid" disabled autocomplete="off" maxlength="32"  placeholder="请输入内容" ></el-input>
             </el-form-item>
 
 
             <el-form-item label="接口名称" :label-width="formLabelWidth">
-            <el-input v-model="updateForm.apiname" disabled autocomplete="off" placeholder="请输入内容" ></el-input>
+            <el-input v-model="updateForm.apiname" disabled autocomplete="off" maxlength="64"  placeholder="请输入内容" ></el-input>
             </el-form-item>
 
-            <el-form-item label="key" :label-width="formLabelWidth" prop="key">
-            <el-input v-model="updateForm.key" autocomplete="off" placeholder="请输入内容" ></el-input>
+            <el-form-item label="keycode" :label-width="formLabelWidth" prop="keycode">
+            <el-input v-model="updateForm.keycode" autocomplete="off" maxlength="32"  placeholder="请输入内容" ></el-input>
             </el-form-item>
 
             <el-form-item label="value" :label-width="formLabelWidth" prop="value">
-            <el-input v-model="updateForm.value" autocomplete="off" placeholder="请输入内容" ></el-input>
+            <el-input v-model="updateForm.value" autocomplete="off" maxlength="64"  placeholder="请输入内容" ></el-input>
             </el-form-item>
 
 
@@ -102,12 +102,12 @@ export default {
         query:{
             projectid: '',
             apiname: '',
-            key: '',
+            keycode: '',
         },
         addForm: {
             projectid: '',
             apiname: '',
-            key: '',
+            keycode: '',
             value:''
         },
         updateForm: {},
@@ -120,8 +120,8 @@ export default {
             apiname: [
                 { required: true, message: '请输入接口名称', trigger: 'blur' }
             ],
-            key: [
-                { required: true, message: '请输入key', trigger: 'blur' }
+            keycode: [
+                { required: true, message: '请输入keycode', trigger: 'blur' }
             ],
             value: [
                 { required: true, message: '请输入value', trigger: 'blur' }
@@ -143,7 +143,7 @@ export default {
             this.listLoading = true;
             console.log(row)
             delApiConf(row).then(result => {
-                if(result.retCode == '200'){
+                if(result.retCode == '00'){
                     this.$message({
                         message: '删除成功！',
                         type: 'success'
@@ -162,12 +162,19 @@ export default {
             this.$refs['addForm'].validate((valid) => {
                 if (valid) {
                     this.listLoading = true;
+                    console.log(this.addForm)
                     addApiConf(this.addForm).then(result => {
-                        if(result.retCode == '200'){
+                        if(result.retCode == '00'){
                             this.$message({
                                 message: '新增成功！',
                                 type: 'success'
                             });
+                            this.addForm= {
+                                projectid: '',
+                                apiname: '',
+                                keycode: '',
+                                value:''
+                            };
                             this.addFormVisible = false;
                             this.listLoading = false;
                             this.getData();
@@ -181,7 +188,7 @@ export default {
                 if (valid) {
                     this.listLoading = true;
                     updateApiConf(this.updateForm).then(result => {
-                        if(result.retCode == '200'){
+                        if(result.retCode == '00'){
                             this.$message({
                                 message: '修改成功！',
                                 type: 'success'
@@ -217,13 +224,13 @@ export default {
             console.log(params)
             getApiConf(params).then(result => {
                 that.listLoading = false;
-                that.tableData = result.data;
+                that.tableData = result.list;
             })
 
         },
         //分页展示
         handleCurrentChange(val) {
-            this.page = val-1;
+            this.page = val;
             this.getData();
         },
     },

@@ -12,7 +12,7 @@ export function getReqdata(params) {
 
 export function noticeApi(params) {
   return request({
-    url: appid() + '/debug/notice ',
+    url: appid() + '/gyjapi/notice ',
     method: 'post',
     params
   })
@@ -20,7 +20,7 @@ export function noticeApi(params) {
 
 export function jumpApi(params) {
   return request({
-    url: appid() + '/debug/jump ',
+    url: appid() + '/gyjapi/jump ',
     method: 'post',
     params
   })
@@ -28,7 +28,7 @@ export function jumpApi(params) {
 
 export function queryApi(params) {
   return request({
-    url: appid() + '/debug/query ',
+    url: appid() + '/gyjapi/query ',
     method: 'post',
     params
   })

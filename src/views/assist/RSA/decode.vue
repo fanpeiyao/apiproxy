@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form ref="form" :model="form" label-width="120px" :rules="rules">
       <el-form-item label="私钥"  prop='prikey'>
-        <el-input v-model="form.prikey" placeholder="请输入私钥" />
+        <el-input v-model="form.prikey" placeholder="请输入私钥"  type="textarea" :autosize="{ minRows:5}"/>
       </el-form-item>
 
       <el-form-item label="待解密内容"  prop='content'>
@@ -48,8 +48,8 @@ export default {
         this.$refs['form'].validate((valid) => {
             if (valid) {
                 rsaDecode(this.form).then(result => {
-                    if (result.retCode == "200") {
-                        this.result = result.data.reqdata;
+                    if (result.retCode == "00") {
+                        this.result = result.decrypt;
                     }
                 });
             }
