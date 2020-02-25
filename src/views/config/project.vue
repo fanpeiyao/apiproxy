@@ -82,11 +82,11 @@
 </template>
 
 <script>
-import { getProjects,addProject,upDateProject,delProject } from '@/api/project'
+import { getProjects,getProInfo,addProject,upDateProject,delProject } from '@/api/project'
 export default {
     data() {
         return {
-            
+
             addForm: {
                 projectid: '',
                 projectname: '',
@@ -217,6 +217,13 @@ export default {
         //搜索
         handleSearch() {
             this.getData();
+        },
+        getInfo(row) {
+            getProInfo(row).then(result => {
+                console.log(result)
+                that.info = result.data;
+            })
+
         },
     },
     created(){

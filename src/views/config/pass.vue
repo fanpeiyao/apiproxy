@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import { getPass,addPass,updatePass,delPass } from '@/api/config'
+import { getPass,getPassInfo,addPass,updatePass,delPass } from '@/api/config'
 import { passthrough } from '@/api/req'
 
 export default {

@@ -21,21 +21,27 @@ const passData = Mock.mock({
 
 const interdata = Mock.mock({
       'items|3': [{
-          id:'1',
+          id:'@id',
             projectid: 'yzt',
             apiname: '假接口名称' + '@name',
-            key: '@id',
             version: '1.0.0.0',
             content: 'sssssssssssssssssssssvvvvvvvvvvvvvssssss',
             base64: '1',
-            samplecode: '<?xml version="1.0" encoding ="UTF-8"?><GYJ><pub><TransCode>DZBLSIGN_Develop2</TransCode><MerId>daizhangtest</MerId><TranDate>20181225</TranDate><TranTime>093737</TranTime><TransNo>TN20181225093737</TransNo></pub><in><Techno>daizhangtest</Techno><Intno>10086</Intno><Accname></Accname><Accno></Accno><EnterprizeCreditNo>1122334455</EnterprizeCreditNo></in></GYJ>'
+            samplecode: '<?xml version="1.0" encoding ="UTF-8"?><GYJ><pub><TransCode>DZBLSIGN_Develop2</TransCode><MerId>daizhangtest</MerId><TranDate>20181225</TranDate><TranTime>093737</TranTime><TransNo>TN20181225093737</TransNo></pub><in><Techno>daizhangtest</Techno><Intno>10086</Intno><Accname></Accname><Accno></Accno><EnterprizeCreditNo>1122334455</EnterprizeCreditNo></in></GYJ>',
+              properties: [{
+                'keycode': '11',
+                'value': '11-11'
+              }, {
+                'keycode': '22',
+                'value': '22-22'
+              }]
       }]
 })
 
 export default [
   //查询
   {
-    url: '/redirect/query',
+    url: '/redirect/list',
     type: 'post',
     response: config => {
       return {
@@ -79,7 +85,7 @@ export default [
   },
     //查询
     {
-      url: '/passthrough/query',
+      url: '/passthrough/list',
       type: 'post',
       response: config => {
         return {

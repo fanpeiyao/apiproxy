@@ -1,38 +1,11 @@
 <template>
     <div class="app-container">
-        <!-- <el-form ref="form" :model="form" label-width="120px">
-           <el-form-item label="重定向url">
-                <el-input v-model="form.code" placeholder="请输入重定向url" />
-            </el-form-item>
-
-            <el-form-item label="环境编号">
-                <el-input v-model="form.env" placeholder="请输入环境编号"/>
-            </el-form-item>
-
-            <el-form-item label="重定向名称">
-                <el-input v-model="form.name" placeholder="请输入重定向名称"/>
-            </el-form-item>
-
-            <el-form-item label="重定向地址">
-                <el-input v-model="form.host" placeholder="请输入重定向地址"/>
-            </el-form-item>
-
-            <el-form-item>
-                <el-button type="primary" @click="onSubmit">新增</el-button>
-            </el-form-item>
-        </el-form> -->
         <div class="handle-box">
             <el-button type="primary" class='mr10'  size="small" @click="addFormVisible = true">新增</el-button>
-            <!-- <el-input  size="small" v-model="query.projectid" placeholder="项目编号" class="handle-input mr10"></el-input> -->
             <el-input  size="small" v-model="query.code" maxlength="64" placeholder="请输入重定向地址" class="handle-input mr10"></el-input>
             <el-input  size="small" v-model="query.env"  maxlength="3" placeholder="请输入环境编号" class="handle-input mr10"></el-input>
             <el-button size="small" type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
         </div>
-        <!-- <el-form ref="form"  >
-            <el-form-item>
-                <el-button type="primary" size="small" @click="addFormVisible = true">新增</el-button>
-            </el-form-item>
-        </el-form> -->
 
         <el-table  :data="tableData" border style="width: 100%">
 
@@ -123,7 +96,7 @@
 </template>
 
 <script>
-import { getRedirect,addRedirect,updateRedirect,delRedirect } from '@/api/config'
+import { getRedirect,getRedirectInfo,addRedirect,updateRedirect,delRedirect } from '@/api/config'
 
 import { redirect } from '@/api/req'
 

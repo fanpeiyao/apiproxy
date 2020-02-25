@@ -9,6 +9,13 @@ export function getProjects(data) {
     data
   })
 }
+export function getProInfo(data) {
+  return request({
+    url: appid() + '/project/info',
+    method: 'post',
+    data
+  })
+}
 export function addProject(data) {
   return request({
     url: appid() + '/project/add',

@@ -11,7 +11,7 @@ export function redirect(params) {
 }
 export function passthrough(params) {
   return request({
-    url: appid() + '/req/passthrough ',
+    url: appid() + '/passthrough/option ',
     method: 'post',
     data :params
   })

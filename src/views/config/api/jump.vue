@@ -83,12 +83,18 @@
             :autosize="{ minRows:10}"/>
                 </el-form-item>
 
-                <el-form-item label="示例代码" :label-width="formLabelWidth" prop="content">
+                <!-- <el-form-item label="示例代码" :label-width="formLabelWidth" prop="content">
                     <el-input v-model="addForm.samplecode" type="textarea"  placeholder="请输入示例代码"
             :autosize="{ minRows:10}"/>
-                </el-form-item>
+                </el-form-item> -->
 
 
+    <el-form-item class='properties' :label="'接口附加参数' + (index+1)" :label-width="formLabelWidth"  v-for="(item, index) in addForm.properties"  :key="item.index">
+      <el-input v-model="item.keycode"   size="small" autocomplete="off" placeholder="请输入keycode" ></el-input>
+      <el-input v-model="item.value" size="small" autocomplete="off" placeholder="请输入value" ></el-input>
+        <i v-if=" addForm.properties.length<5" class='el-icon-plus' @click='addProps("addForm")'></i>
+        <i v-if=" addForm.properties.length>1" class='el-icon-minus' @click='delProps("addForm",index)'></i>
+    </el-form-item>
 
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -130,10 +136,16 @@
             :autosize="{ minRows:10}"/>
                 </el-form-item>
 
-                <el-form-item label="示例代码" :label-width="formLabelWidth" prop="content">
+                <el-form-item class='properties' :label="'接口附加参数' + (index+1)" :label-width="formLabelWidth"  v-for="(item, index) in updateForm.properties"  :key="item.index">
+                <el-input v-model="item.keycode"   size="small" autocomplete="off" placeholder="请输入keycode" ></el-input>
+                <el-input v-model="item.value" size="small" autocomplete="off" placeholder="请输入value" ></el-input>
+                    <i v-if=" updateForm.properties.length<5" class='el-icon-plus' @click='addProps("updateForm")'></i>
+                    <i v-if=" updateForm.properties.length>1" class='el-icon-minus' @click='delProps("updateForm",index)'></i>
+                </el-form-item>
+                <!-- <el-form-item label="示例代码" :label-width="formLabelWidth" prop="content">
                     <el-input v-model="updateForm.samplecode" type="textarea"  placeholder="请输入示例代码"
             :autosize="{ minRows:10}"/>
-                </el-form-item>
+                </el-form-item> -->
 
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -143,8 +155,8 @@
             </el-dialog>
 
             <!-- 接口附加参数管理 -->
-            <el-dialog title="接口附加参数管理" class='apiconf' :visible.sync="apiConfVisible"  :close-on-click-modal="false">
-                <div class="handle-box">
+            <el-dialog title="接口附加参数" class='apiconf' :visible.sync="apiConfVisible"  :close-on-click-modal="false">
+                <!-- <div class="handle-box">
 
 
                     <el-button type="primary" size="small" icon="el-icon-edit"  class="handle-del mr10" @click="addFormVisibleConf = true;"> 新增
@@ -155,7 +167,7 @@
                     <el-input  size="small" v-model="queryConf.apiname" maxlength="64" placeholder="接口名称" class="handle-input mr10"></el-input>
                     <el-input  size="small" v-model="queryConf.keycode" placeholder="字段keycode" class="handle-input mr10"></el-input>
                     <el-button size="small" type="primary" icon="el-icon-search" @click="handleSearchConf">搜索</el-button>
-                </div>
+                </div> -->
 
             <el-table  :data="tableDataConf"  border style="width: 100%">
                     <el-table-column  fixed  prop="projectid" label="项目编号" >
@@ -164,24 +176,24 @@
                     <el-table-column  prop="keycode" label="keycode" >
                     </el-table-column>
                     <el-table-column  prop="value" label="value" ></el-table-column>
-                    <el-table-column fixed="right" label="操作"  >
+                    <!-- <el-table-column fixed="right" label="操作"  >
                     <template slot-scope="scope">
                         <el-button @click="onDelConf(scope.row)" type="text" size="small">删除</el-button>
                         <el-button type="text" size="small"  @click="onUpdateFormConf(scope.row)" >修改</el-button>
                     </template>
-                    </el-table-column>
+                    </el-table-column> -->
                 </el-table>
 
 
                 <!--分页-->
-                <el-col :span="24" class="toolbar" v-show='tableDataConf.length>0' >
+                <!-- <el-col :span="24" class="toolbar" v-show='tableDataConf.length>0' >
                     <el-pagination layout="prev, pager, next" :current-page.sync='currentpageConf' @current-change="handleCurrentChangeConf" :page-size="pageSizeConf" :total="tableDataConf.length" style="float:right;">
                     </el-pagination>
-                </el-col>
+                </el-col> -->
 
         </el-dialog>
 
-                <el-dialog title="新增" :visible.sync="addFormVisibleConf">
+               <!--  <el-dialog title="新增" :visible.sync="addFormVisibleConf">
                     <el-form :model="addFormConf" :rules="rulesConf" ref="addFormConf">
                         <el-form-item label="项目编号" :label-width="formLabelWidth" maxlength="32"  prop="projectid">
                         <el-input v-model="addFormConf.projectid" autocomplete="off" placeholder="请输入内容" ></el-input>
@@ -233,7 +245,7 @@
                         <el-button @click="upFormVisibleConf = false" size='small'>取 消</el-button>
                         <el-button type="primary" @click="onUpdateConf()" size='small'>确 定</el-button>
                     </div>
-                </el-dialog>
+                </el-dialog> -->
 
         <!-- <div v-if='!jump'>
 
@@ -262,14 +274,19 @@ export default {
             version:'2.0.0.0',
             content:'',
             base64:'1',
-            samplecode:''
+            samplecode:'',
+            properties:[
+                {
+                    keycode:'',value:''
+                }
+            ]
 
         },
-        addConfForm: {
+        /* addConfForm: {
             keycode:'',
             value:''
 
-        },
+        }, */
         jump:true,//jump页面还是jumpconf页面
         updateForm: {},
 
@@ -401,6 +418,7 @@ export default {
                 if (valid) {
                     this.listLoading = true;
                     this.updateForm.type = '2';  //1通知2跳转3查询
+                    console.log(this.updateForm)
                     updateInterface(this.updateForm).then(result => {
                         if(result.retCode == '00'){
                             this.$message({
@@ -415,15 +433,6 @@ export default {
                 }
             })
         },
-        openApiconf(row) {
-            this.addConfForm.id = row.id;
-            // this.jump = false;
-            // this.$router.replace({path:"/config/api/api-jump/conf"});
-
-            this.apiConfVisible = true;
-            this.getDataConf();
-        },
-        //
         handleSearch() {
             /* var that = this;
             this.listLoading = true;
@@ -509,6 +518,7 @@ export default {
             this.$refs['updateFormConf'].validate((valid) => {
                 if (valid) {
                     this.listLoading = true;
+                    console.log(this.updateFormConf)
                     updateApiConf(this.updateFormConf).then(result => {
                         if(result.retCode == '00'){
                             this.$message({
@@ -555,6 +565,18 @@ export default {
             this.pageConf = val;
             this.getDataConf();
         },
+        openApiconf(row) {
+            console.log(row)
+            this.tableDataConf = row.properties;
+            this.apiConfVisible = true;
+
+        },
+        addProps(formName) {
+            this[formName].properties.push({keycode:'',value:''})
+        },
+        delProps(formName,index) {
+            this[formName].properties.splice(index, 1)
+        }
     },
     created(){
         this.getData();

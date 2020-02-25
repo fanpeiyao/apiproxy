@@ -5,11 +5,20 @@ from '@/utils/request'
 //重定项地址配置查询
 export function getRedirect(params) {
   return request({
-    url: appid() + '/redirect/query',
+    url: appid() + '/redirect/list',
     method: 'post',
     data :params
   })
 }
+//新增重定项地址配置
+export function getRedirectInfo(params) {
+  return request({
+    url: appid() + '/redirect/info',
+    method: 'post',
+    data :params
+  })
+}
+
 //新增重定项地址配置
 export function addRedirect(params) {
   return request({
@@ -40,9 +49,17 @@ export function delRedirect(params) {
 //重定项地址配置查询
 export function getPass(params) {
   return request({
-    url: appid() + '/passthrough/query',
+    url: appid() + '/passthrough/list',
     method: 'post',
     data :params
+  })
+}
+//重定项地址配置查询
+export function getPassInfo(params) {
+  return request({
+    url: appid() + '/passthrough/info',
+    method: 'post',
+    data: params
   })
 }
 //新增重定项地址配置
