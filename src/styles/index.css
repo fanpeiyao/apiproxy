@@ -622,3 +622,21 @@ xmp {
     font-family: Consolas, Liberation Mono, Menlo, Courier, monospace;
     font-size: 12px !important;
 }
+
+.apiconf .el-dialog {
+    width: 90% !important;
+    margin-top: 10px !important;
+}
+
+.properties {
+    margin-bottom: 15px !important;
+}
+
+.properties .el-input--small {
+    width: 45%;
+}
+
+.properties  i {
+    cursor: pointer;
+    margin-left: 2px;
+}

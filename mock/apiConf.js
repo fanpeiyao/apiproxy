@@ -1,7 +1,7 @@
 import Mock from 'mockjs'
 
 const data = Mock.mock({
-      'items|3': [{
+      'items|7': [{
           projectid: 'yzt',
           apiname: '外汇来汇明细通知',
           attkey: 'GYJREMITNOTIFY',

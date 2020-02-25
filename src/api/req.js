@@ -6,13 +6,13 @@ export function redirect(params) {
   return request({
     url: appid() + '/req/redirect ',
     method: 'post',
-    params
+    data :params
   })
 }
 export function passthrough(params) {
   return request({
     url: appid() + '/req/passthrough ',
     method: 'post',
-    params
+    data :params
   })
 }

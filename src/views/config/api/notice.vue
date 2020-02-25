@@ -33,11 +33,14 @@
             <el-table-column
             fixed="right"
             label="操作"
-                width="100">
-                <template slot-scope="scope">
-                    <el-button @click="onDel(scope.row)" type="text" size="small"  v-permission="['admin']" >删除</el-button>
-                    <el-button type="text" size="small"  @click="onUpdateForm(scope.row)" >修改</el-button>
-                </template>
+            width="200">
+            <template slot-scope="scope">
+                <el-button @click="openApiconf(scope.row)" type="text" size="small">
+                    附加参数
+                </el-button>
+                <el-button type="text" size="small"  @click="onUpdateForm(scope.row)" >修改</el-button>
+                <el-button @click="onDel(scope.row)" type="text"  v-permission="['admin']" size="small">删除</el-button>
+            </template>
             </el-table-column>
         </el-table>
 
@@ -81,6 +84,30 @@
 
 
 
+    <el-form-item class='properties' :label="'接口附加参数' + (index+1)" :label-width="formLabelWidth"  v-for="(item, index) in addForm.properties"  :key="item.index">
+      <el-input v-model="item.keycode"   size="small" autocomplete="off" placeholder="请输入keycode" ></el-input>
+      <el-input v-model="item.value" size="small" autocomplete="off" placeholder="请输入value" ></el-input>
+        <i v-if=" addForm.properties.length<5" class='el-icon-plus' @click='addProps'></i>
+        <i v-if=" addForm.properties.length>1" class='el-icon-minus' @click='delProps(index)'></i>
+    </el-form-item>
+
+ <!-- <el-form-item
+          v-for="(domain, index) in addForm.properties"
+           :label="'接口附加参数' + index"
+            :key="domain.key"
+           :prop="'domains.' + index + '.value'"
+           :rules="{
+            required: true, message: '域名不能为空', trigger: 'change'
+          }"
+        >
+          <el-input v-model="domain.value"></el-input>
+        </el-form-item> -->
+      <!-- <el-form-item label="示例代码" :label-width="formLabelWidth" prop="content">
+        <el-input v-model="addForm.samplecode" type="textarea"  placeholder="请输入示例代码"
+  :autosize="{ minRows:10}"/>
+      </el-form-item> -->
+
+
   </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="addFormVisible = false" size='small'>取 消</el-button>
@@ -121,6 +148,11 @@
   :autosize="{ minRows:10}"/>
       </el-form-item>
 
+      <el-form-item label="示例代码" :label-width="formLabelWidth" prop="content">
+        <el-input v-model="updateForm.samplecode" type="textarea"  placeholder="请输入示例代码"
+  :autosize="{ minRows:10}"/>
+      </el-form-item>
+
   </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="upFormVisible = false" size='small'>取 消</el-button>
@@ -129,11 +161,113 @@
 </el-dialog>
 
 
+
+
+
+
+
+            <!-- 接口附加参数管理 -->
+            <el-dialog title="接口附加参数" class='apiconf' :visible.sync="apiConfVisible"  :close-on-click-modal="false">
+                <!-- <div class="handle-box">
+                    <el-input  size="small" v-model="queryConf.projectid"  placeholder="项目编号" class="handle-input mr10"></el-input>
+                    <el-input  size="small" v-model="queryConf.apiname" maxlength="64" placeholder="接口名称" class="handle-input mr10"></el-input>
+                    <el-input  size="small" v-model="queryConf.keycode" placeholder="字段keycode" class="handle-input mr10"></el-input>
+                    <el-button size="small" type="primary" icon="el-icon-search" @click="handleSearchConf">搜索</el-button>
+                </div> -->
+
+            <el-table  :data="tableDataConf"  border style="width: 100%">
+                    <el-table-column  fixed  prop="projectid" label="项目编号" >
+                    </el-table-column>
+                    <el-table-column  prop="apiname" label="接口名称"  width="180"> </el-table-column>
+                    <el-table-column  prop="keycode" label="keycode" >
+                    </el-table-column>
+                    <el-table-column  prop="value" label="value" ></el-table-column>
+                    <!-- <el-table-column fixed="right" label="操作"  >
+                    <template slot-scope="scope">
+                        <el-button @click="onDelConf(scope.row)" type="text" size="small">删除</el-button>
+                        <el-button type="text" size="small"  @click="onUpdateFormConf(scope.row)" >修改</el-button>
+                    </template>
+                    </el-table-column> -->
+                </el-table>
+
+
+                <!--分页-->
+                <el-col :span="24" class="toolbar" v-show='tableDataConf.length>0' >
+                    <el-pagination layout="prev, pager, next" :current-page.sync='currentpageConf' @current-change="handleCurrentChangeConf" :page-size="pageSizeConf" :total="tableDataConf.length" style="float:right;">
+                    </el-pagination>
+                </el-col>
+
+        </el-dialog>
+
+                <el-dialog title="新增" :visible.sync="addFormVisibleConf">
+                    <el-form :model="addFormConf" :rules="rulesConf" ref="addFormConf">
+                        <el-form-item label="项目编号" :label-width="formLabelWidth" maxlength="32"  prop="projectid">
+                        <el-input v-model="addFormConf.projectid" autocomplete="off" placeholder="请输入内容" ></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="接口名称" :label-width="formLabelWidth" prop="apiname">
+                        <el-input v-model="addFormConf.apiname" maxlength="64"  autocomplete="off" placeholder="请输入内容" ></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="keycode" :label-width="formLabelWidth" prop="keycode">
+                        <el-input v-model="addFormConf.keycode" autocomplete="off"  maxlength="32"  placeholder="请输入内容" ></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="value" :label-width="formLabelWidth" prop="value">
+                        <el-input v-model="addFormConf.value" autocomplete="off" maxlength="64"  placeholder="请输入内容" ></el-input>
+                        </el-form-item>
+
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="addFormVisibleConf = false" size='small'>取 消</el-button>
+                        <el-button type="primary" @click="onAddConf()" size='small'>确 定</el-button>
+                    </div>
+                </el-dialog>
+
+
+
+                <el-dialog title="编辑" :visible.sync="upFormVisibleConf">
+                    <el-form :model="updateFormConf" :rules="rulesConf" ref="updateFormConf">
+                        <el-form-item label="项目编号" :label-width="formLabelWidth">
+                        <el-input v-model="updateForm.projectid" disabled autocomplete="off" maxlength="32"  placeholder="请输入内容" ></el-input>
+                        </el-form-item>
+
+
+                        <el-form-item label="接口名称" :label-width="formLabelWidth">
+                        <el-input v-model="updateFormConf.apiname" disabled autocomplete="off" maxlength="64"  placeholder="请输入内容" ></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="keycode" :label-width="formLabelWidth" prop="keycode">
+                        <el-input v-model="updateFormConf.keycode" autocomplete="off" maxlength="32"  placeholder="请输入内容" ></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="value" :label-width="formLabelWidth" prop="value">
+                        <el-input v-model="updateFormConf.value" autocomplete="off" maxlength="64"  placeholder="请输入内容" ></el-input>
+                        </el-form-item>
+
+
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="upFormVisibleConf = false" size='small'>取 消</el-button>
+                        <el-button type="primary" @click="onUpdateConf()" size='small'>确 定</el-button>
+                    </div>
+                </el-dialog>
+
+
+
+
+
+
+
+
+
+
   </div>
 </template>
 
 <script>
-import { getInterface,addInterface,updateInterface,delInterface } from '@/api/config'
+import { getInterface,getInterfaceInfo,addInterface,updateInterface,delInterface } from '@/api/config'
+import { getApiConf,addApiConf,updateApiConf,delApiConf } from '@/api/apiConf'
 import permission from '@/directive/permission/index.js' // 权限判断指令
 export default {
   directives: { permission },
@@ -150,7 +284,13 @@ export default {
             reqkey: 'biz_content',
             version:'2.0.0.0',
             content:'',
-            base64:'1'
+            base64:'1',
+            samplecode:'',
+            properties:[
+                {
+                    keycode:'',value:''
+                }
+            ]
         },
 
         rules: {
@@ -176,6 +316,46 @@ export default {
         page:1,
         pageSize:10,
         currentpage:1,
+
+
+
+
+        //conf
+        apiConfVisible: false,
+        queryConf:{
+            projectid: '',
+            apiname: '',
+            keycode: '',
+        },
+        addFormConf: {
+            projectid: '',
+            apiname: '',
+            keycode: '',
+            value:''
+        },
+        updateFormConf: {},
+
+
+        rulesConf: {
+            projectid: [
+                { required: true, message: '请输入项目编号', trigger: 'blur' }
+            ],
+            apiname: [
+                { required: true, message: '请输入接口名称', trigger: 'blur' }
+            ],
+            keycode: [
+                { required: true, message: '请输入keycode', trigger: 'blur' }
+            ],
+            value: [
+                { required: true, message: '请输入value', trigger: 'blur' }
+            ]
+        },
+        tableDataConf: [],
+        pageConf:1,
+        pageSizeConf:7,
+        currentpageConf:1,
+        addFormVisibleConf: false,
+        upFormVisibleConf: false,
     }
 
 
@@ -277,6 +457,118 @@ export default {
             this.page = val;
             this.getData();
         },
+
+
+        //conf
+        onDelConf(row) {
+            this.listLoading = true;
+            console.log(row)
+            delApiConf(row).then(result => {
+                if(result.retCode == '00'){
+                    this.$message({
+                        message: '删除成功！',
+                        type: 'success'
+                    });
+                    this.listLoading = false;
+                    this.getDataConf();
+                }
+            })
+        },
+        onUpdateFormConf(row) {
+            this.updateFormConf = row;
+            this.upFormVisibleConf = true;
+            // this.apiConfVisible = false;
+        },
+        onAddConf(row) {
+            this.$refs['addFormConf'].validate((valid) => {
+                if (valid) {
+                    this.listLoading = true;
+                    console.log(this.addFormConf)
+                    addApiConf(this.addFormConf).then(result => {
+                        if(result.retCode == '00'){
+                            this.$message({
+                                message: '新增成功！',
+                                type: 'success'
+                            });
+                            this.addFormConf= {
+                                projectid: '',
+                                apiname: '',
+                                keycode: '',
+                                value:''
+                            };
+                            this.addFormVisibleConf = false;
+                            this.apiConfVisible = true;
+                            this.listLoading = false;
+                            this.getDataConf();
+                        }
+                    })
+                }
+            })
+        },
+        onUpdateConf(row) {
+            this.$refs['updateFormConf'].validate((valid) => {
+                if (valid) {
+                    this.listLoading = true;
+                    updateApiConf(this.updateFormConf).then(result => {
+                        if(result.retCode == '00'){
+                            this.$message({
+                                message: '修改成功！',
+                                type: 'success'
+                            });
+                            this.upFormVisibleConf = false;
+                            this.listLoading = false;
+                            this.getDataConf();
+                        }
+                    })
+                }
+            })
+        },
+        //
+        handleSearchConf() {
+            this.getDataConf();
+            // var that = this;
+            // this.listLoading = true;
+            // console.log(this.query)
+            // getApiConf(this.query).then(result => {
+            //     that.listLoading = false;
+            //     this.page = 1;
+            //     that.tableData = result.data;
+            // })
+        },
+        //获取列表
+        getDataConf() {
+            var that = this;
+            this.listLoading = true;
+            var params = {};
+            params = this.queryConf;
+            params.pageNum = this.pageConf;
+            params.pageSize = this.pageSizeConf;
+            console.log(params)
+            getApiConf(params).then(result => {
+                that.listLoading = false;
+                that.tableDataConf = result.list;
+            })
+
+        },
+        //分页展示
+        handleCurrentChangeConf(val) {
+            this.pageConf = val;
+            this.getDataConf();
+        },
+        openApiconf(row) {
+            this.addFormConf.id = row.id;
+            // this.jump = false;
+            // this.$router.replace({path:"/config/api/api-jump/conf"});
+
+            this.apiConfVisible = true;
+            this.getDataConf();
+        },
+        addProps() {
+            this.addForm.properties.push({keycode:'',value:''})
+        },
+        delProps(index) {
+            this.addForm.properties.splice(index, 1)
+        }
     },
     created(){
         this.getData();

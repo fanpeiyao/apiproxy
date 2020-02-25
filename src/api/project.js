@@ -2,39 +2,39 @@ import request, {
   appid
 } from '@/utils/request'
 //查询项目列表
-export function getProjects(params) {
+export function getProjects(data) {
   return request({
-    url: appid() + '/project/query',
+    url: appid() + '/project/list',
     method: 'post',
-    params
+    data
   })
 }
-export function addProject(params) {
+export function addProject(data) {
   return request({
     url: appid() + '/project/add',
     method: 'post',
-    params
+    data
   })
 }
-export function upDateProject(params) {
+export function upDateProject(data) {
   return request({
     url: appid() + '/project/update',
     method: 'post',
-    params
+    data
   })
 }
-export function delProject(params) {
+export function delProject(data) {
   return request({
     url: appid() + '/project/del',
     method: 'post',
-    params
+    data
   })
 }
 //查询某个项目
-export function qryInfo(params) {
+export function qryInfo(data) {
   return request({
     url: appid() + '/project/qry',
     method: 'post',
-    params
+    data
   })
 }

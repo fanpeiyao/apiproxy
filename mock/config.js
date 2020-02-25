@@ -21,6 +21,7 @@ const passData = Mock.mock({
 
 const interdata = Mock.mock({
       'items|3': [{
+          id:'1',
             projectid: 'yzt',
             apiname: '假接口名称' + '@name',
             key: '@id',
@@ -123,7 +124,7 @@ export default [
 
     //查询
     {
-      url: '/interface/query',
+      url: '/interface/list',
       type: 'post',
       response: config => {
         return {

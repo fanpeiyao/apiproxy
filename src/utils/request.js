@@ -7,7 +7,11 @@ import { getToken } from '@/utils/auth'
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 10000 // request timeout
+  timeout: 10000 ,// request timeout
+  headers:{
+      'Content-Type': 'application/x-www-form-urlencoded'
+  }
+
 })
 
 // request interceptor
@@ -21,6 +25,7 @@ service.interceptors.request.use(
       // please modify it according to the actual situation
       config.headers['X-Token'] = getToken()
     }
+    console.log(config)
     return config
   },
   error => {

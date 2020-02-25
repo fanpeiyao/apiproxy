@@ -4,7 +4,7 @@ import request, {
 
 export function getApiConf(params) {
   return request({
-    url: appid() + '/attachmentinfo/query',
+    url: appid() + '/attachmentinfo/list',
     method: 'post',
     params
   })

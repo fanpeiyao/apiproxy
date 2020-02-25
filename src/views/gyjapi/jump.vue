@@ -2,12 +2,8 @@
     <div class="app-container">
 
         <el-form ref="form" :model="form" label-width="120px" :rules="rules">
-        <el-form-item label="项目名称" prop="projectid">
-            <!-- <el-select v-model="form.projectid" placeholder="请选择项目"  @change="getApis()">
-                <el-option  v-for="item in projects" :key="item.projectid"  :label="item.projectname" :value="item.projectid">
-                </el-option>
-            </el-select> -->
-             <el-select v-model="form.projectid" filterable :filter-method="selectChange"  @change="getApis()" clearable>
+        <!-- <el-form-item label="项目名称" prop="projectid">
+             <el-select v-model="form.projectid" placeholder="请选择或输入项目编号搜索" filterable :filter-method="selectChange"  @change="getApis()" clearable>
                 <el-option  v-for="item in projects"  :key="item.projectid"  :label="item.projectname" :value="item.projectid"></el-option>
                 <div style="bottom: 0;width: 100%;background: #fff">
                     <el-pagination small  layout="prev, pager, next"  :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="pageSize" :total="projects.length"  >
@@ -21,6 +17,23 @@
             <el-select v-model="form.apiname" placeholder="请选择要调试的跳转接口"   @change="getReqdata()">
                 <el-option  v-for="item in apis"  :key="item.key" :label="item.apiname"  :value="item.key"></el-option>
             </el-select>
+        </el-form-item> -->
+        <el-form-item label="商户编号"  prop="merid">
+            <el-input v-model="form.merid" placeholder="请输入商户编号" />
+        </el-form-item>
+
+        <el-form-item label="用户编号"  prop="customerid">
+            <el-input v-model="form.customerid" placeholder="请输入用户编号" />
+        </el-form-item>
+
+        <el-form-item label="用户名称"  prop="customername">
+            <el-input v-model="form.customername" placeholder="用户名称" />
+        </el-form-item>
+        <el-form-item label="角色">
+            <el-select v-model="form.role" placeholder="请选择角色">
+            <el-option  value='1' label='经销商'></el-option>
+            <el-option  value='2' label='业务员'></el-option>
+            </el-select>
         </el-form-item>
 
         <el-form-item label="版本号">
@@ -30,24 +43,32 @@
             </el-radio-group>
         </el-form-item>
 
+        <el-form-item label="环境">
+            <el-radio-group v-model="form.env">
+            <el-radio  label='in'>内网</el-radio>
+            <el-radio  label='out'>外网</el-radio>
+            </el-radio-group>
+        </el-form-item>
+
+        <el-form-item label="手机号"  prop="mobile">
+            <el-input v-model="form.mobile" maxlength="11" placeholder="请输入手机号" />
+        </el-form-item>
 
         <el-form-item label="Transcode"  prop="transcode">
             <el-input v-model="form.transcode" placeholder="请输入transcode" />
         </el-form-item>
 
 
-        <el-form-item label="商户编号"  prop="merid">
-            <el-input v-model="form.merid" placeholder="请输入商户编号" />
+
+        <el-form-item label="编码格式"  prop="charset">
+            <el-input v-model="form.charset" placeholder="请输入charset" />
         </el-form-item>
 
-        <el-form-item label="用户编号"  prop="customerId">
-            <el-input v-model="form.customerId" placeholder="请输入用户编号" />
-        </el-form-item>
 
-        <el-form-item label="用户名称"  prop="customerName">
-            <el-input v-model="form.customerName" placeholder="用户名称" />
-        </el-form-item>
 
+        <el-form-item label="跳转地址" prop="url">
+            <el-input v-model="form.url" placeholder="请输入url" />
+        </el-form-item>
         <!-- <el-form-item label="角色">
             <el-select v-model="form.roleid" placeholder="请选择角色">
             <el-option  value='1' label='经销商'></el-option>
@@ -60,14 +81,11 @@
             <el-switch v-model="form.base64"  active-value="1" inactive-value="0"/>
         </el-form-item>
 
+ -->
 
-        <el-form-item label="跳转地址">
-            <el-input v-model="form.url" placeholder="请输入url" />
-        </el-form-item> -->
-
-        <el-form-item label="企业私钥"  prop="prikey">
+        <!-- <el-form-item label="企业私钥"  prop="prikey">
             <el-input v-model="form.prikey" type="textarea"  placeholder="请输入您的私钥"  :autosize="{ minRows:3}"/>
-        </el-form-item>
+        </el-form-item> -->
 
         <!-- <el-form-item label="接口发送报文" prop="reqdata">
             <el-input v-model="form.reqdata" type="textarea"
@@ -124,14 +142,16 @@ export default {
                 reqdata: '',
                 version:'2.0.0.0',
                 base64:'1',//0-关 1-开
-                roleid:'1',
-                customerId:'',
-                customerName:'',
+                role:'1',
+                customerid:'',
+                customername:'',
                 mobile:'',
                 merid:'',
                 apiname:'',
                 prikey:'',
-                samplecode:''
+                samplecode:'',
+                env:'in',
+                charset:'UTF-8'
             },
             resdata:'',
             rules: {
@@ -144,23 +164,32 @@ export default {
                 apiname: [
                     { required: true, message: '请选择接口', trigger: 'change' }
                 ],
-                customerName: [
-                    { required: true, message: '请选择接口', trigger: 'blur' }
+                customername: [
+                    { required: true, message: '请输入用户名称', trigger: 'blur' }
                 ],
-                customerId: [
-                    { required: true, message: '请选择接口', trigger: 'blur' }
+                customerid: [
+                    { required: true, message: '请输入用户编号', trigger: 'blur' }
+
                 ],
                 mobile: [
-                    { required: true, message: '请选择接口', trigger: 'blur' }
+                    { required: true, message: '请输入手机号', trigger: 'blur' },
+                    { pattern:/^[1]([3-9])[0-9]{9}$/, message:'请输入正确的手机号', trigger: 'blur' }
+
                 ],
                 transcode: [
-                    { required: true, message: '请选择接口', trigger: 'blur' }
+                    { required: true, message: '请输入transcode', trigger: 'blur' }
                 ],
                 merid: [
-                    { required: true, message: '请选择接口', trigger: 'blur' }
+                    { required: true, message: '请输入商户编号', trigger: 'blur' }
                 ],
-                prikey: [
-                    { required: true, message: '请输入企业私钥', trigger: 'blur' }
+                // prikey: [
+                //     { required: true, message: '请输入企业私钥', trigger: 'blur' }
+                // ],
+                url: [
+                    { required: true, message: '请输入跳转地址', trigger: 'blur' }
+                ],
+                charset: [
+                    { required: true, message: '请输入编码格式', trigger: 'blur' }
                 ],
             },
             currentpage:1,

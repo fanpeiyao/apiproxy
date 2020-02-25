@@ -152,7 +152,17 @@ export const asyncRoutes = [
                 name: 'api-jump',
                 meta: {
                   title: '页面跳转接口'
-                }
+                }, children: [
+                     {
+                       path: 'conf',
+                       component: () => import('@/views/config/apiConf'), // Parent router-view
+                       name: 'jumpapiConf',
+                       meta: {
+                         title: '接口附加参数管理'
+                       },
+                       hidden: true
+                    },
+                ]
               }]
             }, {
               path: 'apiConf',
@@ -161,6 +171,7 @@ export const asyncRoutes = [
               meta: {
                 title: '接口附加参数管理'
               },
+              hidden: true
               /* children: [{
                 path: 'api-notice',
                 component: () => import('@/views/config/apiConf/notice'),

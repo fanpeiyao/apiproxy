@@ -9,7 +9,7 @@
 
 
 
-            <el-select v-model="form.projectid" filterable :filter-method="selectChange"  @change="getApis()" clearable>
+            <el-select v-model="form.projectid"  placeholder="请选择或输入项目编号搜索"  filterable :filter-method="selectChange"  @change="getApis()" clearable>
                 <el-option  v-for="item in projects"  :key="item.projectid"  :label="item.projectname" :value="item.projectid"></el-option>
                 <div style="bottom: 0;width: 100%;background: #fff">
                     <el-pagination small  layout="prev, pager, next"  :current-page.sync='currentpage'  @current-change="handleCurrentChange" :page-size="pageSize" :total="projects.length"  >
@@ -34,8 +34,8 @@
             </el-radio-group>
         </el-form-item>
 
-        <el-form-item label="通知地址" prop="notifyurl">
-            <el-input v-model="form.notifyurl" placeholder="请输入通知地址" />
+        <el-form-item label="通知地址" prop="noticeurl">
+            <el-input v-model="form.noticeurl" placeholder="请输入通知地址" />
         </el-form-item>
 
         <!-- <el-form-item label="Base64编码">
@@ -48,8 +48,8 @@
 
 
         <!-- <el-form-item label="发送渠道">
-            <el-select v-model="form.channel" placeholder="请选择发送渠道">
-            <el-option  v-for="item in channels"
+            <el-select v-model="form.sendtype" placeholder="请选择发送渠道">
+            <el-option  v-for="item in sendtypes"
                             :key="item.value"
                             :label="item.label"
                             :value="item.value">
@@ -57,8 +57,8 @@
             </el-select>
         </el-form-item> -->
         <el-form-item label="发送渠道">
-            <el-radio-group v-model="form.channel">
-            <el-radio  v-for="item in channels" :key="item.value" :label="item.value" :value="item.value">
+            <el-radio-group v-model="form.sendtype">
+            <el-radio  v-for="item in sendtypes" :key="item.value" :label="item.value" :value="item.value">
                 {{item.label}}
             </el-radio>
 
@@ -80,8 +80,8 @@
         </el-form-item>
 
 
-        <!-- <el-form-item label="接口发送报文"  prop="reqdata">
-            <el-input v-model="form.reqdata" type="textarea"  :autosize="{ minRows:10}"/>
+        <!-- <el-form-item label="接口发送报文"  prop="content">
+            <el-input v-model="form.content" type="textarea"  :autosize="{ minRows:10}"/>
         </el-form-item>
 
 
@@ -97,8 +97,8 @@
 
         <el-row>
             <el-col :span="12">
-                 <el-form-item label="接口发送报文"  prop="reqdata">
-                    <el-input v-model="form.reqdata" type="textarea"  :autosize="{ minRows:20}"/>
+                 <el-form-item label="接口发送报文"  prop="content">
+                    <el-input v-model="form.content" type="textarea"  :autosize="{ minRows:20}"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -123,14 +123,14 @@ export default {
     data() {
         return {
         form: {
-            apiname: '',
-            reqdata: '',
-            notifyurl:'',
-            channel:'gyj',
-            version:'2.0.0.0',
-            base64:'1',
-            projectid:'',
-            prikey:''
+            /*必输*/apiname: '',
+            /*必输*/content: '',
+            /*必输*/noticeurl:'',
+            /*必输*/sendtype:'gyj',
+            /*必输*/version:'2.0.0.0',
+            /*必输*/base64:'1',
+            /*必输*/projectid:'',
+            /**/prikey:''
         },
         currentpage:1,
         page:1,
@@ -140,10 +140,10 @@ export default {
         apiPageSize:7,
         resdata:'',
         rules: {
-            reqdata: [
+            content: [
                 { required: true, message: '请输入报文内容', trigger: 'blur' },
             ],
-            notifyurl: [
+            noticeurl: [
                 { required: true, message: '请输入通知地址', trigger: 'blur' },
                 { pattern:/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/, message:'请输入正确的通知地址', trigger: 'blur' }
             ],
@@ -171,7 +171,7 @@ export default {
             label: '外汇来汇明细通知'
             } */
         ],
-        channels:[{
+        sendtypes:[{
             value: 'gyj',
             label: '工银聚'
             },{
@@ -194,7 +194,7 @@ export default {
                     });
                     this.form.prikey = project.prikey; */
 
-                    this.form.reqdata = encodeURI(this.form.reqdata);
+                    this.form.content = encodeURI(this.form.content);
                     console.log(this.form)
                     noticeApi(this.form).then(result => {
                         // this.$message('submit!');
@@ -243,7 +243,7 @@ export default {
             var ret = this.apis.find((i) => {
                 return i.key == this.form.apiname;
             });
-            this.form.reqdata = ret.content;
+            this.form.content = ret.content;
             //根据接口展示版本？？？
             this.form.version = ret.version;
         },
@@ -301,7 +301,7 @@ export default {
                 method:'post',
                 url:'https://gyj1.dccnet.com.cn/webgate/dzbldataview/dataviewdetail/query',
                 data:{    //这里是发送给后台的数据
-                      userId:'<!--结算账户明细通知接口xml--><GYJ><pub><TransCode>{{transCode}}</TransCode><CIS>{{CIS}}</CIS><TransDate>{{transDate}}</TransDate><TransTime>{{transTime}}</TransTime><fSeqno></fSeqno></pub><out><transtime>{{transFull}}</transtime><orderid>{{transCode}}</orderid><total>20</total><batch>1</batch><rds><rd><wlhsellerid>icbctest_jx|icbctest_jx</wlhsellerid><wlhcustomerid>wang01|wanghaibing02</wlhcustomerid><gjksellerid></gjksellerid><gjkcustomerid></gjkcustomerid><transno>17193000001</transno><transtime>20170712163034</transtime><transamount>0.01</transamount><payeracctno>6222081207005577777</payeracctno><payeracctname>王海兵</payeracctname><payeeacctno>1204060019278900305</payeeacctno><payeeacctname>嘉兴分行测试集团总公司</payeeacctname><abstractinfo>网转</abstractinfo><purpose>-</purpose><postscript>-</postscript><oppositebankno>-</oppositebankno><oppositebankname>-</oppositebankname><currentbalance>287.67</currentbalance><proofno>0</proofno><channel></channel><transcode>2713</transcode><drcrf>2</drcrf><tellerno>59</tellerno><type></type><cardno></cardno><cardname></cardname><remark1></remark1><remark2></remark2><remark3></remark3><currtype>1</currtype></rd></rds></out></GYJ>',
+                      userId:'<!--结算账户明细通知接口xml--><GYJ><pub><TransCode>{{transCode}}</TransCode><CIS>{{CIS}}</CIS><TransDate>{{transDate}}</TransDate><TransTime>{{transTime}}</TransTime><fSeqno></fSeqno></pub><out><transtime>{{transFull}}</transtime><orderid>{{transCode}}</orderid><total>20</total><batch>1</batch><rds><rd><wlhsellerid>icbctest_jx|icbctest_jx</wlhsellerid><wlhcustomerid>wang01|wanghaibing02</wlhcustomerid><gjksellerid></gjksellerid><gjkcustomerid></gjkcustomerid><transno>17193000001</transno><transtime>20170712163034</transtime><transamount>0.01</transamount><payeracctno>6222081207005577777</payeracctno><payeracctname>王海兵</payeracctname><payeeacctno>1204060019278900305</payeeacctno><payeeacctname>嘉兴分行测试集团总公司</payeeacctname><abstractinfo>网转</abstractinfo><purpose>-</purpose><postscript>-</postscript><oppositebankno>-</oppositebankno><oppositebankname>-</oppositebankname><currentbalance>287.67</currentbalance><proofno>0</proofno><sendtype></sendtype><transcode>2713</transcode><drcrf>2</drcrf><tellerno>59</tellerno><type></type><cardno></cardno><cardname></cardname><remark1></remark1><remark2></remark2><remark3></remark3><currtype>1</currtype></rd></rds></out></GYJ>',
                       token:'33',
                 }
             }).then((response) =>{          //这里使用了ES6的语法

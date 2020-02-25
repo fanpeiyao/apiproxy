@@ -9,7 +9,7 @@
                                 :value="item.projectid">
                 </el-option>
             </el-select> -->
-             <el-select v-model="form.projectid" filterable :filter-method="selectChange"  @change="getApis()" clearable>
+             <el-select v-model="form.projectid" placeholder="请选择或输入项目编号搜索" filterable :filter-method="selectChange"  @change="getApis()" clearable>
                 <el-option  v-for="item in projects"  :key="item.projectid"  :label="item.projectname" :value="item.projectid"></el-option>
                 <div style="bottom: 0;width: 100%;background: #fff">
                     <el-pagination small  layout="prev, pager, next"  :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="pageSize" :total="projects.length"  >
@@ -28,19 +28,22 @@
             </el-select>
         </el-form-item>
 
-
         <el-form-item label="版本号">
             <el-radio-group v-model="form.version">
             <el-radio  label='2.0.0.0'>2.0.0.0</el-radio>
             <el-radio  label='1.0.0.0'>1.0.0.0（自19年7月起不再提供对接支持）</el-radio>
             </el-radio-group>
         </el-form-item>
+
+        <el-form-item label="appid">
+            <el-input v-model="form.appid" placeholder="请输入appid" />
+        </el-form-item>
    <!--    <el-form-item label="请求的key">
         <el-input v-model="form.reqkey" placeholder="请输入请求的key" />
       </el-form-item> -->
 
 
-      <el-form-item label="发送渠道">
+      <!-- <el-form-item label="发送渠道">
         <el-radio-group v-model="form.channel">
           <el-radio  v-for="item in channels"
                         :key="item.value"
@@ -50,13 +53,13 @@
           </el-radio>
 
         </el-radio-group>
-      </el-form-item>
+      </el-form-item> -->
 
 
 
-      <el-form-item label="Base64编码">
+      <!-- <el-form-item label="Base64编码">
         <el-switch v-model="form.base64"  active-value="1" inactive-value="0" />
-      </el-form-item>
+      </el-form-item> -->
 
       <!-- <el-form-item label="私钥">
         <el-input v-model="form.privateKey"  type="textarea" :autosize="{ minRows:3}" placeholder="请输入您生成的RSA私钥" />
@@ -67,8 +70,8 @@
         </el-form-item>
 
 
-      <!-- <el-form-item label="接口发送报文"  prop="reqdata">
-        <el-input v-model="form.reqdata" type="textarea" :autosize="{ minRows:10}"/>
+      <!-- <el-form-item label="接口发送报文"  prop="content">
+        <el-input v-model="form.content" type="textarea" :autosize="{ minRows:10}"/>
       </el-form-item>
 
 
@@ -83,8 +86,8 @@
 
         <el-row>
             <el-col :span="12">
-                 <el-form-item label="接口发送报文"  prop="reqdata">
-                    <el-input v-model="form.reqdata" type="textarea"  :autosize="{ minRows:20}"/>
+                 <el-form-item label="接口发送报文"  prop="content">
+                    <el-input v-model="form.content" type="textarea"  :autosize="{ minRows:20}"/>
                 </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -125,18 +128,19 @@ export default {
     data() {
         return {
             form: {
-                reqdata: '',
+                content: '',
                 apiname:'',
-                channel:'gyjapi',
+                appid:'',
+                // channel:'gyjapi',
                 version:'2.0.0.0',
-                base64:'1',
+                // base64:'1',
                 projectid:'',
                 prikey:'',
                 samplecode:''
             },
             resdata:'',
             rules: {
-                reqdata: [
+                content: [
                     { required: true, message: '请输入报文内容', trigger: 'blur' },
                 ],
                 projectid: [
@@ -146,6 +150,9 @@ export default {
                     { required: true, message: '请选择接口', trigger: 'change' }
                 ],
                 prikey: [
+                    { required: true, message: '请输入企业私钥', trigger: 'blur' }
+                ],
+                appid: [
                     { required: true, message: '请输入企业私钥', trigger: 'blur' }
                 ],
             },
@@ -170,7 +177,7 @@ export default {
                     });
                     this.form.prikey = project.prikey; */
 
-                    this.form.reqdata = encodeURI(this.form.reqdata);
+                    this.form.content = encodeURI(this.form.content);
                     console.log(this.form)
                     queryApi(this.form).then(result => {
                         this.$message('submit!');
@@ -221,7 +228,7 @@ export default {
             var ret = this.apis.find((i) => {
                 return i.key == this.form.apiname;
             });
-            this.form.reqdata = ret.content;
+            this.form.content = ret.content;
             //根据接口展示版本？？？
             this.form.version = ret.version;
             this.form.samplecode =  ret.samplecode;

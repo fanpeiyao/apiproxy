@@ -2,6 +2,7 @@ import Mock from 'mockjs'
 
 const data = Mock.mock({
   'items': [{
+          id: '|1-100',
     projectid: 'yzt',
     apiname: '外汇来汇明细通知',
     key: 'GYJREMITNOTIFY',
@@ -9,6 +10,7 @@ const data = Mock.mock({
     content: '1111111111111111111111111111111sssssssssssssssssssssvvvvvvvvvvvvvssssss',
     base64: '1'
   }, {
+          id: '|1-100',
     projectid: 'yzt',
     apiname: '外汇来汇明细通知2',
     key: 'GYJREMITNOTIFY2',
@@ -16,6 +18,7 @@ const data = Mock.mock({
     content: '222222222222222222222222222222222sssssssssssssssssssssvvvvvvvvvvvvvssssss',
     base64: '1'
   }, {
+    id: '|1-100',
     projectid: 'yzt',
     apiname: '外汇来汇明细通知3',
     key: 'GYJREMITNOTIFY3',

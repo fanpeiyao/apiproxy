@@ -2,51 +2,63 @@ import Mock from 'mockjs'
 
 const data = Mock.mock({
   'items': [{
+      id:'1',
     projectid: 'yzt',
     projectname: '银账通',
     prikey: '@sentence(10, 20)'
   },
     {
+      id: '2',
         projectid: 'licai',
         projectname: '理财',
         prikey: '@sentence(10, 20)'
     }, {
+      id: '3',
       projectid: 'dzbl',
       projectname: '到账伴侣',
       prikey: '@sentence(10, 20)'
     }, {
+      id: '4',
       projectid: 'yzt8',
       projectname: '银账通',
       prikey: '@sentence(10, 20)'
     }, {
+      id: '5',
       projectid: 'licai2',
       projectname: '理财',
       prikey: '@sentence(10, 20)'
     }, {
+      id: '6',
       projectid: 'dzbl3',
       projectname: '到账伴侣',
       prikey: '@sentence(10, 20)'
     }, {
+      id: '7',
       projectid: 'yzt2',
       projectname: '银账通',
       prikey: '@sentence(10, 20)'
     }, {
+      id: '8',
       projectid: 'licai1',
       projectname: '理财',
       prikey: '@sentence(10, 20)'
     }, {
+      id: '9',
       projectid: 'dzbl1',
       projectname: '到账伴侣',
       prikey: '@sentence(10, 20)'
     }, {
+      id: '10',
       projectid: 'yzt1',
       projectname: '银账通',
       prikey: '@sentence(10, 20)'
     }, {
+      id: '11',
       projectid: 'licai8',
       projectname: '理财',
       prikey: '@sentence(10, 20)'
     }, {
+      id: '12',
       projectid: 'dzbl8',
       projectname: '到账伴侣',
       prikey: '@sentence(10, 20)'
@@ -70,7 +82,7 @@ Random.extend({
 export default [
     //查询列表
     {
-        url: '/project/query',
+        url: '/project/list',
         type: 'post',
         response: config => {
             return {

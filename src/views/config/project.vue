@@ -86,6 +86,7 @@ import { getProjects,addProject,upDateProject,delProject } from '@/api/project'
 export default {
     data() {
         return {
+            
             addForm: {
                 projectid: '',
                 projectname: '',

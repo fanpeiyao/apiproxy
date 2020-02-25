@@ -2,6 +2,7 @@ import Mock from 'mockjs'
 
 const data = Mock.mock({
   'items|3': [{
+      id: '|1-100',
         projectid: 'yzt',
       apiname: '商户签约(分行接口)',
       key: 'ADDAGREEMENT',
