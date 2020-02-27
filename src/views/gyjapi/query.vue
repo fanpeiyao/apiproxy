@@ -12,7 +12,7 @@
              <el-select v-model="form.projectid" placeholder="请选择或输入项目编号搜索" filterable :filter-method="selectChange"  @change="getApis()" clearable>
                 <el-option  v-for="item in projects"  :key="item.projectid"  :label="item.projectname" :value="item.projectid"></el-option>
                 <div style="bottom: 0;width: 100%;background: #fff">
-                    <el-pagination small  layout="prev, pager, next"  :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="pageSize" :total="projects.length"  >
+                    <el-pagination small  layout="prev, pager, next"  :current-page.sync='currentpage'  @current-change="handleCurrentChange" :page-size="pageSize" :total="proTotal"  >
                     </el-pagination>
                 </div>
             </el-select>
@@ -21,9 +21,9 @@
         <el-form-item label="查询接口" prop="apiname">
             <el-select v-model="form.apiname" placeholder="请选择要调试的查询接口"  @change="getReqdata(form.apiname)">
             <el-option  v-for="item in apis"
-                            :key="item.key"
+                            :key="item.id"
                             :label="item.apiname"
-                            :value="item.key">
+                            :value="item.apiname">
             </el-option>
             </el-select>
         </el-form-item>
@@ -33,6 +33,17 @@
             <el-radio  label='2.0.0.0'>2.0.0.0</el-radio>
             <el-radio  label='1.0.0.0'>1.0.0.0（自19年7月起不再提供对接支持）</el-radio>
             </el-radio-group>
+        </el-form-item>
+
+        <el-form-item
+            :label="item.description"
+            v-for="(item,index) in form.properties"
+            :prop="'properties.' + index + '.value'"
+            :rules="{
+                required: true, message: '请输入内容', trigger: 'blur'
+            }"
+            :key='item.key'>
+            <el-input v-model="item.value" placeholder="请输入内容" />
         </el-form-item>
 
         <el-form-item label="appid">
@@ -158,13 +169,18 @@ export default {
             },
             currentpage:1,
             page:1,
-            pageSize:7,
+            pageSize:6,
             projects:[],
             apis: [],
             channels:[{
                 value: 'gyjapi',
                 label: '工银聚API'
-            }]
+            }],
+            proTotal:0,
+            apicurrentpage:1,
+            apiPage:1,
+            apiPageSize:1006,
+            apiTotal:'',
         }
     },
     methods: {
@@ -180,7 +196,6 @@ export default {
                     this.form.content = encodeURI(this.form.content);
                     console.log(this.form)
                     queryApi(this.form).then(result => {
-                        this.$message('submit!');
                         this.resdata = result.data.resdata;
                     });
                 }
@@ -200,8 +215,10 @@ export default {
             params.pageSize =this.pageSize;
             console.log(params)
             getProjects(params).then(result => {
+                console.log(result)
                 that.listLoading = false;
                 that.projects = result.list;
+                that.proTotal = result.count;
             })
 
         },
@@ -215,10 +232,12 @@ export default {
 
             params.pageNum =  this.apiPage;
             params.pageSize =this.apiPageSize;
+            console.log(params)
             //分页展示待定
             getInterface(params).then(result => {
                 that.listLoading = false;
                 that.apis = result.list;
+                that.apiTotal = result.count;
                 console.log(that.apis)
             })
 
@@ -226,30 +245,25 @@ export default {
         //根据apikey获取报文内容
         getReqdata() {
             var ret = this.apis.find((i) => {
-                return i.key == this.form.apiname;
+                        return i.apiname == this.form.apiname;
             });
             this.form.content = ret.content;
             //根据接口展示版本？？？
             this.form.version = ret.version;
             this.form.samplecode =  ret.samplecode;
+            this.form.properties = ret.properties;
             // this.form.samplecode =  showXml(ret.samplecode);
         },
 
         selectChange(val) {
-            console.log(val)
             // 如果存在上一次请求，则取消上一次请求
             if (this.cancel) {
                 this.cancel()
             }
             this.search(val)
         },
-        //分页
-        handleSizeChange(val) {
-            this.currentpage = val;
-            this.search('',val);
-        },
         handleCurrentChange(val) {
-            // this.currentpage = val;
+            this.currentpage = val;
             this.page = val;
             console.log(val)
             this.search('',val);
@@ -269,7 +283,7 @@ export default {
                 this.listLoading = false;
                 this.projects = result.list;
                 console.log(this.projects)
-                this.currentpage = 1;
+//                this.currentpage = 1;
                 this.loading = false
             }).catch(e => {
                 this.loading = false

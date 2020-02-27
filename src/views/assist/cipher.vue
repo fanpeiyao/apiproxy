@@ -6,11 +6,11 @@
         </div>
         <el-form ref="form" :model="form" v-if='showForm' label-width="120px">
             <el-form-item label="公钥">
-                <el-input  type="textarea" v-model="form.pubkey" disabled/>
+                <el-input  type="textarea" :autosize="{ minRows:5}" v-model="form.pubkey" disabled/>
             </el-form-item>
 
             <el-form-item label="私钥">
-                <el-input  type="textarea" v-model="form.prikey" disabled />
+                <el-input  type="textarea" :autosize="{ minRows:5}" v-model="form.prikey" disabled />
             </el-form-item>
 
             <el-form-item>

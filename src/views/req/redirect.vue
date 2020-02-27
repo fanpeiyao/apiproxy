@@ -41,53 +41,15 @@
 
 
 
-        <!--分页-->
-		<el-col :span="24" class="toolbar" v-show='tableData.length>0' >
-			<el-pagination layout="prev, pager, next" :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="pageSize" :total="tableData.length" style="float:right;">
-			</el-pagination>
-		</el-col>
+      <!--分页-->
+      <el-col :span="24" class="toolbar" v-show='total>0' >
+          <el-pagination layout="prev, pager, next" :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="pageSize" :total="total" style="float:right;">
+          </el-pagination>
+      </el-col>
+
 
   </div>
 </template>
-
-<script>
-/* import { redirect } from '@/api/req'
-
-export default {
-    data() {
-        return {
-            form: {
-                host: '',
-            },
-            rules: {
-                host: [
-                    { required: true, message: '请输入重定向地址', trigger: 'blur' },
-                    { pattern:/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/, message:'请输入正确的重定向地址', trigger: 'blur' }
-                ],
-            }
-        }
-    },
-  methods: {
-    onSubmit() {
-        this.$refs['form'].validate((valid) => {
-            if (valid) {
-
-                var params = this.form;
-                redirect(params).then(response => {
-                    console.log(response.data.requrl);
-                    window.open(response.data.requrl, '_blank').location;
-                })
-
-            } else {
-                console.log('error submit!!');
-                return false;
-            }
-        });
-
-    }
-  }
-} */
-</script>
 
 <script>
 import { getRedirect,addRedirect,updateRedirect,delRedirect } from '@/api/config'
@@ -104,6 +66,7 @@ export default {
             page:1,
             pageSize:10,
             currentpage:1,
+            total:0
         }
     },
     methods: {
@@ -126,6 +89,7 @@ export default {
             getRedirect(params).then(result => {
                 that.listLoading = false;
                 that.tableData = result.list;
+                that.total = result.count;
             })
 
         },

@@ -6,7 +6,7 @@
       </el-form-item>
 
       <el-form-item label="待解密内容"  prop='content'>
-        <el-input v-model="form.content" placeholder="待解密内容" type="textarea" :autosize="{ minRows:3}"/>
+        <el-input v-model="form.content" placeholder="待解密内容" type="textarea" :autosize="{ minRows:5}"/>
       </el-form-item>
 
       <el-form-item>

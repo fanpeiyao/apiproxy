@@ -623,20 +623,25 @@ xmp {
     font-size: 12px !important;
 }
 
-.apiconf .el-dialog {
-    width: 90% !important;
+.apiconf .el-dialog,
+.addConf .el-dialog {
+    width: 900px;
     margin-top: 10px !important;
 }
 
 .properties {
+    float: left;
+    margin-right: 20px;
     margin-bottom: 15px !important;
 }
 
-.properties .el-input--small {
-    width: 45%;
-}
-
-.properties  i {
+.addProperties i {
     cursor: pointer;
     margin-left: 2px;
+    margin-top: 12px;
+}
+
+.addProperties {
+    overflow: hidden;
+    width: 100%;
 }

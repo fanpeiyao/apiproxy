@@ -20,9 +20,9 @@
             <el-table-column  prop="requrl" label="配置生成的请求地址" width="300"></el-table-column>
 
 
-            <el-table-column fixed="right"  label="操作"  width="155">
+            <el-table-column fixed="right"  label="操作"  width="120">
                 <template slot-scope="scope">
-                    <el-button @click="onSubmit(scope.row)"  type="text" size="small">请求透传</el-button>
+                    <!--<el-button @click="onSubmit(scope.row)"  type="text" size="small">请求透传</el-button> -->
                     <el-button @click="onDel(scope.row)" type="text" size="small">删除</el-button>
                     <el-button type="text" size="small"  @click="onUpdateForm(scope.row)" >修改</el-button>
                 </template>
@@ -31,10 +31,11 @@
 
 
         <!--分页-->
-		<el-col :span="24" class="toolbar" v-show='tableData.length>0' >
-			<el-pagination layout="prev, pager, next" :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="pageSize" :total="tableData.length" style="float:right;">
-			</el-pagination>
-		</el-col>
+        <el-col :span="24" class="toolbar" v-show='total>0' >
+            <el-pagination layout="prev, pager, next" :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="pageSize" :total="total" style="float:right;">
+            </el-pagination>
+        </el-col>
+
 
 
 
@@ -69,7 +70,7 @@
         <el-dialog title="编辑" :visible.sync="upFormVisible">
             <el-form :model="updateForm" label-width="120px"  :rules="rules"  ref="updateForm" >
                 <el-form-item label="重定向地址" prop="path">
-                    <el-input v-model="updateForm.path"  maxlength="64" placeholder="请输入重定向地址" />
+                    <el-input v-model="updateForm.path" disabled maxlength="64" placeholder="请输入重定向地址" />
                 </el-form-item>
 
                 <el-form-item label="名称" prop="name">
@@ -152,6 +153,7 @@ export default {
             page:1,
             pageSize:10,
             currentpage:1,
+            total:0
         }
     },
     methods: {
@@ -216,6 +218,7 @@ export default {
             })
         },
         onSubmit(row) {
+            row.passcode = row.path;
             passthrough(row).then(response => {
                 console.log(response.data.requrl);
                 window.open(response.data.requrl, '_blank').location;
@@ -242,6 +245,7 @@ export default {
                 console.log(result)
                 that.listLoading = false;
                 that.tableData = result.list;
+                that.total = result.count;
             })
 
         },

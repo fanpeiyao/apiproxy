@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form ref="form" :model="form" label-width="120px"  :rules="rules" >
       <el-form-item label="待解密内容" prop='content'>
-        <el-input v-model="form.content" placeholder="待解密内容" type="textarea" :autosize="{ minRows:3}"/>
+        <el-input v-model="form.content" placeholder="待解密内容" type="textarea" :autosize="{ minRows:5}"/>
       </el-form-item>
 
       <el-form-item>
@@ -11,7 +11,7 @@
 
 
       <el-form-item label="解密结果" v-if='result'>
-        <el-input v-model="result" disabled="" type="textarea" :autosize="{ minRows:3}"/>
+        <el-input v-model="result" disabled="" type="textarea" :autosize="{ minRows:5}"/>
       </el-form-item>
 
 

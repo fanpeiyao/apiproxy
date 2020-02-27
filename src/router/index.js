@@ -84,25 +84,49 @@ export const constantRoutes = [
         children: [{
             path: 'redirect',
             name: 'reqRedirect',
-            component: () => import('@/views/req/redirect'),
+            component: () => import('@/views/config/redirect'),
             meta: {
-                title: '请求重定向',
+                title: '重定向地址配置',
                 icon: 'redirect'
             }
         }, {
             path: 'passthrough',
             name: 'reqpassthrough',
-            component: () => import('@/views/req/passthrough'),
+            component: () => import('@/views/config/pass'),
             meta: {
-                title: '请求透传',
+                title: '透传配置',
                 icon: 'trough'
             }
+
+
+		/*component: () => import('@/views/config/redirect'),
+			meta: {
+			title: '重定向地址配置'
+		}
+	}, {
+		path: 'passConf',
+			component: () => import('@/views/config/pass'),
+			meta: {
+			title: '透传配置'*/
+
+
+
         }]
     },
 
-
-
-
+	/* {
+        path: '/', component: Layout,
+        redirect: '/project',
+        children: [{
+            path: 'project',
+            name: 'project',
+            component: () => import('@/views/config/project'),
+                meta: {
+                title: '项目管理',
+                icon: 'pro'
+            }
+        }]
+	}, */
 
 
 ]
@@ -126,93 +150,54 @@ export const asyncRoutes = [
         },
         children: [
             {
-              path: 'api',
-              component: () => import('@/views/config/api/index'), // Parent router-view
-              name: 'apiManage',
-              meta: {
-                title: '接口管理'
-              },
-              children: [{
-                path: 'api-notice',
-                component: () => import('@/views/config/api/notice'),
-                name: 'api-notice',
-                meta: {
-                  title: '通知接口'
-                }
-              }, {
-                path: 'api-query',
-                component: () => import('@/views/config/api/query'),
-                name: 'api-query',
-                meta: {
-                  title: '查询接口'
-                }
-              }, {
-                path: 'api-jump',
-                component: () => import('@/views/config/api/jump'),
-                name: 'api-jump',
-                meta: {
-                  title: '页面跳转接口'
-                }, children: [
-                     {
-                       path: 'conf',
-                       component: () => import('@/views/config/apiConf'), // Parent router-view
-                       name: 'jumpapiConf',
-                       meta: {
-                         title: '接口附加参数管理'
-                       },
-                       hidden: true
-                    },
-                ]
-              }]
-            }, {
-              path: 'apiConf',
-              component: () => import('@/views/config/apiConf'), // Parent router-view
-              name: 'apiConf',
-              meta: {
-                title: '接口附加参数管理'
-              },
-              hidden: true
-              /* children: [{
-                path: 'api-notice',
-                component: () => import('@/views/config/apiConf/notice'),
-                name: 'api-notice',
-                meta: {
-                  title: '通知接口'
-                }
-              }, {
-                path: 'api-query',
-                component: () => import('@/views/config/apiConf/query'),
-                name: 'api-query',
-                meta: {
-                  title: '查询接口'
-                }
-              }, {
-                path: 'api-jump',
-                component: () => import('@/views/config/apiConf/jump'),
-                name: 'api-jump',
-                meta: {
-                  title: '页面跳转接口'
-                }
-              }] */
-            } ,{
-                path: 'redirectConf',
-                component: () => import('@/views/config/redirect'),
-                meta: {
-                    title: '重定向地址配置'
-                }
-            }, {
-                path: 'passConf',
-                component: () => import('@/views/config/pass'),
-                meta: {
-                    title: '透传配置'
-                }
-            }, {
                 path: 'project',
                 component: () => import('@/views/config/project'),
                 meta: {
                     title: '项目管理',
                     roles: ['admin']
                 }
+            },
+            {
+                path: 'api',
+                component: () => import('@/views/config/api/index'), // Parent router-view
+                name: 'apiManage',
+                meta: {
+                    title: '接口管理'
+                },
+                children: [
+                    {
+                        path: 'api-notice',
+                        component: () => import('@/views/config/api/notice'),
+                        name: 'api-notice',
+                        meta: {
+                            title: '通知接口'
+                        }
+                    }, {
+                        path: 'api-query',
+                        component: () => import('@/views/config/api/query'),
+                        name: 'api-query',
+                        meta: {
+                            title: '查询接口'
+                        }
+                    }, {
+                        path: 'api-jump',
+                        component: () => import('@/views/config/api/jump'),
+                        name: 'api-jump',
+                        meta: {
+                            title: '页面跳转接口'
+                        }, children: [
+                            {
+                                path: 'conf',
+                                component: () => import('@/views/config/apiConf'), // Parent router-view
+                                name: 'jumpapiConf',
+                                meta: {
+                                    title: '接口附加参数管理'
+                                },
+                                hidden: true
+                            },
+                        ]
+                    }
+                ]
             }]
     },
     {
@@ -239,84 +224,84 @@ export const asyncRoutes = [
             name: 'RSA',
             component: () => import('@/views/assist/RSA/index'),
             meta: {
-            title: 'RSA',
-            icon: 'RSA'
+                title: 'RSA',
+                icon: 'RSA'
             },
             children: [{
-            path: 'code',
-            component: () => import('@/views/assist/RSA/code'),
-            meta: {
-                title: '编码',
-            }
-            }, {
-            path: 'decode',
-            component: () => import('@/views/assist/RSA/decode'),
-            meta: {
-                title: '解码',
-            }
+                path: 'code',
+                component: () => import('@/views/assist/RSA/code'),
+                meta: {
+                    title: '编码',
+                }
+                }, {
+                path: 'decode',
+                component: () => import('@/views/assist/RSA/decode'),
+                meta: {
+                    title: '解码',
+                }
             }]
         }, {
             path: 'base64',
             name: 'base64',
             component: () => import('@/views/assist/base64/index'),
             meta: {
-            title: 'BASE64',
-            icon: 'code'
+                title: 'BASE64',
+                icon: 'code'
             },
             children: [{
-            path: 'code',
-            component: () => import('@/views/assist/base64/code'),
-            meta: {
-                title: '编码',
-            }
-            }, {
-            path: 'decode',
-            component: () => import('@/views/assist/base64/decode'),
-            meta: {
-                title: '解码',
-            }
+                path: 'code',
+                component: () => import('@/views/assist/base64/code'),
+                meta: {
+                    title: '编码',
+                }
+                }, {
+                path: 'decode',
+                component: () => import('@/views/assist/base64/decode'),
+                meta: {
+                    title: '解码',
+                }
             }]
         }, {
             path: 'websocket',
             name: 'websocket',
             component: () => import('@/views/assist/websocket'),
             meta: {
-            title: '请求查看(websocket)',
-            icon: 'websocket2'
+                title: '请求查看(websocket)',
+                icon: 'websocket2'
             }
         }]
     },
     {
-      path: '/permission',
-      component: Layout,
-      redirect: '/permission/page',
-      alwaysShow: true,
-      name: 'Permission',
-      meta: {
-        title: '权限配置',
-        icon: 'lock',
-        // roles: ['admin']
-        roles: ['admin', 'editor'] // you can set roles in root nav
-      },
-      children: [
-        {
-          path: 'directive',
-          component: () => import('@/views/permission/directive'),
-          name: 'DirectivePermission',
-          meta: {
-            title: '指令权限'
-          }
+        path: '/permission',
+        component: Layout,
+        redirect: '/permission/page',
+        alwaysShow: true,
+        name: 'Permission',
+        meta: {
+            title: '权限配置',
+            icon: 'lock',
+            // roles: ['admin']
+            roles: ['admin', 'editor'] // you can set roles in root nav
         },
-        {
-          path: 'role',
-          component: () => import('@/views/permission/role'),
-          name: 'RolePermission',
-          meta: {
-            title: '角色权限',
-            roles: ['admin']
-          }
-        }
-      ]
+        children: [
+            {
+                path: 'directive',
+                component: () => import('@/views/permission/directive'),
+                name: 'DirectivePermission',
+                meta: {
+                    title: '指令权限'
+                }
+            },
+            {
+                path: 'role',
+                component: () => import('@/views/permission/role'),
+                name: 'RolePermission',
+                meta: {
+                    title: '角色权限',
+                    roles: ['admin']
+                }
+            }
+        ]
     },
     {
         path: '*',

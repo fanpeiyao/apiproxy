@@ -1,12 +1,13 @@
 import request, {
   appid
 } from '@/utils/request'
+import qs from 'qs'
 //查询项目列表
 export function getProjects(data) {
   return request({
     url: appid() + '/project/list',
     method: 'post',
-    data
+      data
   })
 }
 export function getProInfo(data) {

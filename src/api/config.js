@@ -2,6 +2,7 @@ import request, {
   appid
 }
 from '@/utils/request'
+import qs from 'qs'
 //重定项地址配置查询
 export function getRedirect(params) {
   return request({

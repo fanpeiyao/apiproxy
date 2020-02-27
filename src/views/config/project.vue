@@ -27,15 +27,17 @@
             </el-table-column>
         </el-table>
 
-        <!--分页-->
-		<el-col :span="24" class="toolbar" v-show='tableData.length>0' >
-			<el-pagination layout="prev, pager, next" :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="pageSize" :total="tableData.length" style="float:right;">
-			</el-pagination>
-		</el-col>
+
+      <!--分页-->
+      <el-col :span="24" class="toolbar" v-show='total>0' >
+          <el-pagination layout="prev, pager, next" :current-page.sync='currentpage' @current-change="handleCurrentChange" :page-size="pageSize" :total="total" style="float:right;">
+          </el-pagination>
+      </el-col>
 
 
 
-<el-dialog title="新增项目" :visible.sync="addFormVisible">
+
+      <el-dialog title="新增项目" :visible.sync="addFormVisible">
   <el-form :model="addForm"  :rules="rules"   ref="addForm">
     <el-form-item label="项目编号" :label-width="formLabelWidth" prop="projectid">
       <el-input v-model="addForm.projectid" maxlength="8" placeholder="请输入项目编号" autocomplete="off"></el-input>
@@ -117,6 +119,7 @@ export default {
             formLabelWidth: '120px',
             addFormVisible: false,
             upFormVisible: false,
+            total:0
         }
     },
     methods: {
@@ -206,6 +209,7 @@ export default {
             getProjects(params).then(result => {
                 that.listLoading = false;
                 that.tableData = result.list;
+                that.total = result.count;
             })
 
         },

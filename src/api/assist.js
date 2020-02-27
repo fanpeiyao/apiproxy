@@ -1,6 +1,7 @@
 import request, {
   appid
 } from '@/utils/request'
+import qs from 'qs'
 export function getCipher(params) {
   return request({
     url: appid() + '/encryption/getKeyPair',

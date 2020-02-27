@@ -29,11 +29,14 @@ const interdata = Mock.mock({
             base64: '1',
             samplecode: '<?xml version="1.0" encoding ="UTF-8"?><GYJ><pub><TransCode>DZBLSIGN_Develop2</TransCode><MerId>daizhangtest</MerId><TranDate>20181225</TranDate><TranTime>093737</TranTime><TransNo>TN20181225093737</TransNo></pub><in><Techno>daizhangtest</Techno><Intno>10086</Intno><Accname></Accname><Accno></Accno><EnterprizeCreditNo>1122334455</EnterprizeCreditNo></in></GYJ>',
               properties: [{
-                'keycode': '11',
-                'value': '11-11'
+                'key': '11',
+                'value': '11-11',
+                'description':'附加参数名称'
+
               }, {
-                'keycode': '22',
-                'value': '22-22'
+                'key': '22',
+                'value': '22-22',
+                'description':'附加参数名称'
               }]
       }]
 })

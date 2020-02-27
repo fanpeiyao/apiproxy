@@ -37,7 +37,7 @@
         </el-form-item>
 
         <el-form-item label="版本号">
-            <el-radio-group v-model="form.version">
+            <el-radio-group v-model="form.version" disabled>
             <el-radio  label='2.0.0.0'>2.0.0.0</el-radio>
             <el-radio  label='1.0.0.0'>1.0.0.0（自19年7月起不再提供对接支持）</el-radio>
             </el-radio-group>
@@ -45,8 +45,8 @@
 
         <el-form-item label="环境">
             <el-radio-group v-model="form.env">
-            <el-radio  label='in'>内网</el-radio>
-            <el-radio  label='out'>外网</el-radio>
+            <el-radio  label='0'>内网</el-radio>
+            <el-radio  label='1'>外网</el-radio>
             </el-radio-group>
         </el-form-item>
 
@@ -83,9 +83,9 @@
 
  -->
 
-        <!-- <el-form-item label="企业私钥"  prop="prikey">
+        <el-form-item label="企业私钥"  prop="prikey">
             <el-input v-model="form.prikey" type="textarea"  placeholder="请输入您的私钥"  :autosize="{ minRows:3}"/>
-        </el-form-item> -->
+        </el-form-item>
 
         <!-- <el-form-item label="接口发送报文" prop="reqdata">
             <el-input v-model="form.reqdata" type="textarea"
@@ -150,7 +150,7 @@ export default {
                 apiname:'',
                 prikey:'',
                 samplecode:'',
-                env:'in',
+                env:'0',//0内网1外网
                 charset:'UTF-8'
             },
             resdata:'',
@@ -182,9 +182,9 @@ export default {
                 merid: [
                     { required: true, message: '请输入商户编号', trigger: 'blur' }
                 ],
-                // prikey: [
-                //     { required: true, message: '请输入企业私钥', trigger: 'blur' }
-                // ],
+                 prikey: [
+                     { required: true, message: '请输入企业私钥', trigger: 'blur' }
+                 ],
                 url: [
                     { required: true, message: '请输入跳转地址', trigger: 'blur' }
                 ],

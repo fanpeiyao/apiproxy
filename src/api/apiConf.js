@@ -1,6 +1,8 @@
 import request, {
   appid
-} from '@/utils/request'
+}
+from '@/utils/request'
+import qs from 'qs'
 
 export function getApiConf(params) {
   return request({

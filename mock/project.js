@@ -87,7 +87,8 @@ export default [
         response: config => {
             return {
                 retCode: '00',
-                list: data.items
+                list: data.items,
+                count:13
             }
         }
     },

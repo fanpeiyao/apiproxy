@@ -9,10 +9,10 @@
 
 
 
-            <el-select v-model="form.projectid"  placeholder="请选择或输入项目编号搜索"  filterable :filter-method="selectChange"  @change="getApis()" clearable>
+            <el-select v-model="form.projectid" :clearable=false  placeholder="请选择或输入项目编号搜索"  filterable :filter-method="selectChange"  @change="getApis()" >
                 <el-option  v-for="item in projects"  :key="item.projectid"  :label="item.projectname" :value="item.projectid"></el-option>
-                <div style="bottom: 0;width: 100%;background: #fff">
-                    <el-pagination small  layout="prev, pager, next"  :current-page.sync='currentpage'  @current-change="handleCurrentChange" :page-size="pageSize" :total="projects.length"  >
+                <div style="bottom: 0;width: 100%;background: #fff" v-if="proTotal>0">
+                    <el-pagination small  layout="prev, pager, next"  :current-page.sync='currentpage'  @current-change="handleCurrentChange" :page-size="pageSize" :total="proTotal"  >
                     </el-pagination>
                 </div>
             </el-select>
@@ -21,8 +21,15 @@
         </el-form-item>
 
         <el-form-item label="通知接口" prop="apiname">
-            <el-select v-model="form.apiname" placeholder="请选择要调试的通知接口"   @change="getReqdata()">
-                <el-option  v-for="item in apis"  :key="item.key" :label="item.apiname"  :value="item.key"></el-option>
+            <!--<el-select v-model="form.apiname" placeholder="请选择要调试的通知接口"   @change="getReqdata()">
+                <el-option  v-for="item in apis"  :key="item.apiname" :label="item.apiname"  :value="item.apiname"></el-option>
+            </el-select>-->
+            <el-select v-model="form.apiname" :clearable=false  placeholder="请选择要调试的通知接口"  filterable :filter-method="apiselectChange"   @change="getReqdata()" >
+                <el-option  v-for="item in apis"  :key="item.apiname" :label="item.apiname"  :value="item.apiname"></el-option>
+                <div style="bottom: 0;width: 100%;background: #fff" v-if="apiTotal>7">
+                    <el-pagination small  layout="prev, pager, next"  :current-page.sync='apicurrentpage'  @current-change="apihandleCurrentChange" :page-size="apiPageSize" :total="apiTotal"  >
+                    </el-pagination>
+                </div>
             </el-select>
         </el-form-item>
 
@@ -38,13 +45,23 @@
             <el-input v-model="form.noticeurl" placeholder="请输入通知地址" />
         </el-form-item>
 
+
+        <el-form-item
+            :label="item.description"
+            v-for="(item,index) in form.properties"
+            :prop="'properties.' + index + '.value'"
+            :rules="{
+                required: true, message: '请输入内容', trigger: 'blur'
+            }"
+            :key='item.key'>
+            <el-input v-model="item.value" placeholder="请输入内容" />
+        </el-form-item>
         <!-- <el-form-item label="Base64编码">
             <el-select v-model="form.isBase64" placeholder="请选择是否需要Base64编码">
             <el-option  value='0' label='否'></el-option>
             <el-option  value='1' label='是'></el-option>
             </el-select>
         </el-form-item> -->
-
 
 
         <!-- <el-form-item label="发送渠道">
@@ -68,7 +85,7 @@
 
 
         <el-form-item label="Base64编码">
-            <el-switch v-model="form.base64"  active-value="1" inactive-value="0"/>
+            <el-switch v-model="form.base64" disabled="" active-value="1" inactive-value="0"/>
         </el-form-item>
 
         <el-form-item label="企业私钥"  prop="prikey">
@@ -130,14 +147,15 @@ export default {
             /*必输*/version:'2.0.0.0',
             /*必输*/base64:'1',
             /*必输*/projectid:'',
+            /*接口卡附加参数*/properties:[],
             /**/prikey:''
         },
         currentpage:1,
         page:1,
-        pageSize:7,
-        apiCurrentpage:1,
+        pageSize:6,
+        apicurrentpage:1,
         apiPage:1,
-        apiPageSize:7,
+        apiPageSize:6,
         resdata:'',
         rules: {
             content: [
@@ -180,7 +198,9 @@ export default {
             },{
             value: 'icbc',
             label: '总行发送'
-        }]
+        }],
+            proTotal:'',
+            apiTotal:'',
     }
   },
     methods: {
@@ -216,11 +236,14 @@ export default {
             getProjects(params).then(result => {
                 that.listLoading = false;
                 that.projects = result.list;
+                that.proTotal = result.count;
             })
 
         },
         //查询通知接口列表 --- 若有翻页则前端selec要更改
         getApis() {
+            this.apiname= '';
+            this.content= '';
             var that = this;
             this.listLoading = true;
             var params=  {};
@@ -234,6 +257,7 @@ export default {
             getInterface(params).then(result => {
                 that.listLoading = false;
                 that.apis = result.list;
+                that.apiTotal = result.count;
                 console.log(that.apis)
             })
 
@@ -241,11 +265,12 @@ export default {
         //根据apikey获取报文内容
         getReqdata() {
             var ret = this.apis.find((i) => {
-                return i.key == this.form.apiname;
+                return i.apiname == this.form.apiname;
             });
             this.form.content = ret.content;
             //根据接口展示版本？？？
             this.form.version = ret.version;
+            this.form.properties = ret.properties;
         },
 
 
@@ -259,6 +284,8 @@ export default {
         },
         handleCurrentChange(val) {
             this.currentpage = val;
+            this.page = val;
+            console.log(val)
             this.search('',val);
         },
         search(projectid,page) {
@@ -276,14 +303,46 @@ export default {
             getProjects(params).then(result => {
                 this.listLoading = false;
                 this.projects = result.list;
-                console.log(this.projects)
-                this.currentpage = 0;
                 this.loading = false
             }).catch(e => {
                 this.loading = false
             })
         },
 
+        apiselectChange(val) {
+            console.log(val)
+            // 如果存在上一次请求，则取消上一次请求
+            if (this.cancel) {
+                this.cancel()
+            }
+            this.apisearch(val)
+        },
+        apihandleCurrentChange(val) {
+            this.apicurrentpage = val;
+            this.page = val;
+            console.log(val)
+            this.apisearch('',val);
+        },
+        apisearch(projectid,page) {
+            this.loading = true;
+            var that = this;
+            var params = {};
+            params.projectid =  this.form.projectid;
+
+            if(page){
+                params.pageNum = page;
+            }else{
+                params.pageNum =  1;
+            }
+            params.type=1;
+            params.pageSize = this.apiPageSize;
+            console.log(params)
+            //分页展示待定
+            getInterface(params).then(result => {
+                that.apis = result.list;
+                that.apiTotal = result.count;
+            })
+        },
     },
     created() {
         /* this.projects= [{
