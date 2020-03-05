@@ -20,6 +20,7 @@ sendtype
 base64
 */
 export function noticeApi(params) {
+    
   return request({
     url: appid() + '/gyjapi/notice ',
     method: 'post',
